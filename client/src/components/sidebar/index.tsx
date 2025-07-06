@@ -1,6 +1,6 @@
 'use client';
 
-import { ChevronDown, GraduationCap } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -21,20 +21,37 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from '@/components/ui/sidebar';
+import { useTheme } from 'next-themes';
+import Image from 'next/image';
 import { menuItems } from './routes';
 
 export function AppSidebar() {
   const pathname = usePathname();
+  const { theme } = useTheme();
+
+  const imgLogo = (): string => {
+    if (theme === 'system') {
+      const isDarkMode = window.matchMedia(
+        '(prefers-color-scheme: dark)',
+      ).matches;
+      return isDarkMode ? '/logo-white.png' : '/logo-black.png';
+    }
+    return theme === 'dark' ? '/logo-white.png' : '/logo-black.png';
+  };
 
   return (
     <Sidebar>
       <SidebarHeader>
-        <div className="flex items-center gap-2 px-4 py-2">
-          <GraduationCap className="h-8 w-8 text-primary" />
-          <div>
-            <h1 className="text-lg font-semibold">ERP Educacional</h1>
-            <p className="text-xs text-muted-foreground">Sistema Integrado</p>
-          </div>
+        <div className="flex flex-col items-center justify-center">
+          <Image
+            src={imgLogo()}
+            quality={100}
+            width={200}
+            height={200}
+            sizes="(max-width: 768px) 100dvw, 33dvw"
+            priority
+            alt="Logo"
+          />
         </div>
       </SidebarHeader>
       <SidebarContent>
