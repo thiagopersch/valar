@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Dialog,
   DialogContent,
@@ -47,7 +48,7 @@ import type { z } from 'zod';
 
 type UserFormData = z.infer<typeof userSchema>;
 
-export default function UsersPage() {
+const UsersPage = () => {
   const [open, setOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -215,14 +216,98 @@ export default function UsersPage() {
         </Dialog>
       </div>
 
+      {/* Estatísticas */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium dark:text-gray-300 text-gray-600">
+              Total de Usuários
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-gray-900 dark:text-white">
+              1,234
+            </div>
+            <p className="text-xs text-green-600 mt-1">↗ 12% vs mês anterior</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium dark:text-gray-300 text-gray-600">
+              Usuários Ativos
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-gray-900 dark:text-white">
+              1,156
+            </div>
+            <p className="text-xs text-green-600 mt-1">↗ 8% vs mês anterior</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium dark:text-gray-300 text-gray-600">
+              Novos Usuários
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-gray-900 dark:text-white">
+              78
+            </div>
+            <p className="text-xs text-green-600 mt-1">↗ 25% vs mês anterior</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium dark:text-gray-300 text-gray-600">
+              Taxa de Retenção
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-gray-900 dark:text-white">
+              94%
+            </div>
+            <p className="text-xs text-green-600 mt-1">↗ 2% vs mês anterior</p>
+          </CardContent>
+        </Card>
+      </div>
+
       <div className="flex items-center space-x-2">
-        <Search className="h-4 w-4 text-muted-foreground" />
-        <Input
-          placeholder="Buscar usuários..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="max-w-sm"
-        />
+        <Card className="w-full">
+          <CardHeader>
+            <CardTitle>Filtros de Busca</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-wrap gap-4">
+              <div className="flex-1 min-w-64">
+                <div className="flex items-center space-x-2 relative">
+                  <Search className="h-4 w-4 text-muted-foreground absolute left-3" />
+                  <input
+                    type="search"
+                    placeholder="Buscar usuários..."
+                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+                </div>
+              </div>
+              <select className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                <option>Todos os Perfis</option>
+                <option>Administrador</option>
+                <option>Usuário</option>
+                <option>Moderador</option>
+              </select>
+              <select className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                <option>Todos os Status</option>
+                <option>Ativo</option>
+                <option>Inativo</option>
+              </select>
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       <div className="rounded-md border">
@@ -268,4 +353,6 @@ export default function UsersPage() {
       </div>
     </div>
   );
-}
+};
+
+export default UsersPage;

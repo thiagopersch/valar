@@ -14,8 +14,21 @@ import {
   ShoppingCart,
   Users,
 } from 'lucide-react';
+import { ReactNode } from 'react';
 
-const menuItems = [
+type RouteItems = {
+  title: string;
+  url: string;
+};
+
+type Route = {
+  title: string;
+  url?: string;
+  icon?: ReactNode | any;
+  items?: RouteItems[];
+};
+
+const menuItems: Route[] = [
   {
     title: 'Dashboard',
     icon: Home,
@@ -53,7 +66,7 @@ const menuItems = [
     items: [
       { title: 'Alunos', url: '/education/students' },
       { title: 'Professores', url: '/education/teachers' },
-      { title: 'Períodos Letivos', url: '/education/periods' },
+      { title: 'Períodos Letivos', url: '/education/school_terms' },
       { title: 'Cursos', url: '/education/courses' },
       { title: 'Planos de Pagamento', url: '/education/payment-plans' },
       { title: 'Bolsas', url: '/education/scholarships' },
@@ -119,6 +132,7 @@ const menuItems = [
       { title: 'Cotações e Pedidos', url: '/crm/quotes' },
       { title: 'Comissões', url: '/crm/commissions' },
       { title: 'Pós-Venda', url: '/crm/support' },
+      { title: 'Dashboard', url: '/crm/dashboard' },
     ],
   },
   {

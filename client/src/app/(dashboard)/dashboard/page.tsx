@@ -16,6 +16,9 @@ import {
   CreditCard,
   DollarSign,
   Download,
+  Grid2x2,
+  LayoutDashboard,
+  Search,
   Users,
 } from 'lucide-react';
 
@@ -105,6 +108,43 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Acesso rápido aos módulos */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Acesso Rápido aos Módulos</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            {[
+              {
+                name: 'Financeiro',
+                icon: LayoutDashboard,
+                color: 'bg-blue-500',
+              },
+              { name: 'Educacional', icon: Users, color: 'bg-green-500' },
+              { name: 'CRM', icon: Users, color: 'bg-purple-500' },
+              { name: 'RH', icon: Users, color: 'bg-orange-500' },
+              { name: 'Compras', icon: Grid2x2, color: 'bg-red-500' },
+              { name: 'Projetos', icon: Search, color: 'bg-indigo-500' },
+            ].map((module, index) => (
+              <div
+                key={index}
+                className="flex flex-col items-center p-4 rounded-lg hover:bg-muted cursor-pointer transition-colors"
+              >
+                <div
+                  className={`w-12 h-12 ${module.color} rounded-lg flex items-center justify-center text-white mb-2`}
+                >
+                  <module.icon className="h-6 w-6" />
+                </div>
+                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                  {module.name}
+                </span>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }

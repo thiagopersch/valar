@@ -1,12 +1,12 @@
 import { ReactQueryProvider } from '@/lib/react-query';
 import type { Metadata } from 'next';
-import { Mulish, Poppins } from 'next/font/google';
+import { JetBrains_Mono, Mulish, Poppins } from 'next/font/google';
 import { Toaster } from 'sonner';
 import './globals.css';
 import { ThemeProvider } from './theme-provider';
 
 const mulish = Mulish({
-  variable: '--font-geist-sans',
+  variable: '--font-mulish',
   weight: ['200', '300', '400', '500', '600', '700', '800', '900'],
   subsets: ['latin'],
 });
@@ -14,6 +14,12 @@ const mulish = Mulish({
 const poppins = Poppins({
   variable: '--font-poppins',
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  subsets: ['latin'],
+});
+
+const jetBrainsMono = JetBrains_Mono({
+  variable: '--font-jetBrainsMono',
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800'],
   subsets: ['latin'],
 });
 
@@ -29,7 +35,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-br" suppressHydrationWarning>
-      <body className={`${mulish.variable} ${poppins.variable} antialiased`}>
+      <body
+        className={`${mulish.variable} ${poppins.variable} ${jetBrainsMono.variable} antialiased`}
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
