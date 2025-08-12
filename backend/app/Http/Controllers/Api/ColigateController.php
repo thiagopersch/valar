@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreColigateRequest;
 use App\Http\Requests\UpdateColigateRequest;
 use App\Http\Resources\ColigateResource;
