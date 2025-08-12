@@ -2,49 +2,45 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Str;
 
-class User extends Authenticatable
+class System extends Model
 {
+    /** @use HasFactory<\Database\Factories\SystemFactory> */
+    use HasFactory;
     use HasApiTokens;
     use HasFactory;
     use Notifiable;
     use HasUuids;
     use SoftDeletes;
 
+    protected $table = 'system';
+
+    protected $primaryKey = 'id';
+
+    protected $keyType = 'string';
+
+    protected $incrementing = false;
+
     protected $fillable = [
         'coligate_id',
         'client_id',
+        'code',
         'name',
-        'login',
-        'password',
-        'change_password',
-        'status',
+        'fantasy_name',
+        'description',
+        'token',
         'created_by',
         'updated_by',
     ];
 
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
-
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
-
-    protected function casts(): array {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
-    }
 
     protected static function boot() {
         parent::boot();
@@ -70,9 +66,5 @@ class User extends Authenticatable
 
     public function updatedBy() {
         return $this->belongsTo(User::class, 'updated_by');
-    }
-
-    public function profiles() {
-        return $this->hasMany(Profile::class);
     }
 }

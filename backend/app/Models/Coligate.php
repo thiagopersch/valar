@@ -2,49 +2,50 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Str;
+use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class Coligate extends Model
 {
+    /** @use HasFactory<\Database\Factories\ColigateFactory> */
     use HasApiTokens;
     use HasFactory;
     use Notifiable;
     use HasUuids;
     use SoftDeletes;
 
+    protected $table = 'coligate';
+
+    protected $primaryKey = 'id';
+
+    protected $keyType = 'string';
+
+    public $incrementing = false;
+
     protected $fillable = [
-        'coligate_id',
         'client_id',
+        'logo',
         'name',
-        'login',
-        'password',
-        'change_password',
-        'status',
+        'email',
+        'cnpj',
+        'cep',
+        'street',
+        'number',
+        'complement',
+        'district',
+        'city',
+        'state',
+        'country',
         'created_by',
         'updated_by',
     ];
 
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
-
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
-
-    protected function casts(): array {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
-    }
 
     protected static function boot() {
         parent::boot();
@@ -54,10 +55,6 @@ class User extends Authenticatable
                 $model->{$model->getKeyName()} = (string) Str::uuid();
             }
         });
-    }
-
-    public function coligate() {
-        return $this->belongsTo(Coligate::class);
     }
 
     public function client() {
@@ -72,7 +69,23 @@ class User extends Authenticatable
         return $this->belongsTo(User::class, 'updated_by');
     }
 
+    public function systems() {
+        return $this->hasMany(System::class);
+    }
+
+    public function users() {
+        return $this->hasMany(User::class);
+    }
+
     public function profiles() {
         return $this->hasMany(Profile::class);
+    }
+
+    public function permissions() {
+        return $this->hasMany(Permission::class);
+    }
+
+    public function profilePermissions() {
+        return $this->hasMany(ProfilePermission::class);
     }
 }
