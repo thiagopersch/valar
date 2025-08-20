@@ -14,7 +14,7 @@ use Exception;
 class LoginController extends Controller
 {
     public function login(Request $request) {
-        $credentials = $request->only('login', 'password');
+        $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
@@ -42,7 +42,7 @@ class LoginController extends Controller
         } else {
             return response()->json([
                 'status' => false,
-                'message' => 'Login ou senha inválidos'
+                'message' => 'E-mail ou senha inválidos'
             ], 401);
         }
     }

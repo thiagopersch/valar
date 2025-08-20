@@ -23,12 +23,12 @@ class StoreUserRequest extends FormRequest
             'coligate_id' => ['required', 'string', 'exists:coligate,id'],
             'client_id' => ['required', 'string', 'exists:client,id'],
             'name' => ['required', 'string'],
-            'login' => ['required', 'string', 'unique:user'],
+            'email' => ['required', 'string', 'unique:users,email'],
             'password' => ['required', 'string'],
             'change_password' => ['required', 'boolean'],
             'status' => ['required', 'boolean'],
-            'created_by' => ['required', 'string', 'exists:user,id'],
-            'updated_by' => ['required', 'string', 'exists:user,id'],
+            'created_by' => ['required', 'string', 'exists:users,id'],
+            'updated_by' => ['required', 'string', 'exists:users,id'],
         ];
     }
 }

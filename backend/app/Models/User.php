@@ -19,11 +19,15 @@ class User extends Authenticatable
     use HasUuids;
     use SoftDeletes;
 
+    protected $table = 'users';
+
+    protected $primaryKey = 'id';
+
     protected $fillable = [
         'coligate_id',
         'client_id',
         'name',
-        'login',
+        'email',
         'password',
         'change_password',
         'status',
