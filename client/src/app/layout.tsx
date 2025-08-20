@@ -1,9 +1,7 @@
-import { ReactQueryProvider } from '@/lib/react-query';
+import RootProviderWithoutLogin from '@/providers/root-provider-without-login';
 import type { Metadata } from 'next';
 import { JetBrains_Mono, Mulish, Poppins } from 'next/font/google';
-import { Toaster } from 'sonner';
 import './globals.css';
-import { ThemeProvider } from './theme-provider';
 
 const mulish = Mulish({
   variable: '--font-mulish',
@@ -35,20 +33,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-br" suppressHydrationWarning>
-      <body
-        className={`${mulish.variable} ${poppins.variable} ${jetBrainsMono.variable} antialiased`}
-      >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <ReactQueryProvider>
-            {children}
-            <Toaster />
-          </ReactQueryProvider>
-        </ThemeProvider>
+      <body className={`${mulish.variable} ${poppins.className} ${jetBrainsMono.variable} antialiased`}>
+        <RootProviderWithoutLogin>{children}</RootProviderWithoutLogin>
       </body>
     </html>
   );

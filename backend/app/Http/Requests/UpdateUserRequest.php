@@ -23,12 +23,12 @@ class UpdateUserRequest extends FormRequest
             'coligate_id' => ['sometimes', 'string', 'exists:coligate,id'],
             'client_id' => ['sometimes', 'string', 'exists:client,id'],
             'name' => ['sometimes', 'string'],
-            'login' => ['sometimes', 'string', 'unique:user,login,' . $this->user->id],
+            'email' => ['sometimes', 'string', 'unique:users,email,' . $this->users->id],
             'password' => ['sometimes', 'string'],
             'change_password' => ['sometimes', 'boolean'],
             'status' => ['sometimes', 'boolean'],
-            'created_by' => ['sometimes', 'string', 'exists:user,id'],
-            'updated_by' => ['sometimes', 'string', 'exists:user,id'],
+            'created_by' => ['sometimes', 'string', 'exists:users,id'],
+            'updated_by' => ['sometimes', 'string', 'exists:users,id'],
         ];
     }
 }
