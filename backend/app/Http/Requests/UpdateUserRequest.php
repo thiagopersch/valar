@@ -23,7 +23,7 @@ class UpdateUserRequest extends FormRequest
             'coligate_id' => ['sometimes', 'string', 'exists:coligate,id'],
             'client_id' => ['sometimes', 'string', 'exists:client,id'],
             'name' => ['sometimes', 'string'],
-            'email' => ['sometimes', 'string', 'unique:users,email,' . $this->users->id],
+            'email' => ['sometimes', 'string', 'unique:users,email,' . ($this->user ? $this->user->id : null)],
             'password' => ['sometimes', 'string'],
             'change_password' => ['sometimes', 'boolean'],
             'status' => ['sometimes', 'boolean'],

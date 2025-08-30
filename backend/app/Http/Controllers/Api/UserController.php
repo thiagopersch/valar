@@ -15,7 +15,7 @@ class UserController extends Controller
         $perPage = (int) $request->get('per_page', 25);
         $page = (int) $request->get('page', 1);
 
-        $users = User::with(['coligate', 'client', 'createdBy', 'updatedBy'])
+        $users = User::with(['coligate', 'client', 'createdBy', 'updatedBy'])->orderBy('status', 'desc')->orderBy('name', 'asc')
             ->paginate($perPage, ['*'], 'page', $page);
 
         $url = $request->url();
@@ -27,7 +27,7 @@ class UserController extends Controller
             counter: $counter,
             page: $page,
             perPage: $perPage,
-            data: collect($users->items())
+            data: collect($data)
         );
 
         return $adapter->toJson();

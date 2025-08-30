@@ -15,8 +15,7 @@ const useUserStore = create<UserStore>((set) => ({
   showPassword: false,
   setIsModalOpen: (isOpen) => set({ isModalOpen: isOpen }),
   setEditingUser: (user) => set({ editingUser: user }),
-  toggleShowPassword: () =>
-    set((state) => ({ showPassword: !state.showPassword })),
+  toggleShowPassword: () => set((state) => ({ showPassword: !state.showPassword })),
 }));
 
 export default useUserStore;

@@ -3,14 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import Column from '@/components/ui/columns';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Eye, EyeOff } from 'lucide-react';
@@ -56,11 +49,7 @@ export default function UserForm({ user }: UserFormProps) {
             render={({ field }) => (
               <FormItem className="flex items-center">
                 <FormControl>
-                  <Checkbox
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                    disabled={isSubmitting}
-                  />
+                  <Checkbox checked={field.value} onCheckedChange={field.onChange} disabled={isSubmitting} />
                 </FormControl>
                 <FormLabel className="cursor-pointer text-sm font-medium">
                   {field.value ? 'Ativado' : 'Desativado'}
@@ -74,15 +63,9 @@ export default function UserForm({ user }: UserFormProps) {
             render={({ field }) => (
               <FormItem className="flex items-center">
                 <FormControl>
-                  <Checkbox
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                    disabled={isSubmitting}
-                  />
+                  <Checkbox checked={field.value} onCheckedChange={field.onChange} disabled={isSubmitting} />
                 </FormControl>
-                <FormLabel className="cursor-pointer text-sm font-medium">
-                  Alterar senha no próximo login?
-                </FormLabel>
+                <FormLabel className="cursor-pointer text-sm font-medium">Alterar senha no próximo login?</FormLabel>
               </FormItem>
             )}
           />
@@ -111,11 +94,7 @@ export default function UserForm({ user }: UserFormProps) {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input
-                    type="email"
-                    placeholder="email@exemplo.com"
-                    {...field}
-                  />
+                  <Input type="email" placeholder="email@exemplo.com" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -135,7 +114,6 @@ export default function UserForm({ user }: UserFormProps) {
                       disabled={isSubmitting}
                       error={fieldState.error?.message}
                       placeholder="••••••••"
-                      className="pr-10"
                     />
                     <Button
                       type="button"
@@ -147,11 +125,7 @@ export default function UserForm({ user }: UserFormProps) {
                       aria-label="toggle password visibility"
                       disabled={isSubmitting}
                     >
-                      {showPassword ? (
-                        <Eye className="h-4 w-4" />
-                      ) : (
-                        <EyeOff className="h-4 w-4" />
-                      )}
+                      {showPassword ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
                     </Button>
                   </div>
                 </FormControl>
@@ -173,18 +147,8 @@ export default function UserForm({ user }: UserFormProps) {
           >
             Cancelar
           </Button>
-          <Button
-            type="submit"
-            disabled={isSubmitting}
-            className="max-md:w-full"
-          >
-            {isSubmitting
-              ? user
-                ? 'Atualizando...'
-                : 'Cadastrando...'
-              : user
-                ? 'Atualizar'
-                : 'Cadastrar'}
+          <Button type="submit" disabled={isSubmitting} className="max-md:w-full">
+            {isSubmitting ? (user ? 'Atualizando...' : 'Cadastrando...') : user ? 'Atualizar' : 'Cadastrar'}
           </Button>
         </div>
       </form>

@@ -1,11 +1,5 @@
 import useCrud from '@/hooks/useCrud';
-import {
-  createUser,
-  deleteUser,
-  getUser,
-  listUsers,
-  updateUser,
-} from '@/lib/services/admin/users';
+import { createUser, deleteUser, getUser, listUsers, updateUser } from '@/lib/services/admin/users';
 import useUserStore from '@/stores/useUserStore';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useMemo } from 'react';
@@ -29,14 +23,7 @@ export interface ChurchStats {
 }
 
 export default function useUsers() {
-  const {
-    isModalOpen,
-    editingUser,
-    showPassword,
-    setIsModalOpen,
-    setEditingUser,
-    toggleShowPassword,
-  } = useUserStore();
+  const { isModalOpen, editingUser, showPassword, setIsModalOpen, setEditingUser, toggleShowPassword } = useUserStore();
   const {
     items: users,
     isLoading,
@@ -57,8 +44,7 @@ export default function useUsers() {
     deleteFn: deleteUser,
     deleteConfirmation: {
       title: 'Atenção - Exclusão de Usuário',
-      message:
-        'Você tem certeza que deseja excluir este usuário? Esta ação é irreversível.',
+      message: 'Você tem certeza que deseja excluir este usuário? Esta ação é irreversível.',
       confirmText: 'Confirmar',
       cancelText: 'Cancelar',
     },
@@ -69,6 +55,7 @@ export default function useUsers() {
     criteriaMode: 'all',
     resolver: zodResolver(userSchema),
     defaultValues: {
+      id: '',
       name: '',
       email: '',
       password: '',
@@ -100,7 +87,7 @@ export default function useUsers() {
   }, [editingUser, form.reset]);
 
   const onSubmit: SubmitHandler<UserFormData> = async (data) => {
-    if (editingUser) {
+    if (editingUser && editingUser.id) {
       const updatedData = {
         id: editingUser.id,
         name: data.name,
@@ -109,7 +96,7 @@ export default function useUsers() {
         change_password: data.change_password,
         status: data.status,
       };
-      await handleUpdate(data.id ?? '', updatedData);
+      await handleUpdate(editingUser.id, updatedData);
       setIsModalOpen(false);
       setEditingUser(null);
     } else {
@@ -140,6 +127,7 @@ export default function useUsers() {
 
   const handleEdit = async (id: string) => {
     const user = await fetchById(id);
+    console.log(id);
     if (user) {
       setEditingUser(user);
       setIsModalOpen(true);
@@ -152,74 +140,28 @@ export default function useUsers() {
 
   const calculateUserStats = (users: User[]): DashboardStats => {
     const now = new Date();
-    const startOfCurrentMonth = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      1,
-      0,
-      0,
-      0,
-      0,
-    );
-    const endOfCurrentMonth = new Date(
-      now.getFullYear(),
-      now.getMonth() + 1,
-      0,
-      23,
-      59,
-      59,
-      999,
-    );
-    const startOfPreviousMonth = new Date(
-      now.getFullYear(),
-      now.getMonth() - 1,
-      1,
-      0,
-      0,
-      0,
-      0,
-    );
-    const endOfPreviousMonth = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      0,
-      23,
-      59,
-      59,
-      999,
-    );
+    const startOfCurrentMonth = new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0, 0);
+    const endOfCurrentMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
+    const startOfPreviousMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1, 0, 0, 0, 0);
+    const endOfPreviousMonth = new Date(now.getFullYear(), now.getMonth(), 0, 23, 59, 59, 999);
 
     const totalUsers = users.length;
     const totalUsersActive = users.filter((user) => user.status).length;
-    const totalUsersActiviedPercentage =
-      parseFloat(((totalUsersActive / totalUsers) * 100).toFixed(2)) || 0;
+    const totalUsersActiviedPercentage = parseFloat(((totalUsersActive / totalUsers) * 100).toFixed(2)) || 0;
 
     const totalNewUsers = users.filter((user) => {
       const createdAt = user.created_at ? new Date(user.created_at) : null;
-      return (
-        createdAt &&
-        createdAt >= startOfCurrentMonth &&
-        createdAt <= endOfCurrentMonth
-      );
+      return createdAt && createdAt >= startOfCurrentMonth && createdAt <= endOfCurrentMonth;
     }).length;
 
     const previousMonthUsers = users.filter((user) => {
       const createdAt = user.created_at ? new Date(user.created_at) : null;
-      return (
-        createdAt &&
-        createdAt >= startOfPreviousMonth &&
-        createdAt <= endOfPreviousMonth
-      );
+      return createdAt && createdAt >= startOfPreviousMonth && createdAt <= endOfPreviousMonth;
     }).length;
 
     const totalNewUsersPercentage =
       previousMonthUsers > 0
-        ? parseFloat(
-            (
-              ((totalNewUsers - previousMonthUsers) / previousMonthUsers) *
-              100
-            ).toFixed(2),
-          )
+        ? parseFloat((((totalNewUsers - previousMonthUsers) / previousMonthUsers) * 100).toFixed(2))
         : 0;
 
     const previousTotalUsers = users.filter((user) => {
@@ -229,12 +171,7 @@ export default function useUsers() {
 
     const totalUsersPercentage =
       previousTotalUsers > 0
-        ? parseFloat(
-            (
-              ((totalUsers - previousTotalUsers) / previousTotalUsers) *
-              100
-            ).toFixed(2),
-          )
+        ? parseFloat((((totalUsers - previousTotalUsers) / previousTotalUsers) * 100).toFixed(2))
         : 0;
 
     return {
@@ -247,18 +184,14 @@ export default function useUsers() {
     };
   };
 
-  const userStats: DashboardStats = useMemo(
-    () => calculateUserStats(users),
-    [users],
-  );
+  const userStats: DashboardStats = useMemo(() => calculateUserStats(users), [users]);
 
   return {
     users,
     isModalOpen,
     editingUser,
     userStats,
-    isSubmitting:
-      form.formState.isSubmitting || isCreating || isUpdating || isDeleting,
+    isSubmitting: form.formState.isSubmitting || isCreating || isUpdating || isDeleting,
     showPassword,
     isLoading,
     form,

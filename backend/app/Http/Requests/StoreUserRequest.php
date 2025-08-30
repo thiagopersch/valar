@@ -20,15 +20,15 @@ class StoreUserRequest extends FormRequest
      */
     public function rules(): array {
         return [
-            'coligate_id' => ['required', 'string', 'exists:coligate,id'],
-            'client_id' => ['required', 'string', 'exists:client,id'],
+            'coligate_id' => ['sometimes', 'string', 'exists:coligate,id'],
+            'client_id' => ['sometimes', 'string', 'exists:client,id'],
             'name' => ['required', 'string'],
             'email' => ['required', 'string', 'unique:users,email'],
             'password' => ['required', 'string'],
             'change_password' => ['required', 'boolean'],
             'status' => ['required', 'boolean'],
-            'created_by' => ['required', 'string', 'exists:users,id'],
-            'updated_by' => ['required', 'string', 'exists:users,id'],
+            'created_by' => ['sometimes', 'string', 'exists:users,id'],
+            'updated_by' => ['sometimes', 'string', 'exists:users,id'],
         ];
     }
 }

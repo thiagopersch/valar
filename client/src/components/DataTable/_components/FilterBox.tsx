@@ -96,7 +96,7 @@ export function FilterBox({ fields, filters, setFilters, openFilter, setOpenFilt
           <DialogDescription>Ajuste os filtros para encontrar o que procura.</DialogDescription>
         </DialogHeader>
         <Separator />
-        <div className="grid max-h-[70vh] grid-cols-2 gap-4 overflow-y-auto pr-2">
+        <div className="grid max-h-[70vh] grid-cols-2 gap-4 overflow-y-auto pr-2 max-md:grid-cols-1">
           {fields.map((field) => (
             <div key={field.controlName} className="flex-1 space-y-2">
               <Label>{field.label}</Label>
