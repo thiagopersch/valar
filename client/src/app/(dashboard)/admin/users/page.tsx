@@ -88,17 +88,21 @@ const UsersPage = () => {
               {
                 label: 'Editar',
                 icon: <Edit className="h-4 w-4" />,
-                tooltip: 'Editar',
                 onClick: () => {
+                  if (!user.id) {
+                    return null;
+                  }
                   handleEdit(user.id);
                 },
               },
               {
                 label: 'Excluir',
                 icon: <Trash2 className="h-4 w-4" />,
-                tooltip: 'Excluir',
                 color: 'red-500',
                 onClick: () => {
+                  if (!user.id) {
+                    return null;
+                  }
                   handleDelete(user.id);
                 },
               },

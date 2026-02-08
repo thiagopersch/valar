@@ -1,0 +1,17 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Poppins', 'Roboto', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --primary-color: #0393be;
+  --secondary-color: #0dbf87;
+  --tertiary-color: #f69000;
+  --neutral-color: #f6fafd;
+  --neutral-variant-color: #dde3ea;
+  --text-color: #1e293b;
+  --background-color: #f8fafc;
+  --error-color: #ba1a1a;
+  --purple-color: #8b5cf6;
+  --white-color: #ffffff;
+}

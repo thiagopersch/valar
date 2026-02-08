@@ -1,0 +1,8 @@
+.app-container {
+  height: 100vh;
+}
+
+mat-sidenav {
+  transition: width 0.3s;
+  overflow-x: hidden;
+}

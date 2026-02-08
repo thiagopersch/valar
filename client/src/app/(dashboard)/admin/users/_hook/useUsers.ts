@@ -55,12 +55,12 @@ export default function useUsers() {
     criteriaMode: 'all',
     resolver: zodResolver(userSchema),
     defaultValues: {
-      id: '',
       name: '',
       email: '',
       password: '',
       change_password: true,
       status: true,
+      enable_password: false,
     },
   });
 
@@ -73,6 +73,7 @@ export default function useUsers() {
         password: '',
         change_password: editingUser.change_password,
         status: editingUser.status,
+        enable_password: false,
       });
     } else {
       form.reset({
@@ -82,6 +83,7 @@ export default function useUsers() {
         password: '',
         change_password: true,
         status: true,
+        enable_password: true,
       });
     }
   }, [editingUser, form.reset]);
@@ -92,7 +94,7 @@ export default function useUsers() {
         id: editingUser.id,
         name: data.name,
         email: data.email,
-        password: data.password || undefined,
+        password: data.enable_password ? data.password : undefined,
         change_password: data.change_password,
         status: data.status,
       };
@@ -100,7 +102,8 @@ export default function useUsers() {
       setIsModalOpen(false);
       setEditingUser(null);
     } else {
-      await create(data);
+      const { id, enable_password, ...newUserData } = data;
+      await create(newUserData);
       form.reset({
         id: '',
         name: '',
@@ -108,6 +111,7 @@ export default function useUsers() {
         password: '',
         change_password: true,
         status: true,
+        enable_password: true,
       });
       setIsModalOpen(false);
     }
@@ -127,7 +131,6 @@ export default function useUsers() {
 
   const handleEdit = async (id: string) => {
     const user = await fetchById(id);
-    console.log(id);
     if (user) {
       setEditingUser(user);
       setIsModalOpen(true);

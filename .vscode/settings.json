@@ -1,0 +1,5 @@
+{
+  // Monorepo: usar pasta 'frontend' como diretório de trabalho para Angular e terminal
+  "terminal.integrated.cwd": "${workspaceFolder}/frontend",
+  "angular.terminal.cwd": "${workspaceFolder}/frontend"
+}

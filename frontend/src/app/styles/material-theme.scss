@@ -1,0 +1,63 @@
+// Include theming for Angular Material with `mat.theme()`.
+// This Sass mixin will define CSS variables that are used for styling Angular Material
+// components according to the Material 3 design spec.
+// Learn more about theming and how to use it for your application's
+// custom components at https://material.angular.dev/guide/theming
+@use '@angular/material' as mat;
+@use './theme-colors' as palette;
+
+*:not(mat-icon) {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: none;
+  scroll-behavior: smooth;
+}
+
+html,
+body,
+main {
+  @include mat.system-classes();
+  @include mat.theme(
+    (
+      color: (
+        primary: palette.$primary-palette,
+        secondary: palette.$secondary-palette,
+        tertiary: palette.$tertiary-palette,
+        error: palette.$error-palette,
+        neutral: palette.$neutral-palette,
+        neutral-variant: palette.$neutral-variant-palette,
+        success: palette.$success-palette,
+        warning: palette.$warning-palette,
+        info: palette.$info-palette,
+        background: palette.$background-palette,
+        surface: palette.$surface-palette,
+        surface-variant: palette.$surface-variant-palette,
+        surface-container: palette.$surface-container-palette,
+        surface-container-high: palette.$surface-container-high-palette,
+        surface-container-highest: palette.$surface-container-highest-palette,
+        surface-container-low: palette.$surface-container-low-palette,
+        surface-container-lowest: palette.$surface-container-lowest-palette,
+        on-background: palette.$on-background-palette,
+        on-surface: palette.$on-surface-palette,
+        on-surface-variant: palette.$on-surface-variant-palette,
+        on-primary: palette.$on-primary-palette,
+        on-primary-container: palette.$on-primary-container-palette,
+      ),
+      typography: Poppins,
+      density: 0,
+    )
+  );
+  color-scheme: light;
+  overflow: hidden;
+  box-sizing: border-box;
+  outline: none;
+  scroll-behavior: smooth;
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  font-size: var(--mat-sys-body-medium);
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100vw;
+}

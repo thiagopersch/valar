@@ -35,9 +35,12 @@ export default function UserForm({ user }: UserFormProps) {
         password: '',
         change_password: true,
         status: true,
+        enable_password: true,
       });
     }
   }, [user, form.reset]);
+
+  const enable_password = form.watch('enable_password');
 
   return (
     <Form {...form}>
@@ -100,39 +103,61 @@ export default function UserForm({ user }: UserFormProps) {
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field, fieldState }) => (
-              <FormItem>
-                <FormLabel>Senha</FormLabel>
-                <FormControl>
-                  <div className="relative">
-                    <Input
-                      {...field}
-                      type={showPassword ? 'text' : 'password'}
-                      disabled={isSubmitting}
-                      error={fieldState.error?.message}
-                      placeholder="••••••••"
-                    />
+          {!enable_password && (
+            <FormField
+              control={form.control}
+              name="enable_password"
+              render={({ field }) => (
+                <FormItem>
+                  {user && (
                     <Button
                       type="button"
                       variant="ghost"
-                      size="icon"
-                      className="absolute top-0 right-0 h-full"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      aria-label="toggle password visibility"
+                      onClick={() => form.setValue('enable_password', !field.value)}
                       disabled={isSubmitting}
                     >
-                      {showPassword ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
+                      Alterar senha
                     </Button>
-                  </div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+                  )}
+                </FormItem>
+              )}
+            />
+          )}
+          {enable_password && (
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field, fieldState }) => (
+                <FormItem>
+                  <FormLabel>Senha</FormLabel>
+                  <FormControl>
+                    <div className="relative">
+                      <Input
+                        {...field}
+                        type={showPassword ? 'text' : 'password'}
+                        disabled={isSubmitting}
+                        error={fieldState.error?.message}
+                        placeholder="••••••••"
+                      />
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        className="absolute top-0 right-0 h-full"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        aria-label="toggle password visibility"
+                        disabled={isSubmitting}
+                      >
+                        {showPassword ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
+                      </Button>
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
         </Column>
 
         <Separator />

@@ -1,0 +1,36 @@
+@if (hasChildren()) {
+  @if (collapsed()) {
+    <button mat-list-item [matMenuTriggerFor]="subMenu">
+      <mat-icon matListItemIcon class="flex gap-4">{{ item().icon }}</mat-icon>
+    </button>
+    <mat-menu #subMenu="matMenu">
+      @for (child of item().children; track child.id) {
+        <button mat-menu-item [routerLink]="child.path">{{ child.title }}</button>
+      }
+    </mat-menu>
+  } @else {
+    <mat-accordion>
+      <mat-expansion-panel [expanded]="isExpanded()">
+        <mat-expansion-panel-header>
+          <mat-panel-title class="flex gap-4">
+            <mat-icon>{{ item().icon }}</mat-icon>
+            <span>{{ item().title }}</span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <mat-nav-list>
+          @for (child of item().children; track child.id) {
+            <app-sidebar-menu-item [item]="child" [collapsed]="collapsed()" />
+          }
+        </mat-nav-list>
+      </mat-expansion-panel>
+    </mat-accordion>
+  }
+} @else {
+  <a mat-list-item [routerLink]="item().path" routerLinkActive="active-link">
+    <mat-icon matListItemIcon class="flex gap-4">{{ item().icon }}</mat-icon>
+    @if (!collapsed()) {
+      <span matListItemTitle>{{ item().title }}</span>
+    }
+  </a>
+}
