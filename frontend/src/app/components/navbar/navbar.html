@@ -1,12 +1,15 @@
 <mat-sidenav-container class="app-container">
-  <mat-sidenav #sidenav mode="side" [opened]="!collapsed()" [style.width]="collapsed() ? 72 : 280">
-    <div
-      class="sidebar-header"
-      style="padding: 16px; display: flex; align-items: center; gap: 10px"
-    >
+  <mat-sidenav
+    #sidenav
+    mode="side"
+    [opened]="!collapsed()"
+    [style.width]="collapsed() ? sidebarWidth() : 300"
+    class="shadow-xl! rounded-md!"
+  >
+    <div class="p-4! flex! items-center! gap-2!">
       <mat-icon color="primary">business</mat-icon>
       @if (!collapsed()) {
-        <span style="font-weight: bold">Sua Empresa</span>
+        <span class="font-bold">Sua Empresa</span>
       }
     </div>
 
@@ -19,18 +22,18 @@
     </mat-nav-list>
   </mat-sidenav>
 
-  <mat-sidenav-content>
-    <mat-toolbar color="primary">
+  <mat-sidenav-content class="flex flex-col h-screen overflow-hidden">
+    <mat-toolbar class="flex items-stretch px-4 z-1 max-w-dvw bg-white! shadow-[--shadow-toolbar]!">
       <button mat-icon-button (click)="toggleSidebar()">
         <mat-icon>{{ collapsed() ? 'menu' : 'menu_open' }}</mat-icon>
       </button>
-      <span>{{ currentRouteTitle() }}</span>
+      <span class="font-bold">{{ currentRouteTitle() }}</span>
       <span style="flex: 1 1 auto"></span>
       <div class="flex justify-center items-center gap-4">
         <button mat-icon-button>
-          <mat-icon aria-hidden="false" role="img" matBadge="3" matBadgeColor="warn"
-            >notifications</mat-icon
-          >
+          <mat-icon aria-hidden="false" role="img" matBadge="3" matBadgeColor="warn">
+            notifications
+          </mat-icon>
         </button>
         <button mat-icon-button [matMenuTriggerFor]="userMenu">
           <mat-icon matListItemIcon>account_circle</mat-icon>
@@ -38,25 +41,26 @@
       </div>
     </mat-toolbar>
 
-    <main>
+    <main class="bg-[--background-color]! overflow-y-auto!">
       <router-outlet></router-outlet>
     </main>
   </mat-sidenav-content>
 </mat-sidenav-container>
 
-<mat-menu #userMenu="matMenu">
+<mat-menu #userMenu="matMenu" class="w-48 p-4">
   @if (!collapsed()) {
-    <ng-container>
+    <div class="flex flex-col gap-2 px-4!">
       <span matListItemTitle>{{ user.name }}</span>
       <span matListItemLine>{{ user.email }}</span>
-    </ng-container>
+    </div>
   }
+  <mat-divider></mat-divider>
   <button mat-menu-item>
     <mat-icon>account_circle</mat-icon>
     <span>Perfil</span>
   </button>
   <button mat-menu-item (click)="logout()">
-    <mat-icon>logout</mat-icon>
-    <span>Sair</span>
+    <mat-icon class="text-red-600!">logout</mat-icon>
+    <span class="text-red-600!">Sair</span>
   </button>
 </mat-menu>

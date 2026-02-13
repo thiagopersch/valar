@@ -1,20 +1,26 @@
 @if (hasChildren()) {
   @if (collapsed()) {
     <button mat-list-item [matMenuTriggerFor]="subMenu">
-      <mat-icon matListItemIcon class="flex gap-4">{{ item().icon }}</mat-icon>
+      <mat-icon matListItemIcon class="flex gap-2 text-inherit!">{{ item().icon }}</mat-icon>
     </button>
     <mat-menu #subMenu="matMenu">
       @for (child of item().children; track child.id) {
-        <button mat-menu-item [routerLink]="child.path">{{ child.title }}</button>
+        <button
+          mat-menu-item
+          [routerLink]="child.path"
+          routerLinkActive="bg-[var(--primary-color)]! text-white! font-semibold! transition-all duration-200"
+        >
+          {{ child.title }}
+        </button>
       }
     </mat-menu>
   } @else {
     <mat-accordion>
-      <mat-expansion-panel [expanded]="isExpanded()">
+      <mat-expansion-panel class="shadow-none!" [expanded]="isExpanded()">
         <mat-expansion-panel-header>
-          <mat-panel-title class="flex gap-4">
-            <mat-icon>{{ item().icon }}</mat-icon>
-            <span>{{ item().title }}</span>
+          <mat-panel-title class="flex gap-2">
+            <mat-icon class="text-inherit!">{{ item().icon }}</mat-icon>
+            <span class="text-inherit!">{{ item().title }}</span>
           </mat-panel-title>
         </mat-expansion-panel-header>
 
@@ -27,10 +33,15 @@
     </mat-accordion>
   }
 } @else {
-  <a mat-list-item [routerLink]="item().path" routerLinkActive="active-link">
-    <mat-icon matListItemIcon class="flex gap-4">{{ item().icon }}</mat-icon>
+  <a
+    mat-list-item
+    [routerLink]="item().path"
+    routerLinkActive="bg-[var(--primary-color)]! text-white! font-semibold! shadow-md! transition-all duration-200"
+    class="mx-2 mb-2"
+  >
+    <mat-icon matListItemIcon class="flex gap-2 text-inherit!">{{ item().icon }}</mat-icon>
     @if (!collapsed()) {
-      <span matListItemTitle>{{ item().title }}</span>
+      <span class="text-inherit!" matListItemTitle>{{ item().title }}</span>
     }
   </a>
 }

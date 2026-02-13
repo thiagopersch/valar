@@ -33,7 +33,7 @@ export class Navbar {
   router = inject(Router);
 
   collapsed = signal(false);
-  sidebarWidth = computed(() => (this.collapsed() ? 'w-18' : 'w-64'));
+  sidebarWidth = computed(() => (this.collapsed() ? 'w-20' : 'w-64'));
 
   currentRouteTitle = signal<string>('Sistema');
 

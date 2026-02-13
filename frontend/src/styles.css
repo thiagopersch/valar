@@ -14,4 +14,6 @@
   --error-color: #ba1a1a;
   --purple-color: #8b5cf6;
   --white-color: #ffffff;
+  --shadow-toolbar:
+    0 0.2rem 0.6rem -0.1rem rgba(0, 0, 0, 0.12), 0 0 0.1rem 0.1rem rgba(0, 0, 0, 0.2);
 }
