@@ -12,7 +12,7 @@ import { AuthService } from './services/auth/auth-service';
 })
 export class App {
   constructor() {}
-  protected readonly title = signal('frontend');
+  protected readonly title = signal('valar');
   isLoggedIn$!: Observable<boolean>;
   private authService = inject(AuthService);
 

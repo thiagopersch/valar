@@ -16,7 +16,14 @@
     </mat-menu>
   } @else {
     <mat-accordion>
-      <mat-expansion-panel class="shadow-none!" [expanded]="isExpanded()">
+      <mat-expansion-panel
+        class="shadow-none! transition-colors duration-200"
+        [class.bg-auto!]="isExpanded()"
+        [class.bg-transparent!]="!isExpanded()"
+        [expanded]="isExpanded()"
+        (opened)="expanded.set(true)"
+        (closed)="expanded.set(false)"
+      >
         <mat-expansion-panel-header>
           <mat-panel-title class="flex gap-2">
             <mat-icon class="text-inherit!">{{ item().icon }}</mat-icon>

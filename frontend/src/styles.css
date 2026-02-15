@@ -1,6 +1,6 @@
 @import 'tailwindcss';
 
-@theme {
+@theme inline {
   --font-sans: 'Poppins', 'Roboto', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
@@ -10,10 +10,22 @@
   --neutral-color: #f6fafd;
   --neutral-variant-color: #dde3ea;
   --text-color: #1e293b;
-  --background-color: #f8fafc;
+  --background-color: #f0f0f0;
   --error-color: #ba1a1a;
   --purple-color: #8b5cf6;
   --white-color: #ffffff;
   --shadow-toolbar:
     0 0.2rem 0.6rem -0.1rem rgba(0, 0, 0, 0.12), 0 0 0.1rem 0.1rem rgba(0, 0, 0, 0.2);
+}
+
+@layer base {
+  * {
+    @apply m-0 p-0 box-border outline-none scroll-smooth;
+  }
+
+  html,
+  body,
+  main {
+    @apply scheme-light-dark box-border outline-none scroll-smooth h-screen w-screen font-sans antialiased;
+  }
 }
