@@ -1,7 +1,7 @@
 @if (hasChildren()) {
   @if (collapsed()) {
     <button mat-list-item [matMenuTriggerFor]="subMenu">
-      <mat-icon matListItemIcon class="flex gap-2 text-inherit!">{{ item().icon }}</mat-icon>
+      <mat-icon matListItemIcon class="flex gap-2">{{ item().icon }}</mat-icon>
     </button>
     <mat-menu #subMenu="matMenu">
       @for (child of item().children; track child.id) {
