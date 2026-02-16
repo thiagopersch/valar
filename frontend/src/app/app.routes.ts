@@ -4,7 +4,7 @@ import { Navbar } from './components/navbar/navbar'; // Ajuste o import se neces
 import { Profiles } from './pages/private/admin/global-services/profiles/profiles';
 import { Modules } from './pages/private/admin/global-services/profiles/shared/modules/modules';
 import { Users } from './pages/private/admin/global-services/users/users';
-import { Client } from './pages/private/admin/super-admin/client/client';
+import { Clients } from './pages/private/admin/super-admin/clients/clients';
 import { Dashboard } from './pages/private/admin/super-admin/dashboard/dashboard';
 import { Login } from './pages/public/login/login';
 
@@ -38,7 +38,7 @@ export const routes: Routes = [
       },
       {
         path: 'clients',
-        component: Client,
+        component: Clients,
         title: 'Clientes',
         data: { icon: 'business' },
         pathMatch: 'full',

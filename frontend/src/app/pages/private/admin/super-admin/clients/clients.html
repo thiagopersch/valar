@@ -1,0 +1,21 @@
+<app-crud
+  [fields]="clients()"
+  [columnDefinitions]="columns"
+  [isLoading]="isLoading()"
+  [length]="total()"
+  [pageSize]="pageSize()"
+  [pageIndex]="pageIndex()"
+  [ctaLabel]="'Adicionar Cliente'"
+  (page)="onPageChange($event)"
+  (filterChange)="onFilterChange($event)"
+  (add)="onAdd()"
+  (edit)="onEdit($event)"
+  (delete)="onDelete($event)"
+>
+  <ng-template #headerTemplate>
+    <div class="flex flex-col gap-2">
+      <h1 class="text-2xl font-bold">Clientes</h1>
+      <p class="text-sm text-gray-600">Gerencie os clientes da sua empresa</p>
+    </div>
+  </ng-template>
+</app-crud>

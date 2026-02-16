@@ -34,6 +34,14 @@ export class AuthService {
     return this.isLoggedIn$;
   }
 
+  hasPermission(permission: string): boolean {
+    if (isPlatformBrowser(this.platformId)) {
+      const permissions = JSON.parse(localStorage.getItem('permissions') || '[]');
+      return permissions.includes(permission);
+    }
+    return false;
+  }
+
   login(email: string, password: string): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.apiUrl}/auth/login`, { email, password }).pipe(
       tap((response) => {

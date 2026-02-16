@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, HostListener, inject, signal } from '@angular/core';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -9,6 +9,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { NavigationEnd, Router, RouterModule, Routes } from '@angular/router';
 import { filter, map } from 'rxjs';
+import { Card } from '../card/card';
 import { SidebarMenuItem } from './shared/components/sidebar-menu-item/sidebar-menu-item';
 import { MenuItem } from './shared/model/MenuItem';
 
@@ -27,13 +28,43 @@ import { MenuItem } from './shared/model/MenuItem';
     MatBadgeModule,
     MatMenuModule,
     SidebarMenuItem,
+    Card,
   ],
 })
 export class Navbar {
   router = inject(Router);
 
-  collapsed = signal(false);
+  // Detecta se está em dispositivo móvel (≤ 768px)
+  isMobile = signal(typeof window !== 'undefined' && window.innerWidth <= 768);
+
+  // Em mobile, inicia fechado (collapsed = true), em desktop inicia aberto (collapsed = false)
+  collapsed = signal(typeof window !== 'undefined' && window.innerWidth <= 768);
+
   sidebarWidth = computed(() => (this.collapsed() ? 'w-20' : 'w-64'));
+
+  // Mobile usa 'over', desktop usa 'side'
+  sidebarMode = computed(() => (this.isMobile() ? 'over' : 'side'));
+
+  iconMenuSidebar = computed(() => (this.collapsed() ? 'menu' : 'menu_open'));
+
+  @HostListener('window:resize')
+  onResize() {
+    if (typeof window !== 'undefined') {
+      const wasMobile = this.isMobile();
+      const nowMobile = window.innerWidth <= 768;
+
+      this.isMobile.set(nowMobile);
+
+      // Se mudou de desktop para mobile, fecha a sidebar
+      if (!wasMobile && nowMobile) {
+        this.collapsed.set(true);
+      }
+      // Se mudou de mobile para desktop, abre a sidebar
+      else if (wasMobile && !nowMobile) {
+        this.collapsed.set(false);
+      }
+    }
+  }
 
   currentRouteTitle = signal<string>('Sistema');
 

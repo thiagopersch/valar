@@ -1,0 +1,36 @@
+/* Custom scrollbar for modal content */
+.custom-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+  background-color: var(--neutral-variant-color);
+  border-radius: 20px;
+}
+
+/* Ensure dialog takes enough space but is responsive */
+:host {
+  display: block;
+  min-width: 350px;
+  max-width: 90vw;
+}
+
+/* Override some Material default spacings if needed */
+.mat-mdc-dialog-title {
+  padding: 0 !important;
+}
+
+.mat-mdc-dialog-content {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.mat-mdc-dialog-actions {
+  padding: 0 !important;
+  margin-bottom: 0 !important;
+  min-height: auto !important;
+}

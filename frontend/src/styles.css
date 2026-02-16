@@ -29,3 +29,32 @@
     @apply scheme-light-dark box-border outline-none scroll-smooth h-screen w-screen font-sans antialiased;
   }
 }
+
+mat-card,
+.mat-mdc-table,
+.mat-mdc-card {
+  background-color: var(--white-color) !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+
+.mat-mdc-paginator-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+mat-card-content {
+  padding: 0 !important;
+}
+
+.mat-mdc-header-cell {
+  border-bottom-width: 1px !important;
+  border-bottom-color: var(--color-neutral-200) !important;
+}

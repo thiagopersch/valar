@@ -1,1 +1,62 @@
-<p>modal works!</p>
+<div class="modal-container p-6">
+  <h2 mat-dialog-title class="!font-bold !text-2xl !mb-4 text-primary-color">{{ title }}</h2>
+
+  <mat-dialog-content class="!mat-typography !max-h-[70vh] !overflow-y-auto custom-scroll">
+    <ng-content></ng-content>
+  </mat-dialog-content>
+
+  <mat-dialog-actions
+    align="end"
+    class="!gap-3 !pt-6 border-t border-neutral-variant-color/30 mt-4"
+  >
+    <ng-container *ngFor="let action of actions">
+      <!-- Logic to determine button type/style based on input -->
+      <button
+        mat-button
+        *ngIf="!action.variant || action.variant === 'basic'"
+        [color]="action.style || 'primary'"
+        (click)="handleAction(action)"
+        [disabled]="action.disabled || loading"
+        [type]="action.type || 'button'"
+      >
+        {{ action.label }}
+      </button>
+
+      <button
+        mat-raised-button
+        *ngIf="action.variant === 'raised'"
+        [color]="action.style || 'primary'"
+        (click)="handleAction(action)"
+        [disabled]="action.disabled || loading"
+        [type]="action.type || 'button'"
+        class="!rounded-lg !shadow-md hover:!shadow-lg transition-shadow"
+      >
+        {{ action.label }}
+      </button>
+
+      <button
+        mat-stroked-button
+        *ngIf="action.variant === 'stroked'"
+        [color]="action.style || 'primary'"
+        (click)="handleAction(action)"
+        [disabled]="action.disabled || loading"
+        [type]="action.type || 'button'"
+        class="!rounded-lg !border-2"
+      >
+        {{ action.label }}
+      </button>
+
+      <button
+        mat-flat-button
+        *ngIf="action.variant === 'flat'"
+        [color]="action.style || 'primary'"
+        (click)="handleAction(action)"
+        [disabled]="action.disabled || loading"
+        [type]="action.type || 'button'"
+        class="!rounded-lg"
+      >
+        {{ action.label }}
+      </button>
+    </ng-container>
+  </mat-dialog-actions>
+</div>
