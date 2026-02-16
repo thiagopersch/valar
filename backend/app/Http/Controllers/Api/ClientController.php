@@ -7,7 +7,6 @@ use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
 use App\Http\Resources\ClientResource;
 use App\Models\Client;
-use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
@@ -34,6 +33,6 @@ class ClientController extends Controller
     public function destroy(Client $client) {
         $client->delete();
 
-        return response(null, 204);
+        return response()->noContent();
     }
 }

@@ -40,7 +40,7 @@ export interface ActionsProps {
   icon?: string;
   tooltip?: string;
   action: (item: any) => void;
-  type?: 'toggle' | 'delete' | 'default';
+  type: 'toggle' | 'delete' | 'default';
   color?: string;
   visible?: boolean | ((item: any) => boolean);
 }

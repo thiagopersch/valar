@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { CrudComponent } from 'app/components/crud/crud';
+import { ActionsProps, CrudComponent } from 'app/components/crud/crud';
 import { Client } from 'app/model/client';
 import { ClientsService } from './clients-service';
 
@@ -12,15 +12,22 @@ import { ClientsService } from './clients-service';
 export class Clients {
   columns = [
     { key: 'name', header: 'Nome', type: 'text' },
-    { key: 'email', header: 'Email', type: 'text' },
+    { key: 'url', header: 'URL', type: 'text' },
+    { key: 'email', header: 'E-mail', type: 'text' },
+    { key: 'contactName', header: 'Contato', type: 'text' },
     { key: 'phone', header: 'Telefone', type: 'text' },
-    { key: 'address', header: 'Endereço', type: 'text' },
-    { key: 'city', header: 'Cidade', type: 'text' },
-    { key: 'state', header: 'Estado', type: 'text' },
-    { key: 'zip', header: 'CEP', type: 'text' },
-    { key: 'country', header: 'País', type: 'text' },
-    { key: 'createdAt', header: 'Criado em', type: 'date' },
-    { key: 'updatedAt', header: 'Atualizado em', type: 'date' },
+    { key: 'status', header: 'Status', type: 'boolean' },
+    { key: 'created_at', header: 'Criado em', type: 'datetime' },
+    { key: 'updated_at', header: 'Atualizado em', type: 'datetime' },
+  ];
+  actions: ActionsProps[] = [
+    { label: 'Editar', action: this.onEdit, icon: 'edit', type: 'default' },
+    {
+      label: 'Excluir',
+      action: this.onDelete,
+      icon: 'delete',
+      type: 'delete',
+    },
   ];
 
   clients = signal<Client[]>([]);

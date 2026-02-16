@@ -8,6 +8,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { NavigationEnd, Router, RouterModule, Routes } from '@angular/router';
+import { AuthService } from 'app/services/auth/auth-service';
 import { filter, map } from 'rxjs';
 import { Card } from '../card/card';
 import { SidebarMenuItem } from './shared/components/sidebar-menu-item/sidebar-menu-item';
@@ -33,6 +34,7 @@ import { MenuItem } from './shared/model/MenuItem';
 })
 export class Navbar {
   router = inject(Router);
+  authService = inject(AuthService);
 
   // Detecta se está em dispositivo móvel (≤ 768px)
   isMobile = signal(typeof window !== 'undefined' && window.innerWidth <= 768);
@@ -70,11 +72,7 @@ export class Navbar {
 
   menuItems = signal<MenuItem[]>([]);
 
-  user = {
-    name: 'Tiago Peixoto',
-    email: 'tiago@example.com',
-    initials: 'TP',
-  };
+  user = this.authService.user;
 
   constructor() {
     this.menuItems.set(this.buildMenuTree(this.router.config));
@@ -91,7 +89,7 @@ export class Navbar {
   }
 
   logout() {
-    this.router.navigate(['/login']);
+    this.authService.logout();
   }
 
   private buildMenuTree(routes: Routes, parentPath: string = '', isChild = false): MenuItem[] {

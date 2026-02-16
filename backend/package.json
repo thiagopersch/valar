@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "build": "vite build",
-    "dev": "docker compose up -d && vite"
+    "docker:vite": "docker compose up -d --build && vite",
+    "dev": "docker compose up -d --build"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.0.0",

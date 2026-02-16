@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ClientController;
 use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
@@ -15,6 +16,7 @@ Route::prefix('auth')->middleware('auth:sanctum')->group(function () {
 
 Route::prefix('admin')->middleware(['cors', 'auth:sanctum'])->group(function () {
     Route::apiResource('users', UserController::class);
+    Route::apiResource('clients', ClientController::class);
     /* Route::apiResource('profiles', \App\Http\Controllers\Api\ProfileController::class);
     Route::apiResource('modules', \App\Http\Controllers\Api\ModuleController::class);
     Route::apiResource('persons', \App\Http\Controllers\Api\PersonController::class);

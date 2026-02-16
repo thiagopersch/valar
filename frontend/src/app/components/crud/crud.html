@@ -160,7 +160,7 @@
           mat-cell
         >
           <div
-            class="hidden gap-4 justify-end transition-opacity duration-300 ease-in-out group-hover:flex max-xl:block"
+            class="hidden gap-4 justify-end transition-opacity duration-300 ease-in-out group-hover:flex max-md:flex"
           >
             @if (actions() | hasNonToggleActions) {
               <button type="button" mat-icon-button [matMenuTriggerFor]="menu" matTooltip="Ações">
@@ -198,12 +198,12 @@
                         type="button"
                       >
                         @if (action.icon) {
-                          <mat-icon [color]="action.color || 'primary'">
+                          <mat-icon [class.text-[var(--error-color)]!]="action.type === 'delete'">
                             {{ action.icon }}
                           </mat-icon>
                         }
                         @if (action.label) {
-                          <span [class.text-[var(--error-color)]]="action.type === 'delete'">
+                          <span [class.text-[var(--error-color)]!]="action.type === 'delete'">
                             {{ action.label }}
                           </span>
                         }
@@ -221,7 +221,7 @@
     <tr *matHeaderRowDef="displayedColumns()" mat-header-row class="max-w-full relative"></tr>
     <tr
       *matRowDef="let row; columns: displayedColumns()"
-      class="group table-row max-w-full relative hover:bg-[var(--neutral-color)]"
+      class="table-row! max-w-full! relative! hover:bg-neutral-200! group"
       mat-row
       [class.cursor-pointer]="enableRowClickDialog()"
       [class.hover:bg-black/5]="enableRowClickDialog()"

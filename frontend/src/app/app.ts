@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Observable } from 'rxjs';
 import { AuthService } from './services/auth/auth-service';
 
 @Component({
@@ -13,10 +12,10 @@ import { AuthService } from './services/auth/auth-service';
 export class App {
   constructor() {}
   protected readonly title = signal('valar');
-  isLoggedIn$!: Observable<boolean>;
+  isLoggedIn$!: boolean;
   private authService = inject(AuthService);
 
   ngOnInit() {
-    this.isLoggedIn$ = this.authService.isLoggedIn;
+    this.isLoggedIn$ = this.authService.isAuthenticated();
   }
 }

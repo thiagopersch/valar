@@ -1,25 +1,27 @@
-// app.routes.ts (sem mudanças, mas confirme que não há duplicatas no array)
 import { Routes } from '@angular/router';
-import { Navbar } from './components/navbar/navbar'; // Ajuste o import se necessário
+import { Navbar } from './components/navbar/navbar';
 import { Profiles } from './pages/private/admin/global-services/profiles/profiles';
 import { Modules } from './pages/private/admin/global-services/profiles/shared/modules/modules';
 import { Users } from './pages/private/admin/global-services/users/users';
 import { Clients } from './pages/private/admin/super-admin/clients/clients';
 import { Dashboard } from './pages/private/admin/super-admin/dashboard/dashboard';
 import { Login } from './pages/public/login/login';
+import { authGuard, guestGuard } from './services/auth/auth.guard';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/admin/home', pathMatch: 'full' },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
   {
     path: 'login',
     component: Login,
     title: 'Login',
     pathMatch: 'full',
+    canActivate: [guestGuard],
   },
   {
     path: 'admin',
     title: 'Administração',
     component: Navbar,
+    canActivate: [authGuard],
     data: { showInNavbar: true, icon: 'settings' },
     children: [
       {
@@ -49,6 +51,7 @@ export const routes: Routes = [
     path: 'educational',
     title: 'Educacional',
     component: Navbar,
+    canActivate: [authGuard],
     data: { showInNavbar: true, icon: 'school' },
     children: [
       {
@@ -206,6 +209,7 @@ export const routes: Routes = [
     path: 'church',
     title: 'Igreja',
     component: Navbar,
+    canActivate: [authGuard],
     data: { showInNavbar: true, icon: 'school' },
     children: [],
   },
@@ -213,6 +217,7 @@ export const routes: Routes = [
     path: 'hr',
     title: 'Recursos Humanos',
     component: Navbar,
+    canActivate: [authGuard],
     data: { showInNavbar: true, icon: 'people' },
     children: [],
   },
@@ -220,6 +225,7 @@ export const routes: Routes = [
     path: 'crm',
     title: 'CRM',
     component: Navbar,
+    canActivate: [authGuard],
     data: { showInNavbar: true, icon: 'people_outline' },
     children: [],
   },
@@ -227,6 +233,7 @@ export const routes: Routes = [
     path: 'projects',
     title: 'Projetos',
     component: Navbar,
+    canActivate: [authGuard],
     data: { showInNavbar: true, icon: 'work' },
     children: [],
   },
@@ -234,6 +241,7 @@ export const routes: Routes = [
     path: 'patrimony',
     title: 'Patrimônio',
     component: Navbar,
+    canActivate: [authGuard],
     data: { showInNavbar: true, icon: 'rocket' },
     children: [],
   },
@@ -241,6 +249,7 @@ export const routes: Routes = [
     path: 'bi',
     title: 'Business Intelligence',
     component: Navbar,
+    canActivate: [authGuard],
     data: { showInNavbar: true, icon: 'bar_chart' },
     children: [],
   },
@@ -248,6 +257,7 @@ export const routes: Routes = [
     path: 'financial',
     title: 'Financeiro',
     component: Navbar,
+    canActivate: [authGuard],
     data: { showInNavbar: true, icon: 'payments' },
     children: [
       {
@@ -326,6 +336,7 @@ export const routes: Routes = [
     path: 'global-services',
     title: 'Serviços Globais',
     component: Navbar,
+    canActivate: [authGuard],
     data: { showInNavbar: true, icon: 'settings' },
     children: [
       {
