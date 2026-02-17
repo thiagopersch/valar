@@ -1,7 +1,9 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActionsProps, CrudComponent } from 'app/components/crud/crud';
+import { ModalService } from 'app/components/modal/modal-service';
 import { Client } from 'app/model/client';
 import { ClientsService } from './clients-service';
+import { ClientForm } from './shared/client-form/client-form';
 
 @Component({
   selector: 'app-clients',
@@ -9,7 +11,17 @@ import { ClientsService } from './clients-service';
   styleUrl: './clients.css',
   imports: [CrudComponent],
 })
-export class Clients {
+export class ClientsComponent {
+  private clientService = inject(ClientsService);
+  private modal = inject(ModalService);
+
+  constructor() {}
+
+  clients = signal<Client[]>([]);
+  isLoading = signal(false);
+  total = signal(0);
+  pageIndex = signal(0);
+  pageSize = signal(25);
   columns = [
     { key: 'name', header: 'Nome', type: 'text' },
     { key: 'url', header: 'URL', type: 'text' },
@@ -29,14 +41,6 @@ export class Clients {
       type: 'delete',
     },
   ];
-
-  clients = signal<Client[]>([]);
-  isLoading = signal(false);
-  total = signal(0);
-  pageIndex = signal(0);
-  pageSize = signal(25);
-
-  constructor(private clientService: ClientsService) {}
 
   ngOnInit(): void {
     this.loadClients();
@@ -71,7 +75,22 @@ export class Clients {
   }
 
   onAdd(): void {
-    // Handle add client logic
+    const modal = this.modal.openModal(
+      `id-${Date.now()}`,
+      ClientForm,
+      'Adicionar Cliente',
+      true,
+      true,
+      {},
+      '',
+      false,
+    );
+
+    modal.afterClosed().subscribe((result) => {
+      if (result) {
+        this.loadClients();
+      }
+    });
   }
 
   onEdit(client: Client): void {

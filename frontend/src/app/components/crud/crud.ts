@@ -26,7 +26,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { AuthService } from '../../services/auth/auth-service';
-import { ModalService } from '../modal/modal.service';
+import { ModalService } from '../modal/modal-service';
 import { BadgeTypeComponent } from './shared/components/badge-type/badge-type.component';
 import {
   FilterButtonAdvancedComponent,
@@ -342,13 +342,15 @@ export class CrudComponent implements AfterViewInit {
         `modal-${Math.random()}`,
         component,
         this.modalTitle(),
-        true,
+        false,
         true,
         {
           logCenter: row,
         },
         'custom-modal',
         true,
+        '600px',
+        '600px',
       );
     }
   }

@@ -3,7 +3,7 @@ import { Navbar } from './components/navbar/navbar';
 import { Profiles } from './pages/private/admin/global-services/profiles/profiles';
 import { Modules } from './pages/private/admin/global-services/profiles/shared/modules/modules';
 import { Users } from './pages/private/admin/global-services/users/users';
-import { Clients } from './pages/private/admin/super-admin/clients/clients';
+import { ClientsComponent } from './pages/private/admin/super-admin/clients/clients';
 import { Dashboard } from './pages/private/admin/super-admin/dashboard/dashboard';
 import { Login } from './pages/public/login/login';
 import { authGuard, guestGuard } from './services/auth/auth.guard';
@@ -40,7 +40,7 @@ export const routes: Routes = [
       },
       {
         path: 'clients',
-        component: Clients,
+        component: ClientsComponent,
         title: 'Clientes',
         data: { icon: 'business' },
         pathMatch: 'full',
