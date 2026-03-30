@@ -11,13 +11,17 @@ return new class extends Migration {
     public function up(): void {
         Schema::create('permission', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('coligate_id');
-            $table->uuid('client_id');
-            $table->uuid('profile_id');
+            
+            $table->foreignUuid('coligate_id')->constrained('coligate')->cascadeOnDelete();
+            $table->foreignUuid('client_id')->constrained('clients')->cascadeOnDelete();
+            $table->foreignUuid('profile_id')->constrained('profile')->cascadeOnDelete();
+            
             $table->string('name');
             $table->boolean('status')->default(true);
-            $table->uuid('created_by')->nullable();
-            $table->uuid('updated_by')->nullable();
+            
+            $table->foreignUuid('created_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignUuid('updated_by')->nullable()->constrained('users')->nullOnDelete();
+            
             $table->timestamps();
             $table->softDeletes();
         });

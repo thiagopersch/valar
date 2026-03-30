@@ -2,7 +2,10 @@
 
 use App\Http\Controllers\Api\ClientController;
 use App\Http\Controllers\Api\LoginController;
+use App\Http\Controllers\Api\SystemController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\ServiceActivityController;
+use App\Http\Controllers\Api\ProjectController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('auth')->group(function () {
@@ -16,7 +19,10 @@ Route::prefix('auth')->middleware('auth:sanctum')->group(function () {
 
 Route::prefix('admin')->middleware(['cors', 'auth:sanctum'])->group(function () {
     Route::apiResource('users', UserController::class);
+    Route::apiResource('systems', SystemController::class);
     Route::apiResource('clients', ClientController::class);
+    Route::apiResource('service-activities', ServiceActivityController::class);
+    Route::apiResource('projects', ProjectController::class);
     /* Route::apiResource('profiles', \App\Http\Controllers\Api\ProfileController::class);
     Route::apiResource('modules', \App\Http\Controllers\Api\ModuleController::class);
     Route::apiResource('persons', \App\Http\Controllers\Api\PersonController::class);

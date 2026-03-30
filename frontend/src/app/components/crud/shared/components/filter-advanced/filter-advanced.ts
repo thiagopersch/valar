@@ -9,7 +9,6 @@ import {
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -36,11 +35,9 @@ export interface FilterField {
     MatInputModule,
     MatSelectModule,
     MatDatepickerModule,
-    MatNativeDateModule,
     MatCheckboxModule,
   ],
   templateUrl: './filter-advanced.html',
-  standalone: true,
 })
 export class FilterButtonAdvancedComponent {
   fields = input<FilterField[]>([]);

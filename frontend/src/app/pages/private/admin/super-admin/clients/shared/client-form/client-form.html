@@ -1,1 +1,481 @@
-<p>client-form works!</p>
+<form [formGroup]="form" class="w-full h-full p-2 flex flex-col">
+  <mat-tab-group class="flex-1" mat-stretch-tabs="false" dynamicHeight>
+    <mat-tab label="Identificação">
+      <app-identification-tab [form]="form" [implementationTypes]="IMPLEMENTATION_TYPES" />
+    </mat-tab>
+
+    <mat-tab label="Identidade visual">
+      <app-visual-identity-tab [form]="form" [initialPreviews]="initialPreviews" />
+    </mat-tab>
+
+    <mat-tab label="Responsáveis">
+      <app-responsibles-tab [form]="form" [users]="users" [analystTypes]="ANALYST_TYPES" />
+    </mat-tab>
+
+    <mat-tab label="Contrato">
+      <app-contract-tab [form]="form" [levels]="LEVELS" [minDate]="minDate" [maxDate]="maxDate" />
+    </mat-tab>
+
+    <mat-tab label="Saúde">
+      <app-health-tab
+        [form]="form"
+        [healthScores]="HEALTH_SCORES"
+        [levels]="LEVELS"
+        [demandLevels]="DEMAND_LEVELS"
+        [priorityLevels]="PRIORITY_LEVELS"
+      />
+    </mat-tab>
+
+    <mat-tab label="Informações complementares">
+      <app-fields-complementary-tab [form]="form" [systems]="systems" />
+    </mat-tab>
+    <!-- <mat-tab label="Identificação">
+      <app-column columns="2">
+        <mat-slide-toggle formControlName="status" color="primary">
+          {{ form.get('status')?.value ? 'Ativado' : 'Desativado' }}
+        </mat-slide-toggle>
+      </app-column>
+
+      <app-column columns="1">
+        <mat-form-field class="w-full">
+          <mat-label>Nome</mat-label>
+          <input matInput formControlName="name" />
+          <mat-error>{{ form.get('name')?.errors | errorMessage }}</mat-error>
+        </mat-form-field>
+      </app-column>
+
+      <app-column columns="2">
+        <mat-form-field class="w-full">
+          <mat-label>Link do site oficial</mat-label>
+          <input matInput formControlName="url" placeholder="https://exemplo.com" />
+          <mat-error>{{ form.get('url')?.errors | errorMessage }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="w-full">
+          <mat-label>Tipo de Implementação</mat-label>
+          <mat-select formControlName="implementation_type">
+            @for (type of IMPLEMENTATION_TYPES; track type.value) {
+              <mat-option [value]="type.value">{{ type.label }}</mat-option>
+            }
+          </mat-select>
+          <mat-error>{{ form.get('implementation_type')?.errors | errorMessage }}</mat-error>
+        </mat-form-field>
+      </app-column>
+    </mat-tab>
+
+    <mat-tab label="Identidade visual">
+      <div class="flex flex-col divide-y divide-neutral-200">
+        <div class="flex items-start gap-6 py-8 px-4">
+          <div class="flex flex-col gap-3 w-64 shrink-0">
+            <span class="text-sm font-semibold text-neutral-800">Logo institucional branca</span>
+            <div
+              class="w-56 h-16 flex items-center justify-center bg-white border border-neutral-200 rounded overflow-hidden"
+            >
+              @if (previews['logo']) {
+                <img [src]="previews['logo']" class="max-w-full max-h-full object-contain" />
+              } @else {
+                <mat-icon class="text-neutral-300 text-3xl!">image</mat-icon>
+              }
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-3 flex-1 pt-6">
+            <div class="flex items-center gap-2">
+              <button
+                mat-stroked-button
+                [class]="getButtonClass()"
+                type="button"
+                (click)="triggerFileInput('logoInput')"
+              >
+                Trocar logo
+              </button>
+              <button
+                mat-button
+                [class]="getButtonClass()"
+                type="button"
+                (click)="removeFile('logo')"
+              >
+                Remover
+              </button>
+              <input
+                id="logoInput"
+                type="file"
+                class="hidden"
+                (change)="onFileSelected($event, 'logo')"
+                accept=".svg,.png,.webp,.jpg,.jpeg"
+              />
+            </div>
+            <div class="flex flex-col gap-0.5 text-sm text-neutral-500">
+              <span>A dimensão recomendada é de 165 x 45 pixels</span>
+              <span class="font-semibold text-neutral-700"
+                >Formato WEBP, JPEG e PNG de no máximo 2MB</span
+              >
+              <span>Imagens com dimensões diferentes serão redimensionadas</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-6 py-8 px-4">
+          <div class="flex flex-col gap-3 w-64 shrink-0">
+            <span class="text-sm font-semibold text-neutral-800">Favicon</span>
+            <div
+              class="w-10 h-10 flex items-center justify-center bg-white border border-neutral-200 rounded overflow-hidden"
+            >
+              @if (previews['favicon']) {
+                <img [src]="previews['favicon']" class="max-w-full max-h-full object-contain" />
+              } @else {
+                <mat-icon class="text-neutral-300">image</mat-icon>
+              }
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-3 flex-1 pt-6">
+            <div class="flex items-center gap-2">
+              <button
+                mat-stroked-button
+                class="rounded-lg!"
+                type="button"
+                (click)="triggerFileInput('faviconInput')"
+              >
+                Trocar favicon
+              </button>
+              <button
+                mat-button
+                color="warn"
+                class="rounded-lg!"
+                type="button"
+                (click)="removeFile('favicon')"
+              >
+                Remover
+              </button>
+              <input
+                id="faviconInput"
+                type="file"
+                class="hidden"
+                (change)="onFileSelected($event, 'favicon')"
+                accept=".svg,.png,.webp"
+              />
+            </div>
+            <div class="flex flex-col gap-0.5 text-sm text-neutral-500">
+              <span>A dimensão recomendada é de 32 x 32 pixels</span>
+              <span class="font-semibold text-neutral-700"
+                >Formato JPEG ou PNG de no máximo 2MB</span
+              >
+              <span>Imagens com dimensões diferentes serão redimensionadas</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-6 py-8 px-4">
+          <div class="flex flex-col gap-3 w-64 shrink-0">
+            <span class="text-sm font-semibold text-neutral-800">Cor institucional</span>
+            <div class="flex items-center gap-2">
+              <div
+                class="w-10 h-10 rounded-full border border-neutral-200 shadow-sm"
+                [style.backgroundColor]="form.get('color_primary')?.value || '#1a3a6b'"
+              ></div>
+              <button
+                mat-button
+                color="primary"
+                class="text-xs! rounded-lg! flex items-center gap-1"
+                (click)="showColorPicker = !showColorPicker"
+              >
+                <mat-icon class="text-sm!">edit</mat-icon> Editar
+              </button>
+            </div>
+            @if (showColorPicker) {
+              <div class="animate-fade-in">
+                <input
+                  #colorPickerPrimary
+                  type="color"
+                  class="w-full h-10 cursor-pointer border-0 p-0 bg-transparent rounded"
+                  [value]="form.get('color_primary')?.value"
+                  (input)="confirmColor('color_primary', colorPickerPrimary.value)"
+                />
+              </div>
+            }
+          </div>
+
+          <div class="flex flex-col gap-3 flex-1 pt-6">
+            <p class="text-sm text-neutral-500 leading-relaxed">
+              A definição da cor institucional norteará a identidade visual do sistema entre
+              títulos, botões e demais ícones de todas as páginas.
+            </p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-6 py-8 px-4">
+          <div class="flex flex-col gap-3 w-64 shrink-0">
+            <span class="text-sm font-semibold text-neutral-800">Background</span>
+            <div
+              class="w-56 h-32 flex items-center justify-center bg-white border border-neutral-200 rounded overflow-hidden"
+            >
+              @if (previews['background']) {
+                <img [src]="previews['background']" class="w-full h-full object-cover" />
+              } @else {
+                <mat-icon class="text-neutral-300 text-3xl!">image</mat-icon>
+              }
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-3 flex-1 pt-6">
+            <div class="flex items-center gap-2">
+              <button
+                mat-stroked-button
+                class="rounded-lg!"
+                type="button"
+                (click)="triggerFileInput('backgroundInput')"
+              >
+                Trocar imagem
+              </button>
+              <button
+                mat-button
+                color="warn"
+                class="rounded-lg!"
+                type="button"
+                (click)="removeFile('background')"
+              >
+                Remover
+              </button>
+              <input
+                id="backgroundInput"
+                type="file"
+                class="hidden"
+                (change)="onFileSelected($event, 'background')"
+                accept=".svg,.png,.webp,.jpg,.jpeg"
+              />
+            </div>
+            <div class="flex flex-col gap-0.5 text-sm text-neutral-500">
+              <span>A dimensão recomendada é de 1920 x 1080 pixels</span>
+              <span class="font-semibold text-neutral-700"
+                >Formato WEBP, JPEG ou PNG de no máximo 5MB</span
+              >
+              <span>Imagens com dimensões diferentes serão redimensionadas</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Responsáveis">
+      <div class="flex flex-col gap-6 p-4">
+        <div class="flex flex-col gap-4">
+          <h3 class="text-sm font-semibold text-neutral-800 uppercase tracking-wider">
+            Gestão Comercial e Projetos
+          </h3>
+          <app-column columns="1">
+            <mat-form-field class="w-full">
+              <mat-label>Usuário Comercial Responsável</mat-label>
+              <mat-select formControlName="commercial_user_id">
+                @for (user of users; track user.id) {
+                  <mat-option [value]="user.id">{{ user.name }}</mat-option>
+                }
+              </mat-select>
+              <mat-error>{{ form.get('commercial_user_id')?.errors | errorMessage }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="w-full">
+              <mat-label>Gerente de Projetos Responsável</mat-label>
+              <mat-select formControlName="project_manager_user_id">
+                <mat-option [value]="null">Nenhum</mat-option>
+                @for (user of users; track user.id) {
+                  <mat-option [value]="user.id">{{ user.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="w-full">
+              <mat-label>Usuário de Relacionamento</mat-label>
+              <mat-select formControlName="relationship_manager_user_id">
+                <mat-option [value]="null">Nenhum</mat-option>
+                @for (user of users; track user.id) {
+                  <mat-option [value]="user.id">{{ user.name }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </app-column>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <div class="flex flex-col gap-4">
+          <h3 class="text-sm font-semibold text-neutral-800 uppercase tracking-wider">
+            Sucesso do Cliente (CS)
+          </h3>
+          <div class="pt-2">
+            <mat-slide-toggle formControlName="has_dedicated_customer_success" color="primary">
+              Possui Sucesso do Cliente Dedicado?
+            </mat-slide-toggle>
+          </div>
+
+          @if (form.get('has_dedicated_customer_success')?.value) {
+            <mat-form-field class="w-full animate-fade-in">
+              <mat-label>Usuário do CS Dedicado</mat-label>
+              <mat-select formControlName="customer_success_user_id">
+                @for (user of users; track user.id) {
+                  <mat-option [value]="user.id">{{ user.name }}</mat-option>
+                }
+              </mat-select>
+              <mat-error>{{
+                form.get('customer_success_user_id')?.errors | errorMessage
+              }}</mat-error>
+            </mat-form-field>
+          }
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <div class="flex flex-col gap-4">
+          <h3 class="text-sm font-semibold text-neutral-800 uppercase tracking-wider">
+            Análise e Operações
+          </h3>
+          <div class="pt-2">
+            <mat-slide-toggle formControlName="has_dedicated_analyst" color="primary">
+              Possui Analista Dedicado?
+            </mat-slide-toggle>
+          </div>
+
+          @if (form.get('has_dedicated_analyst')?.value) {
+            <div class="flex flex-col gap-4 animate-fade-in">
+              <mat-form-field class="w-full">
+                <mat-label>Usuário Analista Dedicado</mat-label>
+                <mat-select formControlName="dedicated_analyst_user_id">
+                  <mat-option [value]="null">Nenhum</mat-option>
+                  @for (user of users; track user.id) {
+                    <mat-option [value]="user.id">{{ user.name }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field class="w-full">
+                <mat-label>Tipo do Analista</mat-label>
+                <mat-select formControlName="analyst_type">
+                  <mat-option value="compartilhado">Compartilhado</mat-option>
+                  <mat-option value="único">Único</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          }
+        </div>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Contrato">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
+        <mat-form-field class="w-full">
+          <mat-label>Data de Início do Contrato</mat-label>
+          <input
+            matInput
+            [matDatepicker]="pickerStart"
+            formControlName="contract_start_date"
+            [min]="minDate"
+            [max]="maxDate"
+          />
+          <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+          <mat-datepicker #pickerStart></mat-datepicker>
+          <mat-error>{{ form.get('contract_start_date')?.errors | errorMessage }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="w-full">
+          <mat-label>Data Fim do Contrato</mat-label>
+          <input
+            matInput
+            [matDatepicker]="pickerEnd"
+            formControlName="contract_end_date"
+            [min]="minDate"
+            [max]="maxDate"
+          />
+          <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
+          <mat-datepicker #pickerEnd></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field class="w-full">
+          <mat-label>Nível Contratual Antigo</mat-label>
+          <input matInput type="number" formControlName="old_contractual_level" />
+        </mat-form-field>
+
+        <mat-form-field class="w-full">
+          <mat-label>Nível Contratual (1 a 5)</mat-label>
+          <mat-select formControlName="contractual_level">
+            @for (level of LEVELS; track level.value) {
+              <mat-option [value]="level.value">{{ level.label }}</mat-option>
+            }
+          </mat-select>
+          <mat-error>{{ form.get('contractual_level')?.errors | errorMessage }}</mat-error>
+        </mat-form-field>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Saúde">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
+        <mat-form-field class="w-full">
+          <mat-label>Health Score</mat-label>
+          <mat-select formControlName="health_score">
+            @for (score of HEALTH_SCORES; track score.value) {
+              <mat-option [value]="score.value">{{ score.label }}</mat-option>
+            }
+          </mat-select>
+          <mat-error>{{ form.get('health_score')?.errors | errorMessage }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="w-full">
+          <mat-label>Nível Potencial (1 a 5)</mat-label>
+          <mat-select formControlName="potential_level">
+            @for (level of LEVELS; track level.value) {
+              <mat-option [value]="level.value">{{ level.label }}</mat-option>
+            }
+          </mat-select>
+          <mat-error>{{ form.get('potential_level')?.errors | errorMessage }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="w-full">
+          <mat-label>Nível da Exigência</mat-label>
+          <mat-select formControlName="demand_level">
+            @for (level of DEMAND_LEVELS; track level.value) {
+              <mat-option [value]="level.value">{{ level.label }}</mat-option>
+            }
+          </mat-select>
+          <mat-error>{{ form.get('demand_level')?.errors | errorMessage }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="w-full">
+          <mat-label>Nível de Prioridade</mat-label>
+          <mat-select formControlName="priority_level">
+            @for (level of PRIORITY_LEVELS; track level.value) {
+              <mat-option [value]="level.value">{{ level.label }}</mat-option>
+            }
+          </mat-select>
+          <mat-error>{{ form.get('priority_level')?.errors | errorMessage }}</mat-error>
+        </mat-form-field>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Informações complementares">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
+        <mat-form-field class="w-full col-span-1 md:col-span-2">
+          <mat-label>Sistemas Contratados</mat-label>
+          <mat-select formControlName="systems" multiple>
+            @for (sys of systems; track sys.id) {
+              <mat-option [value]="sys.id">{{ sys.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="col-span-1 md:col-span-2 w-full">
+          <mat-label>Observações Gerais</mat-label>
+          <textarea matInput formControlName="general_observations" rows="4"></textarea>
+        </mat-form-field>
+      </div>
+    </mat-tab> -->
+  </mat-tab-group>
+
+  @if (loading) {
+    <div
+      class="absolute inset-0 bg-white/60 backdrop-blur-sm z-50 flex flex-col items-center justify-center gap-4 animate-fade-in"
+    >
+      <div
+        class="w-12 h-12 border-4 border-primary-500 border-t-transparent rounded-full animate-spin"
+      ></div>
+      <span class="text-primary-600 font-medium">Salvando alterações...</span>
+    </div>
+  }
+</form>

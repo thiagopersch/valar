@@ -1,0 +1,45 @@
+<div class="flex items-start gap-6 py-8 px-4">
+  <!-- Left: label + swatch + toggle -->
+  <div class="flex flex-col gap-3 w-64 shrink-0">
+    <span class="text-sm font-semibold text-neutral-800">{{ label }}</span>
+
+    <div class="flex items-center gap-2">
+      <div
+        class="w-10 h-10 rounded-full border border-neutral-200 shadow-sm"
+        [style.backgroundColor]="currentColor"
+      ></div>
+
+      <button
+        mat-button
+        color="primary"
+        class="text-xs! rounded-lg! flex items-center gap-1"
+        type="button"
+        [disabled]="isDisabled"
+        (click)="togglePicker()"
+      >
+        <mat-icon class="text-sm!">edit</mat-icon>
+        Editar
+      </button>
+    </div>
+
+    @if (showPicker) {
+      <div class="animate-fade-in">
+        <input
+          #colorInput
+          type="color"
+          class="w-full h-10 cursor-pointer border-0 p-0 bg-transparent rounded"
+          [value]="currentColor"
+          [disabled]="isDisabled"
+          (input)="onColorInput(colorInput.value)"
+        />
+      </div>
+    }
+  </div>
+
+  <!-- Right: description -->
+  @if (description) {
+    <div class="flex flex-col gap-3 flex-1 pt-6">
+      <p class="text-sm text-neutral-500 leading-relaxed">{{ description }}</p>
+    </div>
+  }
+</div>

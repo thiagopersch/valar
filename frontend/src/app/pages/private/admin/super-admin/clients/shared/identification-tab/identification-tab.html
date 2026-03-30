@@ -1,0 +1,33 @@
+<ng-container [formGroup]="form">
+  <app-column columns="2">
+    <mat-slide-toggle formControlName="status" color="primary">
+      {{ form.get('status')?.value ? 'Ativado' : 'Desativado' }}
+    </mat-slide-toggle>
+  </app-column>
+
+  <app-column columns="1">
+    <mat-form-field class="w-full">
+      <mat-label>Nome</mat-label>
+      <input matInput formControlName="name" />
+      <mat-error>{{ form.get('name')?.errors | errorMessage }}</mat-error>
+    </mat-form-field>
+  </app-column>
+
+  <app-column columns="2">
+    <mat-form-field class="w-full">
+      <mat-label>Link do site oficial</mat-label>
+      <input matInput formControlName="url" placeholder="https://exemplo.com" />
+      <mat-error>{{ form.get('url')?.errors | errorMessage }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="w-full">
+      <mat-label>Tipo de Implementação</mat-label>
+      <mat-select formControlName="implementation_type">
+        @for (type of implementationTypes; track type.value) {
+          <mat-option [value]="type.value">{{ type.label }}</mat-option>
+        }
+      </mat-select>
+      <mat-error>{{ form.get('implementation_type')?.errors | errorMessage }}</mat-error>
+    </mat-form-field>
+  </app-column>
+</ng-container>

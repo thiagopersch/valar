@@ -1,5 +1,12 @@
-<div class="snackbar-content">
-  <mat-icon>{{ data.icon }}</mat-icon>
-  <span>{{ data.message }}</span>
-  <button mat-button (click)="close()">{{ data.action }}</button>
+<div
+  class="flex! items-center! justify-between! gap-4! px-4! py-2! rounded-lg! shadow-lg!"
+  [ngClass]="getContainerClass()"
+>
+  <div class="flex! items-center! gap-3!">
+    <mat-icon class="text-inherit!">{{ data.icon }}</mat-icon>
+    <span class="font-medium!">{{ data.message }}</span>
+  </div>
+  <button [matButton]="data.variant ?? 'text'" (click)="close()" [class]="getButtonClass()">
+    {{ data.action }}
+  </button>
 </div>

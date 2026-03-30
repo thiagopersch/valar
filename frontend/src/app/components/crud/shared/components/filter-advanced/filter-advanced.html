@@ -1,22 +1,38 @@
-<div class="filter-advanced-container p-4 bg-white rounded-lg shadow-sm" [formGroup]="filterForm">
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+<div
+  class="filter-advanced-container p-6 w-full bg-white dark:bg-neutral-900 rounded-2xl shadow-[0_4px_30px_rgba(0,0,0,0.06)] dark:shadow-[0_4px_30px_rgba(0,0,0,0.2)] border border-neutral-100 dark:border-neutral-800 flex flex-col gap-6 transition-all duration-300 animate-scale-in"
+  [formGroup]="filterForm"
+>
+  <div
+    class="flex items-center justify-between pb-3 border-b border-neutral-100 dark:border-neutral-800"
+  >
+    <div class="flex items-center gap-2 text-neutral-800 dark:text-neutral-200">
+      <mat-icon class="text-neutral-400">tune</mat-icon>
+      <span class="font-semibold text-sm tracking-wide uppercase">Filtros Avançados</span>
+    </div>
+
+    <button mat-button color="warn" type="button" (click)="filterForm.reset()" class="rounded-md!">
+      Limpar filtros
+    </button>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
     @for (field of fields(); track field.controlName) {
-      <div class="filter-field">
+      <div class="filter-field w-full flex-1">
         @switch (field.type) {
           @case ('text') {
-            <mat-form-field appearance="outline" class="w-full">
+            <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-full">
               <mat-label>{{ field.label }}</mat-label>
               <input matInput [formControlName]="field.controlName" />
             </mat-form-field>
           }
           @case ('number') {
-            <mat-form-field appearance="outline" class="w-full">
+            <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-full">
               <mat-label>{{ field.label }}</mat-label>
               <input matInput type="number" [formControlName]="field.controlName" />
             </mat-form-field>
           }
           @case ('select') {
-            <mat-form-field appearance="outline" class="w-full">
+            <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-full">
               <mat-label>{{ field.label }}</mat-label>
               <mat-select [formControlName]="field.controlName">
                 <mat-option value="">Todos</mat-option>
@@ -27,7 +43,7 @@
             </mat-form-field>
           }
           @case ('date') {
-            <mat-form-field appearance="outline" class="w-full">
+            <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-full">
               <mat-label>{{ field.label }}</mat-label>
               <input matInput [matDatepicker]="picker" [formControlName]="field.controlName" />
               <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
@@ -35,12 +51,35 @@
             </mat-form-field>
           }
           @case ('boolean') {
-            <div class="flex items-center h-full">
-              <mat-checkbox [formControlName]="field.controlName">{{ field.label }}</mat-checkbox>
+            <div
+              class="flex items-center h-[56px] px-4 rounded-md bg-neutral-50 dark:bg-neutral-800/50 border border-neutral-200 dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+            >
+              <mat-checkbox
+                [formControlName]="field.controlName"
+                class="w-full font-medium text-neutral-700 dark:text-neutral-300"
+                >{{ field.label }}</mat-checkbox
+              >
             </div>
           }
         }
       </div>
     }
   </div>
+
+  <style>
+    .animate-scale-in {
+      animation: scale-in-see-top 0.4s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+      transform-origin: top center;
+    }
+    @keyframes scale-in-see-top {
+      0% {
+        transform: scaleY(0.9) translateY(-10px);
+        opacity: 0;
+      }
+      100% {
+        transform: scaleY(1) translateY(0);
+        opacity: 1;
+      }
+    }
+  </style>
 </div>

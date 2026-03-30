@@ -2,9 +2,15 @@
 
 namespace Database\Seeders;
 
+use App\Enums\AnalystType;
 use App\Models\Client;
 use App\Models\Coligate;
 use App\Models\User;
+use App\Enums\HealthScore;
+use App\Enums\ImplementationType;
+use App\Enums\PriorityLevel;
+use App\Enums\DemandLevel;
+use App\Enums\Level;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Hash;
 use Illuminate\Database\Seeder;
@@ -23,9 +29,27 @@ class DatabaseSeeder extends Seeder
         $client = Client::create([
             'id' => $faker->uuid,
             'name' => 'Padrão',
+            'email' => $faker->email,
+            'phone' => $faker->phoneNumber,
+            'contact_name' => $faker->name,
             'url' => 'https://crmpadrao.valar.com.br',
             'field_link_applyment' => $faker->url,
             'status' => true,
+            'logo' => $faker->image(),
+            'favicon' => $faker->image(),
+            'color_primary' => $faker->hexColor,
+            'background' => $faker->image(),
+            'contract_start_date' => $faker->date(),
+            'foundation_date' => $faker->date(),
+            'old_contractual_level' => $faker->randomElement(['1', '2', '3', '4', '5']),
+            'contractual_level' => $faker->randomElement(Level::cases()),
+            'potential_level' => $faker->randomElement(Level::cases()),
+            'demand_level' => $faker->randomElement(DemandLevel::cases()),
+            'priority_level' => $faker->randomElement(PriorityLevel::cases()),
+            'implementation_type' => $faker->randomElement(ImplementationType::cases()),
+            'general_observations' => $faker->text,
+            'analyst_type' => $faker->randomElement(AnalystType::cases()),
+            'health_score' => $faker->randomElement(HealthScore::cases()),
         ]);
 
         $coligate = Coligate::create([
@@ -63,8 +87,8 @@ class DatabaseSeeder extends Seeder
 
         if (env('APP_ENV') == 'local') {
             $this->call([
-                    /* ClientSeeder::class,
-                    ColigateSeeder::class, */
+                ClientSeeder::class,
+                    /* ColigateSeeder::class, */
                 SystemSeeder::class,
                 ProfileSeeder::class,
                 PermissionSeeder::class,

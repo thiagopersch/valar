@@ -1,0 +1,22 @@
+<form [formGroup]="form" class="w-full! p-2">
+  <app-column columns="1">
+    <mat-slide-toggle formControlName="status" color="primary">
+      {{ form.get('status')?.value ? 'Ativado' : 'Desativado' }}
+    </mat-slide-toggle>
+  </app-column>
+  <app-column columns="1">
+    <mat-form-field class="w-full mt-2">
+      <mat-label>Nome da Atividade</mat-label>
+      <input matInput formControlName="name" />
+      @if (form.get('name')?.hasError('required')) {
+        <mat-error>O Nome é obrigatório</mat-error>
+      }
+    </mat-form-field>
+  </app-column>
+  <app-column columns="1">
+    <mat-form-field class="w-full mt-2">
+      <mat-label>Descrição</mat-label>
+      <textarea matInput formControlName="description" rows="3"></textarea>
+    </mat-form-field>
+  </app-column>
+</form>

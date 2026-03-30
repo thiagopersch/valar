@@ -10,6 +10,6 @@ export const MESSAGES = {
   LOGIN_SUCCESS: 'Login efetuado com sucesso! Seja bem vindo!',
   LOGIN_ERROR: 'Não foi possível efetuar o login! Verifique suas credenciais e tente novamente.',
   INFO: 'Informação',
-  WARNING: 'Atenção',
+  WARNING: 'Preencha todos os campos obrigatórios.',
   FORM_INVALID: 'O formulário contém campos inválidos.',
 };

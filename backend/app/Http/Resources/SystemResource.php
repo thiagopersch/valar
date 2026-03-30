@@ -11,8 +11,6 @@ class SystemResource extends JsonResource
     public function toArray(Request $request): array {
         return [
             'id' => $this->id,
-            'coligate_id' => $this->coligate_id,
-            'client_id' => $this->client_id,
             'code' => $this->code,
             'name' => $this->name,
             'fantasy_name' => $this->fantasy_name,

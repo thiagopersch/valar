@@ -1,0 +1,26 @@
+<div class="flex flex-col divide-y divide-neutral-200" [formGroup]="form">
+  <app-image-upload-field
+    formControlName="logo"
+    [config]="logoConfig"
+    [initialPreview]="initialPreviews['logo'] ?? null"
+  />
+
+  <app-image-upload-field
+    formControlName="favicon"
+    [config]="faviconConfig"
+    [initialPreview]="initialPreviews['favicon'] ?? null"
+  />
+
+  <app-color-picker-field
+    formControlName="color_primary"
+    label="Cor institucional"
+    [description]="colorDescription"
+    defaultColor="#000000"
+  />
+
+  <app-image-upload-field
+    formControlName="background"
+    [config]="backgroundConfig"
+    [initialPreview]="initialPreviews['background'] ?? null"
+  />
+</div>

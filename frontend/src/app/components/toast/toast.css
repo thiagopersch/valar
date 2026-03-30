@@ -1,0 +1,16 @@
+:host {
+  display: block;
+}
+
+::ng-deep .mat-mdc-snack-bar-container {
+  --mdc-snackbar-container-color: transparent;
+  --mdc-snackbar-container-elevation-shadow: none;
+  --mdc-snackbar-supporting-text-color: inherit;
+  padding: 0 !important;
+}
+
+::ng-deep .mat-mdc-snack-bar-container .mdc-snackbar__surface {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}

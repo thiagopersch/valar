@@ -18,12 +18,39 @@ return new class extends Migration {
             $table->boolean('change_password')->default(true);
             $table->boolean('status')->default(true);
             $table->rememberToken();
-            $table->uuid('coligate_id')->nullable();
-            $table->uuid('client_id')->nullable();
+            
+            // Chaves estrangeiras (tabelas criadas anteriormente)
+            $table->foreignUuid('coligate_id')->nullable()->constrained('coligate')->onDelete('set null');
+            $table->foreignUuid('client_id')->nullable()->constrained('clients')->onDelete('set null');
+            
+            // Auto-referência
             $table->uuid('created_by')->nullable();
             $table->uuid('updated_by')->nullable();
+            
             $table->timestamps();
             $table->softDeletes();
+        });
+
+        // Agora que a tabela users existe, podemos adicionar as chaves estrangeiras pendentes em clients e coligate
+        Schema::table('clients', function (Blueprint $table) {
+            $table->foreign('commercial_user_id')->references('id')->on('users')->nullOnDelete();
+            $table->foreign('customer_success_user_id')->references('id')->on('users')->nullOnDelete();
+            $table->foreign('project_manager_user_id')->references('id')->on('users')->nullOnDelete();
+            $table->foreign('relationship_manager_user_id')->references('id')->on('users')->nullOnDelete();
+            $table->foreign('dedicated_analyst_user_id')->references('id')->on('users')->nullOnDelete();
+            $table->foreign('created_by')->references('id')->on('users')->nullOnDelete();
+            $table->foreign('updated_by')->references('id')->on('users')->nullOnDelete();
+        });
+
+        Schema::table('coligate', function (Blueprint $table) {
+            $table->foreign('created_by')->references('id')->on('users')->nullOnDelete();
+            $table->foreign('updated_by')->references('id')->on('users')->nullOnDelete();
+        });
+
+        // Auto-referência em users
+        Schema::table('users', function (Blueprint $table) {
+            $table->foreign('created_by')->references('id')->on('users')->nullOnDelete();
+            $table->foreign('updated_by')->references('id')->on('users')->nullOnDelete();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

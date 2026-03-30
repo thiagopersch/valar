@@ -1,3 +1,7 @@
+import { ServiceActivity } from './service-activity';
+import { System } from './system';
+import { User } from './user';
+
 export interface Client {
   id: string;
   name: string;
@@ -5,9 +9,40 @@ export interface Client {
   token: string;
   field_link_applyment: string;
   status: boolean;
-  created_at: string;
-  created_by: string;
-  update_at: string;
-  updated_by: string;
-  deleted_at: string;
+  logo?: string;
+  favicon?: string;
+  color_primary?: string;
+  background?: string;
+  contract_start_date: string;
+  contract_end_date?: string;
+  foundation_date?: string;
+  old_contractual_level: number;
+  contractual_level: number;
+  potential_level: number;
+  demand_level: string;
+  priority_level: string;
+  commercial_user_id: string;
+  commercial_user: User;
+  has_dedicated_customer_success: boolean;
+  customer_success_user_id?: string;
+  customer_success_user: User;
+  project_manager_user_id?: string;
+  project_manager_user: User;
+  relationship_manager_user_id?: string;
+  relationship_manager_user: User;
+  has_dedicated_analyst: boolean;
+  dedicated_analyst_user_id?: string;
+  dedicated_analyst_user: User;
+  analyst_type?: string;
+  implementation_type: string;
+  general_observations?: string;
+  health_score: string;
+  systems?: System[];
+  service_activities?: ServiceActivity[];
+  created_at?: string;
+  created_by?: string;
+  update_at?: string;
+  updated_at?: string;
+  updated_by?: string;
+  deleted_at?: string;
 }

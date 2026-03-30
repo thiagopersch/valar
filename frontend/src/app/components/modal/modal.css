@@ -1,6 +1,5 @@
-/* Custom scrollbar for modal content */
 .custom-scroll::-webkit-scrollbar {
-  width: 6px;
+  width: 0.5rem;
 }
 
 .custom-scroll::-webkit-scrollbar-track {
@@ -9,28 +8,70 @@
 
 .custom-scroll::-webkit-scrollbar-thumb {
   background-color: var(--neutral-variant-color);
-  border-radius: 20px;
+  border-radius: 1rem;
 }
 
-/* Ensure dialog takes enough space but is responsive */
 :host {
   display: block;
-  min-width: 350px;
-  max-width: 90vw;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+
+  @media screen and (max-width: 768px) {
+    min-width: min(50dvw, 100%);
+    max-width: min(90dvw, 720px);
+  }
+
+  @media screen and (min-width: 768px) {
+    width: 100%;
+    min-width: 45dvw;
+    max-width: 90dvw;
+  }
 }
 
-/* Override some Material default spacings if needed */
-.mat-mdc-dialog-title {
-  padding: 0 !important;
+:host(.fullscreen-wrapper) {
+  max-width: none !important;
+  width: 100% !important;
+  height: 100% !important;
 }
 
 .mat-mdc-dialog-content {
   padding: 0 !important;
   margin: 0 !important;
+  max-width: none !important;
+  width: 100% !important;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .mat-mdc-dialog-actions {
   padding: 0 !important;
   margin-bottom: 0 !important;
   min-height: auto !important;
+}
+
+::ng-deep .fullscreen-modal {
+  max-width: 100dvw !important;
+  width: 100dvw !important;
+  max-height: 100dvh !important;
+  height: 100dvh !important;
+}
+
+::ng-deep .fullscreen-modal .mat-mdc-dialog-container,
+::ng-deep .fullscreen-modal .mat-mdc-dialog-surface,
+::ng-deep .fullscreen-modal .mdc-dialog__surface {
+  border-radius: 0 !important;
+  padding: 0 !important;
+  height: 100% !important;
+  max-height: 100% !important;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
 }

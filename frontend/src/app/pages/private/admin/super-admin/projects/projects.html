@@ -1,0 +1,15 @@
+<app-crud
+  [fields]="projects()"
+  [columnDefinitions]="columns"
+  [actions]="actions"
+  [length]="total()"
+  [isLoading]="isLoading()"
+  [pageSize]="pageSize()"
+  [pageIndex]="pageIndex()"
+  [ctaLabel]="'Adicionar'"
+  (page)="onPageChange($event)"
+  (filterChange)="onFilterChange($event)"
+  (add)="onAdd()"
+  (edit)="onEdit($event)"
+  (delete)="onDelete($event)"
+></app-crud>

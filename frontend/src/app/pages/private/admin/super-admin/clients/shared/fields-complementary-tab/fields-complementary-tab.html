@@ -1,0 +1,15 @@
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4" [formGroup]="form">
+  <mat-form-field class="w-full col-span-1 md:col-span-2">
+    <mat-label>Sistemas Contratados</mat-label>
+    <mat-select formControlName="systems" multiple>
+      @for (sys of systems; track sys.id) {
+        <mat-option [value]="sys.id">{{ sys.name }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="col-span-1 md:col-span-2 w-full">
+    <mat-label>Observações Gerais</mat-label>
+    <textarea matInput formControlName="general_observations" rows="4"></textarea>
+  </mat-form-field>
+</div>

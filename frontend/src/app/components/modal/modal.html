@@ -1,62 +1,69 @@
-<div class="modal-container p-6">
-  <h2 mat-dialog-title class="!font-bold !text-2xl !mb-4 text-primary-color">{{ title }}</h2>
+<div
+  class="flex! flex-col! h-full! w-full! overflow-x-hidden! box-border! relative!"
+  [class.fullscreen-wrapper!]="isFullscreen"
+>
+  <div
+    mat-dialog-title
+    class="flex! w-full! justify-between! items-start! mb-4! p-4! border-b! border-neutral-500/30!"
+  >
+    <div class="flex! justify-start! items-center! h-full! w-full! text-start!">
+      <span class="font-semibold! text-neutral-600! m-0!">
+        {{ data?.title || title }}
+      </span>
+    </div>
 
-  <mat-dialog-content class="!mat-typography !max-h-[70vh] !overflow-y-auto custom-scroll">
-    <ng-content></ng-content>
+    <div class="flex! gap-2!">
+      @if (data?.enableFullscreen) {
+        <button
+          mat-icon-button
+          type="button"
+          (click)="toggleFullscreen()"
+          [matTooltip]="isFullscreen ? 'Sair da tela cheia' : 'Tela cheia'"
+        >
+          <mat-icon>{{ isFullscreen ? 'fullscreen_exit' : 'fullscreen' }}</mat-icon>
+        </button>
+      }
+      @if (data?.isHandleClose) {
+        <button
+          mat-icon-button
+          type="button"
+          [class]="getIconButtonClass('error')"
+          (click)="closeModal()"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      }
+    </div>
+  </div>
+
+  <mat-dialog-content
+    class="flex-1! w-full! max-w-full! overflow-y-auto! overflow-x-hidden! custom-scroll px-4!"
+    [class.max-h-full!]="isFullscreen"
+    [class.max-h-[90vh]!]="!isFullscreen"
+  >
+    @if (data?.customContent) {
+      <ng-container
+        *ngComponentOutlet="data.customContent; injector: contentInjector"
+      ></ng-container>
+    } @else {
+      <ng-content></ng-content>
+    }
   </mat-dialog-content>
 
-  <mat-dialog-actions
-    align="end"
-    class="!gap-3 !pt-6 border-t border-neutral-variant-color/30 mt-4"
+  <div
+    class="max-md:flex-col-reverse! flex! w-full! justify-end! gap-4! px-6! py-4! border-t! border-neutral-500/30!"
   >
-    <ng-container *ngFor="let action of actions">
-      <!-- Logic to determine button type/style based on input -->
+    @for (action of actions; track $index) {
       <button
-        mat-button
-        *ngIf="!action.variant || action.variant === 'basic'"
-        [color]="action.style || 'primary'"
         (click)="handleAction(action)"
         [disabled]="action.disabled || loading"
         [type]="action.type || 'button'"
-      >
-        {{ action.label }}
-      </button>
-
-      <button
-        mat-raised-button
-        *ngIf="action.variant === 'raised'"
+        [class]="getButtonClass(action)"
+        [matButton]="action.variant || 'text'"
         [color]="action.style || 'primary'"
-        (click)="handleAction(action)"
-        [disabled]="action.disabled || loading"
-        [type]="action.type || 'button'"
-        class="!rounded-lg !shadow-md hover:!shadow-lg transition-shadow"
       >
         {{ action.label }}
       </button>
-
-      <button
-        mat-stroked-button
-        *ngIf="action.variant === 'stroked'"
-        [color]="action.style || 'primary'"
-        (click)="handleAction(action)"
-        [disabled]="action.disabled || loading"
-        [type]="action.type || 'button'"
-        class="!rounded-lg !border-2"
-      >
-        {{ action.label }}
-      </button>
-
-      <button
-        mat-flat-button
-        *ngIf="action.variant === 'flat'"
-        [color]="action.style || 'primary'"
-        (click)="handleAction(action)"
-        [disabled]="action.disabled || loading"
-        [type]="action.type || 'button'"
-        class="!rounded-lg"
-      >
-        {{ action.label }}
-      </button>
-    </ng-container>
-  </mat-dialog-actions>
+    }
+  </div>
 </div>

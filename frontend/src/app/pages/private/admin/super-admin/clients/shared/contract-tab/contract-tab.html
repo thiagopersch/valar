@@ -1,0 +1,43 @@
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4" [formGroup]="form">
+  <mat-form-field class="w-full">
+    <mat-label>Data de Início do Contrato</mat-label>
+    <input
+      matInput
+      [matDatepicker]="pickerStart"
+      formControlName="contract_start_date"
+      [min]="minDate"
+      [max]="maxDate"
+    />
+    <mat-datepicker-toggle matSuffix [for]="pickerStart" />
+    <mat-datepicker #pickerStart />
+    <mat-error>{{ form.get('contract_start_date')?.errors | errorMessage }}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="w-full">
+    <mat-label>Data Fim do Contrato</mat-label>
+    <input
+      matInput
+      [matDatepicker]="pickerEnd"
+      formControlName="contract_end_date"
+      [min]="minDate"
+      [max]="maxDate"
+    />
+    <mat-datepicker-toggle matSuffix [for]="pickerEnd" />
+    <mat-datepicker #pickerEnd />
+  </mat-form-field>
+
+  <mat-form-field class="w-full">
+    <mat-label>Nível Contratual Antigo</mat-label>
+    <input matInput type="number" formControlName="old_contractual_level" />
+  </mat-form-field>
+
+  <mat-form-field class="w-full">
+    <mat-label>Nível Contratual (1 a 5)</mat-label>
+    <mat-select formControlName="contractual_level">
+      @for (level of levels; track level.value) {
+        <mat-option [value]="level.value">{{ level.label }}</mat-option>
+      }
+    </mat-select>
+    <mat-error>{{ form.get('contractual_level')?.errors | errorMessage }}</mat-error>
+  </mat-form-field>
+</div>

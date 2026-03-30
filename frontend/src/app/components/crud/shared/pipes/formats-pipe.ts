@@ -1,8 +1,12 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Injectable, Pipe, PipeTransform } from '@angular/core';
 import dayjs from 'dayjs';
 
+@Injectable({
+  providedIn: 'root',
+})
 @Pipe({
   name: 'formats',
+  standalone: true,
 })
 export class FormatsPipe implements PipeTransform {
   transform(value: unknown, ...args: unknown[]): unknown {

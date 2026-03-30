@@ -2,7 +2,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from 'app/model/User';
+import { User } from 'app/model/user';
 import { environment } from 'environments/environment';
 import { Observable, tap } from 'rxjs';
 

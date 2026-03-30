@@ -20,8 +20,6 @@ class UpdateSystemRequest extends FormRequest
      */
     public function rules(): array {
         return [
-            'coligate_id' => ['sometimes', 'string', 'exists:coligate,id'],
-            'client_id' => ['sometimes', 'string', 'exists:client,id'],
             'code' => ['sometimes', 'string'],
             'name' => ['sometimes', 'string'],
             'fantasy_name' => ['sometimes', 'string'],

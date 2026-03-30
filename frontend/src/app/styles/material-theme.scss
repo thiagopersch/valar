@@ -6,59 +6,221 @@
 @use '@angular/material' as mat;
 @use './theme-colors' as palette;
 
-*:not(mat-icon) {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  outline: none;
-  scroll-behavior: smooth;
-}
+@layer material {
+  *:not(mat-icon) {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+    scroll-behavior: smooth;
+  }
 
-html,
-body,
-main {
-  @include mat.system-classes();
-  @include mat.theme(
-    (
-      color: (
-        primary: palette.$primary-palette,
-        secondary: palette.$secondary-palette,
-        tertiary: palette.$tertiary-palette,
-        error: palette.$error-palette,
-        neutral: palette.$neutral-palette,
-        neutral-variant: palette.$neutral-variant-palette,
-        success: palette.$success-palette,
-        warning: palette.$warning-palette,
-        info: palette.$info-palette,
-        background: palette.$background-palette,
-        surface: palette.$surface-palette,
-        surface-variant: palette.$surface-variant-palette,
-        surface-container: palette.$surface-container-palette,
-        surface-container-high: palette.$surface-container-high-palette,
-        surface-container-highest: palette.$surface-container-highest-palette,
-        surface-container-low: palette.$surface-container-low-palette,
-        surface-container-lowest: palette.$surface-container-lowest-palette,
-        on-background: palette.$on-background-palette,
-        on-surface: palette.$on-surface-palette,
-        on-surface-variant: palette.$on-surface-variant-palette,
-        on-primary: palette.$on-primary-palette,
-        on-primary-container: palette.$on-primary-container-palette,
-      ),
+  html,
+  body,
+  main {
+    @include mat.system-classes();
+    @include mat.theme(
+      (
+        color: (
+          primary: palette.$primary-palette,
+          secondary: palette.$secondary-palette,
+          tertiary: palette.$tertiary-palette,
+          error: palette.$error-palette,
+          neutral: palette.$neutral-palette,
+          neutral-variant: palette.$neutral-variant-palette,
+          success: palette.$success-palette,
+          warning: palette.$warning-palette,
+          info: palette.$info-palette,
+          background: palette.$background-palette,
+          surface: palette.$surface-palette,
+          surface-variant: palette.$surface-variant-palette,
+          surface-container: palette.$surface-container-palette,
+          surface-container-high: palette.$surface-container-high-palette,
+          surface-container-highest: palette.$surface-container-highest-palette,
+          surface-container-low: palette.$surface-container-low-palette,
+          surface-container-lowest: palette.$surface-container-lowest-palette,
+          on-background: palette.$on-background-palette,
+          on-surface: palette.$on-surface-palette,
+          on-surface-variant: palette.$on-surface-variant-palette,
+          on-primary: palette.$on-primary-palette,
+          on-primary-container: palette.$on-primary-container-palette,
+        ),
 
-      typography: Poppins,
-      density: 0,
-    )
-  );
-  color-scheme: light;
-  overflow: hidden;
-  box-sizing: border-box;
-  outline: none;
-  scroll-behavior: smooth;
-  background-color: var(--mat-sys-surface);
-  color: var(--mat-sys-on-surface);
-  font-size: var(--mat-sys-body-medium);
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-  width: 100vw;
+        typography: Poppins,
+        density: 0,
+      )
+    );
+    .btn-error-filled {
+      @include mat.button-overrides(
+        (
+          filled-container-color: var(--mat-sys-error),
+          filled-label-text-color: var(--mat-sys-on-error),
+          filled-state-layer-color: var(--mat-sys-on-error),
+          filled-ripple-color: color-mix(
+              in srgb,
+              var(--mat-sys-on-error-container)
+                calc(var(--mat-sys-pressed-state-layer-opacity) * 100%),
+              transparent
+            ),
+        )
+      );
+    }
+
+    // Classe para botão stroked/outlined com cor de erro
+    .btn-error-outlined {
+      @include mat.button-overrides(
+        (
+          outlined-label-text-color: var(--mat-sys-error),
+          outlined-state-layer-color: var(--mat-sys-error),
+          outlined-outline-color: var(--mat-sys-error),
+          outlined-ripple-color: color-mix(
+              in srgb,
+              var(--mat-sys-on-error-container)
+                calc(var(--mat-sys-pressed-state-layer-opacity) * 100%),
+              transparent
+            ),
+        )
+      );
+    }
+
+    .btn-warn-outlined {
+      @include mat.button-overrides(
+        (
+          outlined-label-text-color: var(--mat-sys-tertiary),
+          outlined-state-layer-color: var(--mat-sys-tertiary),
+          outlined-outline-color: var(--mat-sys-tertiary),
+          outlined-ripple-color: color-mix(
+              in srgb,
+              var(--mat-sys-on-tertiary-container)
+                calc(var(--mat-sys-pressed-state-layer-opacity) * 100%),
+              transparent
+            ),
+        )
+      );
+    }
+
+    .btn-success-outlined {
+      @include mat.button-overrides(
+        (
+          outlined-label-text-color: var(--mat-sys-secondary),
+          outlined-state-layer-color: var(--mat-sys-secondary),
+          outlined-outline-color: var(--mat-sys-secondary),
+          outlined-ripple-color: color-mix(
+              in srgb,
+              var(--mat-sys-on-secondary-container)
+                calc(var(--mat-sys-pressed-state-layer-opacity) * 100%),
+              transparent
+            ),
+        )
+      );
+    }
+
+    // Classe para botão basic/text com cor de erro
+    .btn-error-text {
+      @include mat.button-overrides(
+        (
+          text-label-text-color: var(--mat-sys-error),
+          text-state-layer-color: var(--mat-sys-error),
+          text-ripple-color: color-mix(
+              in srgb,
+              var(--mat-sys-on-error-container)
+                calc(var(--mat-sys-pressed-state-layer-opacity) * 100%),
+              transparent
+            ),
+        )
+      );
+    }
+
+    // Classe para botão raised com cor de erro
+    .btn-error-elevated {
+      @include mat.button-overrides(
+        (
+          protected-container-color: var(--mat-sys-error),
+          protected-label-text-color: var(--mat-sys-on-error),
+          protected-state-layer-color: var(--mat-sys-on-error),
+          protected-ripple-color: color-mix(
+              in srgb,
+              var(--mat-sys-on-error-container)
+                calc(var(--mat-sys-pressed-state-layer-opacity) * 100%),
+              transparent
+            ),
+        )
+      );
+    }
+
+    .btn-error-tonal {
+      @include mat.button-overrides(
+        (
+          tonal-container-color: var(--mat-sys-error),
+          tonal-label-text-color: var(--mat-sys-on-error),
+          tonal-state-layer-color: var(--mat-sys-on-error),
+          tonal-ripple-color: color-mix(
+              in srgb,
+              var(--mat-sys-on-error-container)
+                calc(var(--mat-sys-pressed-state-layer-opacity) * 100%),
+              transparent
+            ),
+        )
+      );
+    }
+
+    .btn-icon-error {
+      @include mat.icon-button-overrides(
+        (
+          icon-color: var(--mat-sys-error),
+          state-layer-color: var(--mat-sys-error),
+          ripple-color: color-mix(
+              in srgb,
+              var(--mat-sys-on-error-container)
+                calc(var(--mat-sys-pressed-state-layer-opacity) * 100%),
+              transparent
+            ),
+        )
+      );
+    }
+
+    // Ícone com cor de sucesso (secondary no seu tema)
+    .btn-icon-success {
+      @include mat.icon-button-overrides(
+        (
+          icon-color: var(--mat-sys-secondary),
+          state-layer-color: var(--mat-sys-secondary),
+          ripple-color: color-mix(
+              in srgb,
+              var(--mat-sys-on-secondary-container)
+                calc(var(--mat-sys-pressed-state-layer-opacity) * 100%),
+              transparent
+            ),
+        )
+      );
+    }
+
+    // Ícone com cor de aviso (tertiary no seu tema = laranja)
+    .btn-icon-warn {
+      @include mat.icon-button-overrides(
+        (
+          icon-color: var(--mat-sys-tertiary),
+          state-layer-color: var(--mat-sys-tertiary),
+          ripple-color: color-mix(
+              in srgb,
+              var(--mat-sys-on-tertiary-container)
+                calc(var(--mat-sys-pressed-state-layer-opacity) * 100%),
+              transparent
+            ),
+        )
+      );
+    }
+    color-scheme: light;
+    overflow: hidden;
+    box-sizing: border-box;
+    outline: none;
+    scroll-behavior: smooth;
+    background-color: var(--mat-sys-surface);
+    color: var(--text-color);
+    font-size: var(--mat-sys-body-medium);
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
+  }
 }

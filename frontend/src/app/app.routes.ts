@@ -5,8 +5,9 @@ import { Modules } from './pages/private/admin/global-services/profiles/shared/m
 import { Users } from './pages/private/admin/global-services/users/users';
 import { ClientsComponent } from './pages/private/admin/super-admin/clients/clients';
 import { Dashboard } from './pages/private/admin/super-admin/dashboard/dashboard';
+import { ProjectsComponent } from './pages/private/admin/super-admin/projects/projects';
 import { Login } from './pages/public/login/login';
-import { authGuard, guestGuard } from './services/auth/auth.guard';
+import { authGuard, guestGuard } from './services/auth/auth-guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -231,11 +232,19 @@ export const routes: Routes = [
   },
   {
     path: 'projects',
-    title: 'Projetos',
+    title: 'Gestão de Projetos',
     component: Navbar,
     canActivate: [authGuard],
     data: { showInNavbar: true, icon: 'work' },
-    children: [],
+    children: [
+      {
+        path: 'project',
+        title: 'Projetos',
+        component: ProjectsComponent,
+        data: { icon: 'rocket_launch' },
+        pathMatch: 'full',
+      },
+    ],
   },
   {
     path: 'patrimony',

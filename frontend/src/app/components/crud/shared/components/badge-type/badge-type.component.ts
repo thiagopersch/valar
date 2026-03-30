@@ -3,7 +3,6 @@ import { Component, computed, input } from '@angular/core';
 
 @Component({
   selector: 'app-badge-type',
-  standalone: true,
   imports: [CommonModule],
   template: `
     @if (type()) {

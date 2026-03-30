@@ -5,23 +5,25 @@
       mat-flat-button
       color="primary"
       (click)="add.emit()"
-      class="min-w-full! min-md:min-w-[25rem]!"
+      class="rounded-lg! min-w-full! md:min-w-100!"
     >
       {{ ctaLabel() || 'Adicionar' }}
     </button>
   </div>
 }
 
-<div class="flex! flex-col! justify-start! max-w-full! w-full! max-md:flex-col!">
-  <div class="flex! flex-row! flex-wrap! gap-4! justify-between! max-md:flex-col!">
-    <div
-      class="flex! flex-row! justify-center! py-4! max-md:flex-col! max-md:justify-center! max-md:flex-wrap!"
-    >
-      <div class="flex! flex-col! gap-4! justify-center! min-w-full! min-md:min-w-[25rem]!">
-        <mat-form-field appearance="fill">
-          <div class="flex! flex-row! gap-2!">
+<div class="flex! flex-col! justify-start! max-w-full! w-full!">
+  <div
+    class="flex! flex-row! flex-wrap! gap-2! justify-between! items-center! py-2! max-md:flex-col! max-md:items-start!"
+  >
+    <div class="flex! flex-row! items-center! gap-2! flex-1! min-w-0! max-md:w-full!">
+      <div
+        class="flex! flex-col! justify-center! flex-1! mt-4! max-w-100! min-w-[200px]! max-md:max-w-full!"
+      >
+        <mat-form-field appearance="fill" class="w-full!">
+          <div class="flex! flex-row! gap-2! items-center!">
             <mat-icon>search</mat-icon>
-            <input (input)="applyFilter($event)" matInput placeholder="Digite para pesquisar" />
+            <input (input)="applyFilter($event)" matInput placeholder="Pesquise aqui..." />
           </div>
         </mat-form-field>
       </div>
@@ -29,10 +31,10 @@
       @if (enableFilterAdvanced()) {
         <button
           (click)="toggleFilter()"
-          [class.bg-black/10]="buttonSelected()"
-          [class.shadow-inner]="buttonSelected()"
+          [class.bg-black/10!]="buttonSelected()"
+          [class.shadow-inner!]="buttonSelected()"
           aria-label="Filtros"
-          class="transition-shadow! duration-300! ease-out!"
+          class="transition-shadow! duration-300! ease-out! shrink-0!"
           mat-icon-button
           matTooltip="Filtro"
           type="button"
@@ -42,8 +44,13 @@
       }
 
       @if (showFindDataButton()) {
-        <div class="w-full [&>button]:w-full">
-          <button mat-stroked-button color="primary" (click)="findData.emit()">
+        <div class="shrink-0! max-md:w-full!">
+          <button
+            mat-stroked-button
+            color="primary"
+            (click)="findData.emit()"
+            class="max-md:w-full!"
+          >
             {{ findDataLabel() }}
           </button>
         </div>
@@ -51,17 +58,19 @@
     </div>
 
     @if (enablePagination()) {
-      <mat-paginator
-        [length]="length()"
-        [pageSizeOptions]="pageSizeOptions()"
-        [pageSize]="pageSize()"
-        class="paginator"
-        color="primary"
-      ></mat-paginator>
+      <div class="flex! items-center! max-md:w-full! max-md:justify-end!">
+        <mat-paginator
+          [length]="length()"
+          [pageSizeOptions]="pageSizeOptions()"
+          [pageSize]="pageSize()"
+          class="bg-transparent! p-0! mdc-paginator--compact!"
+          color="primary"
+        ></mat-paginator>
+      </div>
     }
   </div>
 
-  @if (enableFilterAdvanced() && !!showFilter()) {
+  @if (enableFilterAdvanced() && showFilter()) {
     <app-filter-button-advanced
       [fields]="filterFields()"
       [applyFilter]="applyFilter.bind(this)"
@@ -70,14 +79,14 @@
   }
 </div>
 
-<div class="block overflow-auto w-full relative">
+<div class="block! overflow-x-auto! relative! w-full! md:overflow-x-hidden!">
   @if (isLoading()) {
-    <div class="absolute inset-0 flex items-center justify-center bg-white/90 z-10">
-      <div class="flex flex-col items-center gap-4">
-        <mat-icon class="animate-spin text-(--primary-color)! w-12! h-12! text-[3rem]!"
-          >refresh</mat-icon
-        >
-        <span class="text-(--primary-color) font-normal">Carregando...</span>
+    <div class="absolute! inset-0! flex! items-center! justify-center! bg-white/90! z-10!">
+      <div class="flex! flex-col! items-center! gap-4!">
+        <mat-icon class="animate-spin! text-(--primary-color)! w-12! h-12! text-[3rem]!">
+          refresh
+        </mat-icon>
+        <span class="text-(--primary-color)! font-normal!">Carregando...</span>
       </div>
     </div>
   }
@@ -86,14 +95,14 @@
     [dataSource]="dataSourceMat()"
     mat-table
     matSort
-    class="w-full! border-collapse! border-spacing-0!"
+    class="w-full! overflow-auto! table-auto! border-collapse! border-spacing-0! bg-white! max-md:min-w-[800px]!"
   >
     <ng-container *ngFor="let column of columnDefinitions()" [matColumnDef]="column.key">
       <th
         mat-header-cell
         mat-sort-header
         *matHeaderCellDef
-        class="font-bold! bg-[var(--hover-color)]! w-auto! min-w-0! overflow-hidden! text-ellipsis! whitespace-nowrap! max-xl:text-[0.8rem]! max-xl:max-w-screen!"
+        class="font-bold! box-border! text-ellipsis! max-w-[200px]! overflow-hidden! whitespace-nowrap! max-xl:max-w-[150px]!"
       >
         {{ column.header }}
       </th>
@@ -101,21 +110,21 @@
         *matCellDef="let fields"
         [title]="(fields | formatValuesPipe: column.key : column.type) ?? '--'"
         mat-cell
-        class="w-auto! min-w-0! overflow-hidden! text-ellipsis! whitespace-nowrap! max-xl:text-[0.8rem]! max-xl:max-w-screen!"
+        class="box-border! text-ellipsis! max-w-[200px]! overflow-hidden! whitespace-nowrap! max-xl:max-w-[150px]!"
       >
         @switch (column.type) {
           @case ('color') {
             <div class="flex! items-center! gap-2!">
               <div
                 class="w-6! h-6! rounded! border! border-neutral-400! shrink-0!"
-                [ngStyle]="{ 'background-color': fields[column.key] }"
+                [style]="{ 'background-color': fields[column.key] }"
               ></div>
             </div>
           }
           @case ('boolean') {
             <span
-              [class.text-[var(--secondary-color)]]="fields[column.key]"
-              [class.text-gray-500]="!fields[column.key]"
+              [class.text-(--secondary-color)!]="fields[column.key]"
+              [class.text-gray-500!]="!fields[column.key]"
             >
               {{ fields[column.key] ? 'Ativado' : 'Desativado' }}
             </span>
@@ -123,8 +132,8 @@
           @case ('YesNo') {
             <span
               [ngClass]="{
-                'text-[var(--error-color)] font-medium': fields[column.key] === false,
-                'text-[var(--secondary-color)] font-medium': fields[column.key] === true,
+                'text-(--error-color)! font-medium!': fields[column.key] === false,
+                'text-(--secondary-color)! font-medium!': fields[column.key] === true,
               }"
             >
               {{ (fields | formatValuesPipe: column.key : column.type) ?? '--' }}
@@ -133,9 +142,9 @@
           @case ('situation') {
             <span
               [ngClass]="{
-                'text-[var(--tertiary-color)] font-medium': fields[column.key] === 'Pendente',
-                'text-[var(--primary-color)] font-medium': fields[column.key] === 'Em análise',
-                'text-[var(--secondary-color)] font-medium': fields[column.key] === 'Verificado',
+                'text-(--tertiary-color)! font-medium!': fields[column.key] === 'Pendente',
+                'text-(--primary-color)! font-medium!': fields[column.key] === 'Em análise',
+                'text-(--secondary-color)! font-medium!': fields[column.key] === 'Verificado',
               }"
             >
               {{ (fields | formatValuesPipe: column.key : column.type) ?? '--' }}
@@ -153,31 +162,28 @@
 
     @if (canShowActions()) {
       <ng-container matColumnDef="actions">
-        <th *matHeaderCellDef mat-header-cell></th>
-        <td
-          *matCellDef="let fields"
-          class="overflow-hidden relative w-[5dvw] group-hover:w-[5dvw]"
-          mat-cell
-        >
-          <div
-            class="hidden gap-4 justify-end transition-opacity duration-300 ease-in-out group-hover:flex max-md:flex"
-          >
+        <th *matHeaderCellDef mat-header-cell class="w-[32px]!"></th>
+        <td *matCellDef="let fields" class="w-[32px]! min-w-[32px]! px-2!" mat-cell>
+          <div class="action-container">
             @if (actions() | hasNonToggleActions) {
-              <button type="button" mat-icon-button [matMenuTriggerFor]="menu" matTooltip="Ações">
+              <button
+                type="button"
+                mat-icon-button
+                [matMenuTriggerFor]="menu"
+                matTooltip="Ações"
+                class="scale-90!"
+              >
                 <mat-icon>more_vert</mat-icon>
               </button>
               <mat-menu #menu="matMenu">
                 @for (action of actions(); track $index) {
-                  @if (
-                    action.visible === undefined ||
-                    (typeof action.visible === 'function' ? action.visible(fields) : action.visible)
-                  ) {
+                  @if (checkVisible(action, fields)) {
                     @if (action.type === 'toggle') {
-                      <div class="flex items-center justify-center p-4">
+                      <div class="flex! items-center! justify-center! p-4!">
                         <button
                           mat-flat-button
                           [matTooltip]="tooltipLabel()"
-                          [color]="fields.status ? 'warn' : 'primary'"
+                          [color]="fields.status ? 'error' : 'primary'"
                           (click)="action.action(fields)"
                           type="button"
                         >
@@ -198,12 +204,12 @@
                         type="button"
                       >
                         @if (action.icon) {
-                          <mat-icon [class.text-[var(--error-color)]!]="action.type === 'delete'">
+                          <mat-icon [class.text-(--error-color)!]="action.type === 'delete'">
                             {{ action.icon }}
                           </mat-icon>
                         }
                         @if (action.label) {
-                          <span [class.text-[var(--error-color)]!]="action.type === 'delete'">
+                          <span [class.text-(--error-color)!]="action.type === 'delete'">
                             {{ action.label }}
                           </span>
                         }
@@ -218,22 +224,22 @@
       </ng-container>
     }
 
-    <tr *matHeaderRowDef="displayedColumns()" mat-header-row class="max-w-full relative"></tr>
+    <tr *matHeaderRowDef="displayedColumns()" mat-header-row class="relative!"></tr>
     <tr
       *matRowDef="let row; columns: displayedColumns()"
-      class="table-row! max-w-full! relative! hover:bg-neutral-200! group"
+      class="table-row! relative! hover:bg-neutral-200! group"
       mat-row
-      [class.cursor-pointer]="enableRowClickDialog()"
-      [class.hover:bg-black/5]="enableRowClickDialog()"
+      [class.cursor-pointer!]="enableRowClickDialog()"
+      [class.hover:bg-black/5!]="enableRowClickDialog()"
       (click)="enableRowClickDialog() ? openRowDialog(row) : null"
     ></tr>
 
-    <tr class="mat-mdc-no-data-row" *matNoDataRow>
-      <td [attr.colspan]="displayedColumns().length" class="mat-cell text-center py-8">
-        @if (!isLoading()) {
-          <div class="flex flex-col items-center gap-2 text-neutral-500 p-15!">
-            <mat-icon class="w-16! h-16! text-[4rem]! opacity-50">inbox</mat-icon>
-            <span class="text-lg font-medium">Nenhuma informação encontrada</span>
+    <tr class="m-10!" *matNoDataRow>
+      <td [attr.colspan]="displayedColumns().length" class="mat-cell! text-center! py-8!">
+        @if (isLoading()) {
+          <div class="flex! flex-col! items-center! gap-2! text-neutral-500! p-15!">
+            <mat-icon class="w-16! h-16! text-[4rem]! opacity-50!">inbox</mat-icon>
+            <span class="text-lg! font-medium!">Nenhuma informação encontrada</span>
           </div>
         }
       </td>

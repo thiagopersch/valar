@@ -27,6 +27,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { AuthService } from '../../services/auth/auth-service';
 import { ModalService } from '../modal/modal-service';
+import { ActionsProps, ColumnDefinitionsProps, TableField } from './interfaces';
 import { BadgeTypeComponent } from './shared/components/badge-type/badge-type.component';
 import {
   FilterButtonAdvancedComponent,
@@ -35,27 +36,7 @@ import {
 import { FormatValuesPipe } from './shared/pipes/format-values-pipe';
 import { FormatsPipe } from './shared/pipes/formats-pipe';
 
-export interface ActionsProps {
-  label?: string;
-  icon?: string;
-  tooltip?: string;
-  action: (item: any) => void;
-  type: 'toggle' | 'delete' | 'default';
-  color?: string;
-  visible?: boolean | ((item: any) => boolean);
-}
-
-export interface ColumnDefinitionsProps {
-  key: string;
-  header: string;
-  type: string;
-}
-
-export interface TableField {
-  [key: string]: any;
-}
-
-@Pipe({ name: 'hasNonToggleActions', standalone: true })
+@Pipe({ name: 'hasNonToggleActions' })
 export class HasNonToggleActionsPipe implements PipeTransform {
   transform(actions: ActionsProps[] | undefined | null): boolean {
     return actions ? actions.some((action) => action.type !== 'toggle') : false;
@@ -66,7 +47,6 @@ export class HasNonToggleActionsPipe implements PipeTransform {
   selector: 'app-crud',
   templateUrl: './crud.html',
   styleUrl: './crud.css',
-  standalone: true,
   imports: [
     MatCardModule,
     MatTableModule,
@@ -349,8 +329,6 @@ export class CrudComponent implements AfterViewInit {
         },
         'custom-modal',
         true,
-        '600px',
-        '600px',
       );
     }
   }
@@ -369,5 +347,15 @@ export class CrudComponent implements AfterViewInit {
       .toLowerCase()
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '');
+  }
+
+  checkVisible(action: ActionsProps, fields: any): boolean {
+    if (action.visible === undefined) {
+      return true;
+    }
+    if (typeof action.visible === 'function') {
+      return action.visible(fields);
+    }
+    return action.visible;
   }
 }

@@ -20,8 +20,6 @@ class StoreSystemRequest extends FormRequest
      */
     public function rules(): array {
         return [
-            'coligate_id' => ['required', 'string', 'exists:coligate,id'],
-            'client_id' => ['required', 'string', 'exists:client,id'],
             'code' => ['required', 'string'],
             'name' => ['required', 'string'],
             'fantasy_name' => ['required', 'string'],

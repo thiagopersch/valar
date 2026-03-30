@@ -1,0 +1,52 @@
+<form [formGroup]="form">
+  <app-column [columns]="1">
+    <mat-slide-toggle formControlName="status" color="primary">
+      {{ form.get('status')?.value ? 'Ativado' : 'Desativado' }}
+    </mat-slide-toggle>
+  </app-column>
+
+  <app-column [columns]="2">
+    <mat-form-field>
+      <mat-label>Cliente</mat-label>
+      <mat-select formControlName="client_id">
+        @for (client of clients; track client.id) {
+          <mat-option [value]="client.id">{{ client.name }}</mat-option>
+        }
+      </mat-select>
+      @if (form.get('client_id')?.hasError('required')) {
+        <mat-error>Obrigatório</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Nome do Projeto</mat-label>
+      <input matInput formControlName="name" />
+      @if (form.get('name')?.hasError('required')) {
+        <mat-error>O Nome é obrigatório</mat-error>
+      }
+    </mat-form-field>
+  </app-column>
+
+  <app-column [columns]="2">
+    <mat-form-field>
+      <mat-label>Data de Início</mat-label>
+      <input matInput [matDatepicker]="pickerStart" formControlName="start_date" />
+      <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+      <mat-datepicker #pickerStart></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Data Fim</mat-label>
+      <input matInput [matDatepicker]="pickerEnd" formControlName="end_date" />
+      <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
+      <mat-datepicker #pickerEnd></mat-datepicker>
+    </mat-form-field>
+  </app-column>
+
+  <app-column [columns]="1">
+    <mat-form-field>
+      <mat-label>Descrição</mat-label>
+      <textarea matInput formControlName="description" rows="3"></textarea>
+    </mat-form-field>
+  </app-column>
+</form>

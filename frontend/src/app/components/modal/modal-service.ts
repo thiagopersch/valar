@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Type } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { ModalAction } from 'app/model/Modal';
 import { Modal } from './modal';
 
 @Injectable({
@@ -18,21 +19,23 @@ export class ModalService {
    * @param data Dados do modal
    * @param customClassContainer Classe CSS para o container
    * @param enableFullscreen Habilita o botão de tela cheia
+   * @param actions Ações do modal
    * @param width Largura do modal (opcional, padrão: '60dvw')
    * @param height Altura do modal (opcional, padrão: 'auto')
    * @returns
    */
   openModal(
     id?: string,
-    customContent?: any,
+    customContent?: Type<any>,
     title: string = '',
     isHandleClose: boolean = false,
     disableClose: boolean = true,
     data?: Record<string, any>,
     customClassContainer?: string | string[],
     enableFullscreen: boolean = false,
+    actions?: ModalAction[],
     width: string = 'auto',
-    height: string = 'auto',
+    height: string = '65dvh',
   ) {
     const isMobile = window.innerWidth <= 768 || window.innerHeight <= 600;
     const panelClasses = Array.isArray(customClassContainer)
@@ -57,6 +60,7 @@ export class ModalService {
         isHandleClose,
         customClassContainer,
         enableFullscreen,
+        actions,
         width,
         height,
         ...data,
