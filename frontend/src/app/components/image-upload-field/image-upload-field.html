@@ -15,7 +15,7 @@
           alt="Preview"
         />
       } @else {
-        <mat-icon class="text-neutral-300 text-3xl!">image</mat-icon>
+        <mat-icon class="text-neutral-300 text-1xl!">image</mat-icon>
       }
     </div>
   </div>
@@ -35,12 +35,12 @@
 
       <button
         mat-button
-        color="warn"
-        class="rounded-lg!"
+        [class]="getButtonClass({ label: 'Remover', style: 'error', variant: 'text' })"
         type="button"
-        [disabled]="isDisabled"
+        [disabled]="isDisabled || !preview"
         (click)="removeFile()"
       >
+        <mat-icon>delete</mat-icon>
         Remover
       </button>
 

@@ -6,7 +6,8 @@ export interface Client {
   id: string;
   name: string;
   url: string;
-  token: string;
+  phone: string;
+  email: string;
   field_link_applyment: string;
   status: boolean;
   logo?: string;

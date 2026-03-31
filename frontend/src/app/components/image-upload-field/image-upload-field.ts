@@ -11,6 +11,8 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { ModalAction } from 'app/model/Modal';
+import { buttonStyleMap } from 'app/styles/styleMapComponents';
 
 export interface ImageUploadConfig {
   inputId: string;
@@ -56,6 +58,19 @@ export class ImageUploadField implements ControlValueAccessor, OnInit {
     if (this.initialPreview) {
       this.preview = this.initialPreview;
     }
+  }
+
+  getButtonClass(action: ModalAction): string {
+    const base = ['rounded-lg!', 'max-md:w-full!'];
+    const style = action.style;
+
+    if (style && style !== 'primary' && buttonStyleMap[style]) {
+      const variant = action.variant ?? 'basic';
+      const styleClass = buttonStyleMap[style][variant] ?? buttonStyleMap[style]['basic'];
+      base.push(styleClass);
+    }
+
+    return base.join(' ');
   }
 
   writeValue(value: File | string | null): void {
