@@ -22,13 +22,7 @@
 
     <mat-form-field class="w-full">
       <mat-label>Telefone</mat-label>
-      <input
-        type="tel"
-        matInput
-        formControlName="phone"
-        mask="(00) 00000-0000"
-        [showMaskTyped]="true"
-      />
+      <input type="tel" matInput formControlName="phone" mask="(00) 00000-0000" />
       <mat-error>{{ form.get('phone')?.errors | errorMessage }}</mat-error>
     </mat-form-field>
   </app-column>
