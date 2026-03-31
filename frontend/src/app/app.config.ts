@@ -14,17 +14,20 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
+import { NgxMaskConfig, provideEnvironmentNgxMask } from 'ngx-mask';
 import { routes } from './app.routes';
 import { getPtBrPaginatorIntl } from './components/crud/paginator-pt-br';
 import { authInterceptor } from './services/auth/auth-interceptor';
 
 registerLocaleData(localePt);
+const maskConfig: Partial<NgxMaskConfig> = { validation: false };
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZonelessChangeDetection(),
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
+    provideEnvironmentNgxMask(maskConfig),
     provideClientHydration(withEventReplay()),
     provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
     provideNativeDateAdapter(),

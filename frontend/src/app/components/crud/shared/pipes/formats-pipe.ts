@@ -84,6 +84,15 @@ export class FormatsPipe implements PipeTransform {
     return 'Data inválida';
   }
 
+  parseToLocalDate(dateStr: string | null | undefined): Date | null {
+    if (!dateStr) return null;
+
+    const datePart = dateStr.split('T')[0];
+    const [year, month, day] = datePart.split('-').map(Number);
+
+    return new Date(year, month - 1, day);
+  }
+
   phoneFormat(value: string | number): string {
     const phone = value.toString().replace(/\D/g, '');
 

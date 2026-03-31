@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatTabsModule } from '@angular/material/tabs';
+import { FormatsPipe } from 'app/components/crud/shared/pipes/formats-pipe';
 import { MESSAGES } from 'app/components/toast/messages';
 import { ToastService } from 'app/components/toast/toast-service';
 import { Client } from 'app/model/client';
@@ -46,6 +47,7 @@ export class ClientForm implements OnInit, OnDestroy {
   data = inject<{ client: Client; submitSubject?: Subject<void> }>(MAT_DIALOG_DATA, {
     optional: true,
   });
+  private format = inject(FormatsPipe);
   private submitSub?: Subscription;
 
   form: FormGroup;
@@ -116,6 +118,8 @@ export class ClientForm implements OnInit, OnDestroy {
 
     this.form = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
+      email: ['', [Validators.required, Validators.email]],
+      phone: ['', [Validators.required]],
       url: [
         '',
         [
@@ -168,6 +172,8 @@ export class ClientForm implements OnInit, OnDestroy {
 
       this.form.patchValue({
         ...client,
+        contract_start_date: this.format.parseToLocalDate(client.contract_start_date),
+        contract_end_date: this.format.parseToLocalDate(client.contract_end_date),
         commercial_user_id: client.commercial_user?.id ?? client.commercial_user_id,
         customer_success_user_id:
           client.customer_success_user?.id ?? client.customer_success_user_id,

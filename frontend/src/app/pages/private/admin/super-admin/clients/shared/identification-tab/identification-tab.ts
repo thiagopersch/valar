@@ -7,6 +7,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { Column } from 'app/components/column/column';
 import { ErrorMessagePipe } from 'app/pipes/error-message';
+import { NgxMaskDirective } from 'ngx-mask';
 
 export interface SelectOption {
   value: string;
@@ -26,6 +27,7 @@ export interface SelectOption {
     MatSlideToggleModule,
     Column,
     ErrorMessagePipe,
+    NgxMaskDirective,
   ],
 })
 export class IdentificationTab {

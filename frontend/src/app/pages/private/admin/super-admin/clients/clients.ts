@@ -27,12 +27,13 @@ export class ClientsComponent {
   pageIndex = signal(0);
   pageSize = signal(25);
   columns: ColumnDefinitionsProps[] = [
+    { key: 'status', header: 'Status', type: 'boolean' },
     { key: 'name', header: 'Nome', type: 'text' },
     { key: 'url', header: 'URL', type: 'text' },
     { key: 'email', header: 'E-mail', type: 'text' },
-    { key: 'contactName', header: 'Contato', type: 'text' },
+    { key: 'contact_name', header: 'Contato', type: 'text' },
     { key: 'phone', header: 'Telefone', type: 'text' },
-    { key: 'status', header: 'Status', type: 'boolean' },
+    { key: 'contract_start_date', header: 'Início do Contrato', type: 'date' },
     { key: 'created_at', header: 'Criado em', type: 'datetime' },
     { key: 'updated_at', header: 'Atualizado em', type: 'datetime' },
   ];

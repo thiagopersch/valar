@@ -1,6 +1,6 @@
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4" [formGroup]="form">
   <mat-form-field class="w-full">
-    <mat-label>Health Score</mat-label>
+    <mat-label>Health score</mat-label>
     <mat-select formControlName="health_score">
       @for (score of healthScores; track score.value) {
         <mat-option [value]="score.value">{{ score.label }}</mat-option>
@@ -10,7 +10,7 @@
   </mat-form-field>
 
   <mat-form-field class="w-full">
-    <mat-label>Nível Potencial (1 a 5)</mat-label>
+    <mat-label>Nível potencial</mat-label>
     <mat-select formControlName="potential_level">
       @for (level of levels; track level.value) {
         <mat-option [value]="level.value">{{ level.label }}</mat-option>
@@ -20,7 +20,7 @@
   </mat-form-field>
 
   <mat-form-field class="w-full">
-    <mat-label>Nível da Exigência</mat-label>
+    <mat-label>Nível da exigência</mat-label>
     <mat-select formControlName="demand_level">
       @for (level of demandLevels; track level.value) {
         <mat-option [value]="level.value">{{ level.label }}</mat-option>
@@ -30,7 +30,7 @@
   </mat-form-field>
 
   <mat-form-field class="w-full">
-    <mat-label>Nível de Prioridade</mat-label>
+    <mat-label>Nível de prioridade</mat-label>
     <mat-select formControlName="priority_level">
       @for (level of priorityLevels; track level.value) {
         <mat-option [value]="level.value">{{ level.label }}</mat-option>

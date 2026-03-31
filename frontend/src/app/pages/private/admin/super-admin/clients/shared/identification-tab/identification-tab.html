@@ -8,15 +8,35 @@
   <app-column columns="1">
     <mat-form-field class="w-full">
       <mat-label>Nome</mat-label>
-      <input matInput formControlName="name" />
+      <input type="text" matInput formControlName="name" />
       <mat-error>{{ form.get('name')?.errors | errorMessage }}</mat-error>
     </mat-form-field>
   </app-column>
 
   <app-column columns="2">
     <mat-form-field class="w-full">
+      <mat-label>E-mail</mat-label>
+      <input type="email" matInput formControlName="email" />
+      <mat-error>{{ form.get('email')?.errors | errorMessage }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="w-full">
+      <mat-label>Telefone</mat-label>
+      <input
+        type="tel"
+        matInput
+        formControlName="phone"
+        mask="(00) 00000-0000"
+        [showMaskTyped]="true"
+      />
+      <mat-error>{{ form.get('phone')?.errors | errorMessage }}</mat-error>
+    </mat-form-field>
+  </app-column>
+
+  <app-column columns="2">
+    <mat-form-field class="w-full">
       <mat-label>Link do site oficial</mat-label>
-      <input matInput formControlName="url" placeholder="https://exemplo.com" />
+      <input type="url" matInput formControlName="url" placeholder="https://exemplo.com" />
       <mat-error>{{ form.get('url')?.errors | errorMessage }}</mat-error>
     </mat-form-field>
 
