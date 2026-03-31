@@ -207,11 +207,9 @@ export class ClientForm implements OnInit, OnDestroy {
     forkJoin({
       users: this.clientService.getUsers(),
       systems: this.clientService.getSystems(),
-      activities: this.clientService.getServiceActivities(),
-    }).subscribe(({ users, systems, activities }) => {
+    }).subscribe(({ users, systems }) => {
       this.users = users.data ?? [];
       this.systems = systems.data ?? [];
-      this.serviceActivities = activities.data ?? [];
       this.cdr.detectChanges();
       onComplete?.();
     });

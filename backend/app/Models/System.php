@@ -35,7 +35,7 @@ class System extends Model
         'name',
         'fantasy_name',
         'description',
-        'token',
+        'status',
         'created_by',
         'updated_by',
     ];

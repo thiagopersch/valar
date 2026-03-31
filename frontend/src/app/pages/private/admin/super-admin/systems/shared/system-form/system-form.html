@@ -1,0 +1,40 @@
+<form [formGroup]="form" class="w-full h-full p-2 flex flex-col">
+  <app-column columns="1">
+    <mat-slide-toggle formControlName="status" color="primary">
+      {{ form.get('status')?.value ? 'Ativado' : 'Desativado' }}
+    </mat-slide-toggle>
+  </app-column>
+
+  <app-column columns="4">
+    <mat-form-field class="w-full">
+      <mat-label>Código</mat-label>
+      <input type="text" matInput formControlName="code" />
+      <mat-error>{{ form.get('code')?.errors | errorMessage }}</mat-error>
+    </mat-form-field>
+  </app-column>
+
+  <app-column columns="2">
+    <mat-form-field class="w-full">
+      <mat-label>Nome</mat-label>
+      <input type="text" matInput formControlName="name" />
+      <mat-error>{{ form.get('name')?.errors | errorMessage }}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>Nome Fantasia</mat-label>
+      <input type="text" matInput formControlName="fantasy_name" />
+      <mat-error>{{ form.get('fantasy_name')?.errors | errorMessage }}</mat-error>
+    </mat-form-field>
+  </app-column>
+
+  <app-column columns="1">
+    <mat-form-field class="w-full">
+      <mat-label>Descrição</mat-label>
+      <textarea matInput formControlName="description" rows="4"></textarea>
+      <mat-error>{{ form.get('description')?.errors | errorMessage }}</mat-error>
+    </mat-form-field>
+  </app-column>
+
+  @if (!!loading()) {
+    <app-loading-saving-changes />
+  }
+</form>

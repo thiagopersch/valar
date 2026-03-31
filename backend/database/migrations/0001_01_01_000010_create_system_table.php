@@ -11,21 +11,21 @@ return new class extends Migration {
     public function up(): void {
         Schema::create('system', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            
-            // Chaves estrangeiras para coligate e clients
+
+
             $table->foreignUuid('coligate_id')->nullable()->constrained('coligate')->onDelete('set null');
             $table->foreignUuid('client_id')->nullable()->constrained('clients')->onDelete('set null');
-            
+
             $table->string('code');
             $table->string('name');
             $table->string('fantasy_name');
             $table->text('description')->nullable();
             $table->boolean('status')->default(true);
             $table->rememberToken()->unique();
-            
+
             $table->foreignUuid('created_by')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignUuid('updated_by')->nullable()->constrained('users')->nullOnDelete();
-            
+
             $table->timestamps();
             $table->softDeletes();
         });

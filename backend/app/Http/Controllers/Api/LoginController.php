@@ -2,88 +2,68 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Adapters\ApiResponseAdapter;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Exception;
 
-
 class LoginController extends Controller
 {
-    public function login(Request $request) {
+    public function login(Request $request): JsonResponse {
         $credentials = $request->only('email', 'password');
 
-        if (Auth::attempt($credentials)) {
-            $user = Auth::user();
-
-            if ($user->person) {
-                $members = $user->person->member()->with('churches')->get();
-
-                $churches = $members->flatMap(function ($member) {
-                    return $member->churches;
-                })->unique('id')->values();
-
-                $churchesArray = $churches->toArray();
-            } else {
-                $churchesArray = [];
-            }
-
-            $token = $request->user()->createToken('token')->plainTextToken;
-
-            return response()->json([
-                'status' => true,
-                'token' => $token,
-                'user' => $user,
-                'churches' => $churchesArray,
-            ], 201);
-        } else {
-            return response()->json([
-                'status' => false,
-                'message' => 'E-mail ou senha inválidos'
-            ], 401);
+        if (!Auth::attempt($credentials)) {
+            return ApiResponseAdapter::error('E-mail ou senha inválidos', 401);
         }
+
+        if (Auth::user()->status === false) {
+            return ApiResponseAdapter::error('Usuário inativo', 403);
+        }
+
+        if (Auth::user()->client_id === null) {
+            return ApiResponseAdapter::error('Usuário não vinculado a um cliente', 403);
+        }
+
+        if (Auth::user()->coligate_id === null) {
+            return ApiResponseAdapter::error('Usuário não vinculado a uma coligada', 403);
+        }
+
+        $user = Auth::user();
+        $token = $request->user()->createToken('token')->plainTextToken;
+
+        $user->load('client', 'coligate');
+
+        return ApiResponseAdapter::success(
+            ['token' => $token, 'user' => $user],
+            'Login realizado com sucesso'
+        );
     }
 
-    public function logout(User $user) {
+    public function logout(User $user): JsonResponse {
         try {
+            $user->tokens()->delete();
 
-            if ($user->tokens()->count() > 0) {
-                $user->tokens()->delete();
-            }
-
-            return response()->json([
-                'status' => true,
-                'message' => 'Deslogado'
-            ], 200);
+            return ApiResponseAdapter::success(message: 'Deslogado com sucesso');
         } catch (Exception $e) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Não deslogado'
-            ], 400);
+            return ApiResponseAdapter::error('Erro ao deslogar: ' . $e->getMessage(), 500);
         }
     }
 
-    public function change_password(Request $request, string $userId) {
+    public function change_password(Request $request, string $userId): JsonResponse {
         try {
             $user = Auth::user();
 
-            // Check if user is authenticated
             if (!$user) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Usuário não autenticado'
-                ], 401);
+                return ApiResponseAdapter::error('Usuário não autenticado', 401);
             }
 
-            // Ensure the authenticated user is the same as the user whose password is being changed
             if ($user->id !== $userId) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Não autorizado a alterar a senha deste usuário'
-                ], 403);
+                return ApiResponseAdapter::error('Não autorizado a alterar a senha deste usuário', 403);
             }
 
             $validator = Validator::make($request->all(), [
@@ -92,7 +72,7 @@ class LoginController extends Controller
                     'string',
                     'min:8',
                     'max:30',
-                    'regex:/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#$!%*?&])[A-Za-z\d@#$!%*?&]{8,30}$/'
+                    'regex:/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#$!%*?&])[A-Za-z\d@#$!%*?&]{8,30}$/',
                 ],
             ], [
                 'newPassword.required' => 'A nova senha é obrigatória.',
@@ -102,26 +82,15 @@ class LoginController extends Controller
             ]);
 
             if ($validator->fails()) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Erro de validação',
-                    'errors' => $validator->errors()
-                ], 422);
+                return ApiResponseAdapter::error('Erro de validação', 422, $validator->errors()->toArray());
             }
 
             $user->password = Hash::make($request->newPassword);
             $user->save();
 
-            return response()->json([
-                'status' => true,
-                'message' => 'Senha alterada com sucesso'
-            ], 200);
-
+            return ApiResponseAdapter::success(message: 'Senha alterada com sucesso');
         } catch (Exception $e) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Erro ao alterar a senha: ' . $e->getMessage()
-            ], 500);
+            return ApiResponseAdapter::error('Erro ao alterar a senha: ' . $e->getMessage(), 500);
         }
     }
 }

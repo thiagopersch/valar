@@ -6,6 +6,7 @@ import { Users } from './pages/private/admin/global-services/users/users';
 import { ClientsComponent } from './pages/private/admin/super-admin/clients/clients';
 import { Dashboard } from './pages/private/admin/super-admin/dashboard/dashboard';
 import { ProjectsComponent } from './pages/private/admin/super-admin/projects/projects';
+import { Systems } from './pages/private/admin/super-admin/systems/systems';
 import { Login } from './pages/public/login/login';
 import { authGuard, guestGuard } from './services/auth/auth-guard';
 
@@ -44,6 +45,13 @@ export const routes: Routes = [
         component: ClientsComponent,
         title: 'Clientes',
         data: { icon: 'business' },
+        pathMatch: 'full',
+      },
+      {
+        path: 'systems',
+        component: Systems,
+        title: 'Sistemas',
+        data: { icon: 'apps' },
         pathMatch: 'full',
       },
     ],

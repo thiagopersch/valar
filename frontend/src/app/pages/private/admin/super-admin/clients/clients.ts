@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { CrudComponent } from 'app/components/crud/crud';
 import { ActionsProps, ColumnDefinitionsProps } from 'app/components/crud/interfaces';
 
+import { PageEvent } from '@angular/material/paginator';
 import { ModalService } from 'app/components/modal/modal-service';
 import { Client } from 'app/model/client';
 import { ModalAction } from 'app/model/Modal';
@@ -118,7 +119,7 @@ export class ClientsComponent {
     });
   }
 
-  onPageChange(event: any): void {
+  onPageChange(event: PageEvent): void {
     this.pageIndex.set(event.pageIndex);
     this.pageSize.set(event.pageSize);
     this.loadClients();
@@ -144,7 +145,7 @@ export class ClientsComponent {
     const modal = this.modal.openModal(
       `id-${Date.now()}`,
       ClientForm,
-      'Adicionar Cliente',
+      'Adicionando um cliente',
       true,
       true,
       { submitSubject },
