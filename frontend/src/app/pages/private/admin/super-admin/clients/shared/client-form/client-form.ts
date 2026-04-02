@@ -218,9 +218,7 @@ export class ClientForm implements OnInit, OnDestroy {
   save(): void {
     if (this.form.valid) {
       this.loading = true;
-      setTimeout(() => {
-        this.dialogRef?.close(this.form.value);
-      }, 800);
+      this.dialogRef?.close(this.form.value);
     } else {
       this.form.markAllAsTouched();
       this.toastService.openWarning(MESSAGES.WARNING);

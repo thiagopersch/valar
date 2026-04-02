@@ -29,7 +29,22 @@ class UpdateClientRequest extends FormRequest
             'status' => $this->toBoolean($this->status),
             'has_dedicated_customer_success' => $this->toBoolean($this->has_dedicated_customer_success),
             'has_dedicated_analyst' => $this->toBoolean($this->has_dedicated_analyst),
+            'contract_start_date' => $this->formatDate($this->contract_start_date),
+            'contract_end_date' => $this->formatDate($this->contract_end_date),
+            'foundation_date' => $this->formatDate($this->foundation_date),
         ]);
+    }
+
+    private function formatDate($value): ?string {
+        if (is_null($value) || $value === '' || $value === 'null') {
+            return null;
+        }
+
+        try {
+            return \Illuminate\Support\Carbon::parse($value)->toDateString();
+        } catch (\Exception $e) {
+            return $value;
+        }
     }
 
     private function toBoolean($value): ?bool {

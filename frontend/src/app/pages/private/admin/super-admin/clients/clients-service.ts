@@ -49,6 +49,8 @@ export class ClientsService {
 
       if (Array.isArray(value)) {
         value.forEach((v) => formData.append(`${key}[]`, v));
+      } else if (value instanceof Date) {
+        formData.append(key, value.toISOString().split('T')[0]);
       } else {
         formData.append(key, value);
       }

@@ -4,6 +4,8 @@ import { ActionsProps, ColumnDefinitionsProps } from 'app/components/crud/interf
 
 import { PageEvent } from '@angular/material/paginator';
 import { ModalService } from 'app/components/modal/modal-service';
+import { MESSAGES } from 'app/components/toast/messages';
+import { ToastService } from 'app/components/toast/toast-service';
 import { Client } from 'app/model/client';
 import { ModalAction } from 'app/model/Modal';
 import { Subject } from 'rxjs';
@@ -19,6 +21,7 @@ import { ClientForm } from './shared/client-form/client-form';
 export class ClientsComponent {
   private clientService = inject(ClientsService);
   private modal = inject(ModalService);
+  private toastService = inject(ToastService);
 
   constructor() {}
 
@@ -35,7 +38,6 @@ export class ClientsComponent {
     { key: 'contact_name', header: 'Contato', type: 'text' },
     { key: 'phone', header: 'Telefone', type: 'text' },
     { key: 'contract_start_date', header: 'Início do Contrato', type: 'date' },
-    { key: 'created_at', header: 'Criado em', type: 'datetime' },
     { key: 'updated_at', header: 'Atualizado em', type: 'datetime' },
   ];
   actions: ActionsProps[] = [
@@ -159,6 +161,7 @@ export class ClientsComponent {
         this.isLoading.set(true);
         this.clientService.save(result).subscribe({
           next: () => {
+            this.toastService.openSuccess(MESSAGES.CREATE_SUCCESS);
             this.loadClients();
           },
           error: () => {
@@ -198,6 +201,7 @@ export class ClientsComponent {
         this.isLoading.set(true);
         this.clientService.save(result, client.id).subscribe({
           next: () => {
+            this.toastService.openSuccess(MESSAGES.UPDATE_SUCCESS);
             this.loadClients();
           },
           error: () => {
@@ -213,6 +217,7 @@ export class ClientsComponent {
       this.isLoading.set(true);
       this.clientService.deleteClient(client.id!).subscribe({
         next: () => {
+          this.toastService.openSuccess(MESSAGES.DELETE_SUCCESS);
           this.loadClients();
         },
         error: () => {
