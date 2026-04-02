@@ -79,7 +79,7 @@
   }
 </div>
 
-<div class="block! overflow-x-auto! relative! w-full! md:overflow-x-hidden!">
+<div class="block! overflow-x-auto! relative! w-full!">
   @if (isLoading()) {
     <div class="absolute! inset-0! flex! items-center! justify-center! bg-white/90! z-10!">
       <div class="flex! flex-col! items-center! gap-4!">
@@ -161,9 +161,9 @@
     </ng-container>
 
     @if (canShowActions()) {
-      <ng-container matColumnDef="actions">
-        <th *matHeaderCellDef mat-header-cell class="w-[32px]!"></th>
-        <td *matCellDef="let fields" class="w-[32px]! min-w-[32px]! px-2!" mat-cell>
+      <ng-container matColumnDef="actions" stickyEnd>
+        <th *matHeaderCellDef mat-header-cell class="w-8! z-2!"></th>
+        <td *matCellDef="let fields" class="w-8! min-w-8! px-2! z-2!" mat-cell>
           <div class="action-container">
             @if (actions() | hasNonToggleActions) {
               <button

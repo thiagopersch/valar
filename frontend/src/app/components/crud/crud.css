@@ -38,10 +38,26 @@ mat-header-cell {
   font-weight: 600 !important;
 }
 
+.mat-column-actions {
+  position: sticky !important;
+  right: 0 !important;
+  background-color: inherit !important;
+  z-index: 10 !important;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.05);
+}
+
+mat-header-cell.mat-column-actions {
+  background-color: #e5e7eb !important;
+}
+
+mat-cell.mat-column-actions {
+  background-color: #ffffff !important;
+}
+
 .action-container {
   display: flex;
   justify-content: flex-end;
-  opacity: 0.4;
+  opacity: 0.6;
   transition: opacity 0.2s;
 }
 
