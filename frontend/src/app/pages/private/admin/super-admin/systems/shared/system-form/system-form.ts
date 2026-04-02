@@ -59,6 +59,7 @@ export class SystemForm {
     if (this.data && this.data.system) {
       this.isEditMode.set(true);
       this.form.patchValue(this.data.system);
+      this.form.get('code')?.disable();
     }
   }
 
@@ -66,7 +67,7 @@ export class SystemForm {
     if (this.form.valid) {
       this.loading.set(true);
       setTimeout(() => {
-        this.dialogRef?.close(this.form.value);
+        this.dialogRef?.close(this.form.getRawValue());
       }, 800);
     } else {
       this.form.markAllAsTouched();
