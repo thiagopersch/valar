@@ -31,7 +31,6 @@ export class Systems {
     { key: 'code', header: 'Código', type: 'text' },
     { key: 'name', header: 'Nome', type: 'text' },
     { key: 'fantasy_name', header: 'Nome Fantasia', type: 'text' },
-    { key: 'description', header: 'Descrição', type: 'text' },
     { key: 'created_at', header: 'Criado em', type: 'datetime' },
     { key: 'updated_at', header: 'Atualizado em', type: 'datetime' },
   ];

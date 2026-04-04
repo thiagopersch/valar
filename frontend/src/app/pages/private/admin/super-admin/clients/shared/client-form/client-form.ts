@@ -120,6 +120,7 @@ export class ClientForm implements OnInit, OnDestroy {
       name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', [Validators.required]],
+      contact_name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
       url: [
         '',
         [

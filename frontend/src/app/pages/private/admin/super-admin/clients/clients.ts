@@ -33,10 +33,10 @@ export class ClientsComponent {
   columns: ColumnDefinitionsProps[] = [
     { key: 'status', header: 'Status', type: 'boolean' },
     { key: 'name', header: 'Nome', type: 'text' },
-    { key: 'url', header: 'URL', type: 'text' },
-    { key: 'email', header: 'E-mail', type: 'text' },
+    { key: 'url', header: 'URL', type: 'url' },
+    { key: 'email', header: 'E-mail', type: 'email' },
     { key: 'contact_name', header: 'Contato', type: 'text' },
-    { key: 'phone', header: 'Telefone', type: 'text' },
+    { key: 'phone', header: 'Telefone', type: 'phone' },
     { key: 'contract_start_date', header: 'Início do Contrato', type: 'date' },
     { key: 'updated_at', header: 'Atualizado em', type: 'datetime' },
   ];

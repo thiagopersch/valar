@@ -121,11 +121,35 @@
               ></div>
             </div>
           }
+          @case ('date') {
+            {{ (fields | formatValuesPipe: column.key : column.type) ?? '--' }}
+          }
+          @case ('text') {
+            {{ (fields | formatValuesPipe: column.key : column.type) ?? '--' }}
+          }
+          @case ('cpf') {
+            {{ (fields | formatValuesPipe: column.key : column.type) ?? '--' }}
+          }
+          @case ('currency') {
+            {{ (fields | formatValuesPipe: column.key : column.type) ?? '--' }}
+          }
+          @case ('cnpj') {
+            {{ (fields | formatValuesPipe: column.key : column.type) ?? '--' }}
+          }
+          @case ('datetime') {
+            {{ (fields | formatValuesPipe: column.key : column.type) ?? '--' }}
+          }
           @case ('boolean') {
             <app-status-badge [value]="fields[column.key]" />
           }
           @case ('YesNo') {
             <app-status-badge [value]="fields[column.key]" activeLabel="Sim" inactiveLabel="Não" />
+          }
+          @case ('phone') {
+            {{ (fields | formatValuesPipe: column.key : column.type) ?? '--' }}
+          }
+          @case ('sex') {
+            {{ (fields | formatValuesPipe: column.key : column.type) ?? '--' }}
           }
           @case ('situation') {
             <app-status-badge
