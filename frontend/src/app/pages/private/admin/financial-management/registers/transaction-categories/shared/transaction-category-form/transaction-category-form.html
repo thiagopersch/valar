@@ -1,0 +1,55 @@
+<form [formGroup]="form">
+  <mat-tab-group>
+    <mat-tab label="Dados">
+      <app-column columns="1">
+        <mat-slide-toggle formControlName="status" color="primary">
+          {{ form.get('status')?.value ? 'Ativado' : 'Desativado' }}
+        </mat-slide-toggle>
+      </app-column>
+
+      <app-column columns="1">
+        <mat-form-field class="w-full">
+          <mat-label>Nome</mat-label>
+          <input matInput formControlName="name" />
+          <mat-error>{{ form.get('name')?.errors | errorMessage }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="w-full">
+          <mat-label>Tipo</mat-label>
+          <mat-select formControlName="type">
+            @for (type of TRANSACTION_CATEGORY_TYPES; track type.value) {
+              <mat-option [value]="type.value">{{ type.label }}</mat-option>
+            }
+          </mat-select>
+          <mat-error>{{ form.get('type')?.errors | errorMessage }}</mat-error>
+        </mat-form-field>
+      </app-column>
+    </mat-tab>
+
+    <mat-tab label="Identidade visual">
+      <app-column columns="1">
+        <app-color-picker-field formControlName="color"></app-color-picker-field>
+
+        <mat-form-field class="w-full">
+          <mat-label>Ícone</mat-label>
+          <input matInput formControlName="icon" />
+          <mat-error>{{ form.get('icon')?.errors | errorMessage }}</mat-error>
+        </mat-form-field>
+      </app-column>
+    </mat-tab>
+
+    <mat-tab label="Informações complementares">
+      <app-column columns="1">
+        <mat-form-field class="w-full">
+          <mat-label>Descrição</mat-label>
+          <textarea rows="5" matInput formControlName="description"></textarea>
+          <mat-error>{{ form.get('description')?.errors | errorMessage }}</mat-error>
+        </mat-form-field>
+      </app-column>
+    </mat-tab>
+  </mat-tab-group>
+
+  @if (loading()) {
+    <app-loading-saving-changes></app-loading-saving-changes>
+  }
+</form>

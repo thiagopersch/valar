@@ -27,7 +27,8 @@ export interface ColumnDefinitionsProps {
     | 'sex'
     | 'cpf'
     | 'cnpj'
-    | 'currency';
+    | 'currency'
+    | 'icon';
 }
 
 export interface TableField {

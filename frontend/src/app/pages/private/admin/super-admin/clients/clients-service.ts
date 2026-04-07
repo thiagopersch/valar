@@ -12,7 +12,6 @@ import { Observable } from 'rxjs';
 })
 export class ClientsService {
   private readonly baseUrl = `${environment.apiUrl}/admin`;
-
   private readonly http = inject(HttpClient);
 
   getClients(page: number, pageSize: number): Observable<PaginatedResponse<Client>> {

@@ -225,8 +225,4 @@ export class ClientForm implements OnInit, OnDestroy {
       this.toastService.openWarning(MESSAGES.WARNING);
     }
   }
-
-  cancel() {
-    this.dialogRef?.close();
-  }
 }

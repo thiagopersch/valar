@@ -151,6 +151,9 @@
           @case ('sex') {
             {{ (fields | formatValuesPipe: column.key : column.type) ?? '--' }}
           }
+          @case ('icon') {
+            <mat-icon>{{ fields[column.key] }}</mat-icon>
+          }
           @case ('situation') {
             <app-status-badge
               [value]="fields[column.key]"

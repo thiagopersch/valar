@@ -1,1 +1,15 @@
-<p>transaction-categories works!</p>
+<app-crud
+  [fields]="transactionCategories()"
+  [columnDefinitions]="columns"
+  [actions]="actions"
+  [isLoading]="isLoading()"
+  [length]="total()"
+  [pageSize]="pageSize()"
+  [pageIndex]="pageIndex()"
+  [ctaLabel]="'Adicionar'"
+  (page)="onPageChange($event)"
+  (filterChange)="onFilterChange($event)"
+  (add)="onAdd()"
+  (edit)="onEdit($event)"
+  (delete)="onDelete($event)"
+></app-crud>
