@@ -1,46 +1,35 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Client } from 'app/model/client';
-import { ServiceActivity } from 'app/model/service-activity';
 import { System } from 'app/model/system';
 import { User } from 'app/model/user';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
-
-export interface PaginatedResponse<T> {
-  data: T[];
-  total: number;
-  page?: number;
-  pageSize?: number;
-}
+import { PaginatedResponse } from '../projects/projects-service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ClientsService {
-  private readonly baseUrl = environment.apiUrl;
+  private readonly baseUrl = `${environment.apiUrl}/admin`;
 
   private readonly http = inject(HttpClient);
 
   getClients(page: number, pageSize: number): Observable<PaginatedResponse<Client>> {
     return this.http.get<PaginatedResponse<Client>>(
-      `${this.baseUrl}/admin/clients?page=${page}&pageSize=${pageSize}`,
+      `${this.baseUrl}/clients?page=${page}&pageSize=${pageSize}`,
     );
   }
 
-  getUsers(): Observable<{ data: User[] }> {
-    return this.http.get<{ data: User[] }>(`${this.baseUrl}/admin/users`);
+  getUsers(): Observable<PaginatedResponse<User>> {
+    return this.http.get<PaginatedResponse<User>>(`${this.baseUrl}/users`);
   }
 
-  getSystems(): Observable<{ data: System[] }> {
-    return this.http.get<{ data: System[] }>(`${this.baseUrl}/admin/systems`);
+  getSystems(): Observable<PaginatedResponse<System>> {
+    return this.http.get<PaginatedResponse<System>>(`${this.baseUrl}/systems`);
   }
 
-  getServiceActivities(): Observable<{ data: ServiceActivity[] }> {
-    return this.http.get<{ data: ServiceActivity[] }>(`${this.baseUrl}/admin/service-activities`);
-  }
-
-  save(data: any, id?: string): Observable<any> {
+  save(data: any, id?: string): Observable<Client> {
     const formData = new FormData();
 
     for (const key in data) {
@@ -60,6 +49,8 @@ export class ClientsService {
 
       if (Array.isArray(value)) {
         value.forEach((v) => formData.append(`${key}[]`, v));
+      } else if (value instanceof Date) {
+        formData.append(key, value.toISOString().split('T')[0]);
       } else {
         formData.append(key, value);
       }
@@ -67,13 +58,13 @@ export class ClientsService {
 
     if (id) {
       formData.append('_method', 'PUT');
-      return this.http.post(`${this.baseUrl}/admin/clients/${id}`, formData);
+      return this.http.post<Client>(`${this.baseUrl}/clients/${id}`, formData);
     }
 
-    return this.http.post(`${this.baseUrl}/admin/clients`, formData);
+    return this.http.post<Client>(`${this.baseUrl}/clients`, formData);
   }
 
   deleteClient(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/admin/clients/${id}`);
+    return this.http.delete<void>(`${this.baseUrl}/clients/${id}`);
   }
 }

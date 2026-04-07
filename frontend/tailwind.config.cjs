@@ -34,6 +34,7 @@ module.exports = {
         'hover-on-container': 'var(--mat-sys-hover-on-container)',
         'hover-on-container-variant': 'var(--mat-sys-hover-on-container-variant)',
         'hover-on-container-variant-2': 'var(--mat-sys-hover-on-container-variant-2)',
+        textDefault: 'var(--text-color)',
       },
     },
   },

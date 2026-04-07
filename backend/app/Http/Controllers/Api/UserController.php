@@ -1,56 +1,62 @@
 <?php
 
 namespace App\Http\Controllers\Api;
-use App\Adapters\ApiPaginationAdapter;
+
+use App\Adapters\ApiResponseAdapter;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function index(Request $request) {
-        $perPage = (int) $request->get('per_page', 25);
-        $page = (int) $request->get('page', 1);
+    protected array $relations = ['coligate', 'client', 'createdBy', 'updatedBy'];
 
-        $users = User::with(['coligate', 'client', 'createdBy', 'updatedBy'])->orderBy('status', 'desc')->orderBy('name', 'asc')
+    public function index(Request $request): JsonResponse {
+        $perPage = (int) $request->get('per_page', 25);
+        $page    = (int) $request->get('page', 1);
+
+        $paginator = User::with($this->relations)
+            ->orderBy('status', 'desc')
+            ->orderBy('name', 'asc')
             ->paginate($perPage, ['*'], 'page', $page);
 
-        $url = $request->url();
-        $counter = $users->total();
-        $data = UserResource::collection($users->items());
-
-        $adapter = new ApiPaginationAdapter(
-            url: $url,
-            counter: $counter,
-            page: $page,
-            perPage: $perPage,
-            data: collect($data)
+        return ApiResponseAdapter::paginated(
+            UserResource::collection($paginator),
+            $paginator,
+            'Usuários listados com sucesso'
         );
-
-        return $adapter->toJson();
     }
 
-    public function store(StoreUserRequest $request) {
+    public function store(StoreUserRequest $request): JsonResponse {
         $user = User::create($request->validated());
-        return new UserResource($user);
+        $user->load($this->relations);
+
+        return ApiResponseAdapter::created(new UserResource($user));
     }
 
-    public function show(User $user) {
-        return new UserResource($user);
+    public function show(User $user): JsonResponse {
+        $user->load($this->relations);
+
+        return ApiResponseAdapter::success(new UserResource($user));
     }
 
-    public function update(UpdateUserRequest $request, User $user) {
+    public function update(UpdateUserRequest $request, User $user): JsonResponse {
         $user->update($request->validated());
+        $user->load($this->relations);
 
-        return new UserResource($user);
+        return ApiResponseAdapter::success(
+            new UserResource($user),
+            'Usuário atualizado com sucesso'
+        );
     }
 
-    public function destroy(User $user) {
+    public function destroy(User $user): JsonResponse {
         $user->delete();
 
-        return response(null, 204);
+        return ApiResponseAdapter::noContent();
     }
 }

@@ -27,8 +27,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { AuthService } from '../../services/auth/auth-service';
 import { ModalService } from '../modal/modal-service';
+import { StatusBadge } from '../status-badge/status-badge';
 import { ActionsProps, ColumnDefinitionsProps, TableField } from './interfaces';
-import { BadgeTypeComponent } from './shared/components/badge-type/badge-type.component';
 import {
   FilterButtonAdvancedComponent,
   FilterField,
@@ -63,7 +63,7 @@ export class HasNonToggleActionsPipe implements PipeTransform {
     FormatValuesPipe,
     HasNonToggleActionsPipe,
     FilterButtonAdvancedComponent,
-    BadgeTypeComponent,
+    StatusBadge,
   ],
   providers: [FormatsPipe],
 })

@@ -1,0 +1,11 @@
+<span [class]="badgeClass()">
+  @if (!hideDot()) {
+    <span class="relative inline-flex items-center justify-center shrink-0">
+      @if (showPing()) {
+        <span [class]="pingClass()"></span>
+      }
+      <span [class]="dotClass()"></span>
+    </span>
+  }
+  <span class="leading-none">{{ label() }}</span>
+</span>

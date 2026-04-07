@@ -120,6 +120,7 @@ export class ClientForm implements OnInit, OnDestroy {
       name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', [Validators.required]],
+      contact_name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
       url: [
         '',
         [
@@ -207,11 +208,9 @@ export class ClientForm implements OnInit, OnDestroy {
     forkJoin({
       users: this.clientService.getUsers(),
       systems: this.clientService.getSystems(),
-      activities: this.clientService.getServiceActivities(),
-    }).subscribe(({ users, systems, activities }) => {
+    }).subscribe(({ users, systems }) => {
       this.users = users.data ?? [];
       this.systems = systems.data ?? [];
-      this.serviceActivities = activities.data ?? [];
       this.cdr.detectChanges();
       onComplete?.();
     });
@@ -220,9 +219,7 @@ export class ClientForm implements OnInit, OnDestroy {
   save(): void {
     if (this.form.valid) {
       this.loading = true;
-      setTimeout(() => {
-        this.dialogRef?.close(this.form.value);
-      }, 800);
+      this.dialogRef?.close(this.form.value);
     } else {
       this.form.markAllAsTouched();
       this.toastService.openWarning(MESSAGES.WARNING);

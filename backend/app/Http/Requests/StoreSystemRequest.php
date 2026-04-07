@@ -20,13 +20,13 @@ class StoreSystemRequest extends FormRequest
      */
     public function rules(): array {
         return [
-            'code' => ['required', 'string'],
-            'name' => ['required', 'string'],
-            'fantasy_name' => ['required', 'string'],
-            'description' => ['required', 'string'],
-            'token' => ['required', 'string'],
-            'created_by' => ['required', 'string', 'exists:user,id'],
-            'updated_by' => ['required', 'string', 'exists:user,id'],
+            'coligate_id' => ['sometimes', 'nullable', 'uuid', 'exists:coligates,id'],
+            'client_id'   => ['sometimes', 'nullable', 'uuid', 'exists:clients,id'],
+            'code'        => ['required', 'string', 'max:50'],
+            'name'        => ['required', 'string', 'max:150'],
+            'fantasy_name' => ['required', 'string', 'max:150'],
+            'description' => ['sometimes', 'nullable', 'string'],
+            'status'      => ['sometimes', 'nullable', 'boolean'],
         ];
     }
 }

@@ -6,6 +6,7 @@ import { Users } from './pages/private/admin/global-services/users/users';
 import { ClientsComponent } from './pages/private/admin/super-admin/clients/clients';
 import { Dashboard } from './pages/private/admin/super-admin/dashboard/dashboard';
 import { ProjectsComponent } from './pages/private/admin/super-admin/projects/projects';
+import { Systems } from './pages/private/admin/super-admin/systems/systems';
 import { Login } from './pages/public/login/login';
 import { authGuard, guestGuard } from './services/auth/auth-guard';
 
@@ -44,6 +45,13 @@ export const routes: Routes = [
         component: ClientsComponent,
         title: 'Clientes',
         data: { icon: 'business' },
+        pathMatch: 'full',
+      },
+      {
+        path: 'systems',
+        component: Systems,
+        title: 'Sistemas',
+        data: { icon: 'apps' },
         pathMatch: 'full',
       },
     ],
@@ -264,21 +272,49 @@ export const routes: Routes = [
   },
   {
     path: 'financial',
-    title: 'Financeiro',
+    title: 'Gestão Financeira',
     component: Navbar,
     canActivate: [authGuard],
     data: { showInNavbar: true, icon: 'payments' },
     children: [
       {
-        path: 'payable',
-        title: 'Contas a Pagar',
-        data: { icon: 'account_balance_wallet' },
+        path: '',
+        title: 'Dashboard',
+        data: { icon: 'dashboard' },
         component: Dashboard,
         pathMatch: 'full',
       },
       {
-        path: 'receivable',
-        title: 'Contas a Receber',
+        path: 'registers',
+        title: 'Cadastros',
+        data: { icon: 'list' },
+        children: [
+          {
+            path: 'clients-suppliers',
+            title: 'Clientes/Fornecedores',
+            data: { icon: 'people' },
+            component: Dashboard,
+            pathMatch: 'full',
+          },
+          {
+            path: 'transaction-categories',
+            title: 'Categorias de transações',
+            data: { icon: 'category' },
+            component: Dashboard,
+            pathMatch: 'full',
+          },
+        ],
+      },
+      {
+        path: 'transactions',
+        title: 'Transações/Lançamentos',
+        data: { icon: 'paid' },
+        component: Dashboard,
+        pathMatch: 'full',
+      },
+      {
+        path: 'payable',
+        title: 'Contas a Pagar/Receber',
         data: { icon: 'account_balance' },
         component: Dashboard,
         pathMatch: 'full',
@@ -298,23 +334,9 @@ export const routes: Routes = [
         pathMatch: 'full',
       },
       {
-        path: 'report',
+        path: 'reports',
         title: 'Relatórios Financeiros',
         data: { icon: 'assessment' },
-        component: Dashboard,
-        pathMatch: 'full',
-      },
-      {
-        path: 'entries',
-        title: 'Lançamentos Financeiros',
-        data: { icon: 'account_balance_wallet' },
-        component: Dashboard,
-        pathMatch: 'full',
-      },
-      {
-        path: 'clients-suppliers',
-        title: 'Clientes/Fornecedores',
-        data: { icon: 'people' },
         component: Dashboard,
         pathMatch: 'full',
       },

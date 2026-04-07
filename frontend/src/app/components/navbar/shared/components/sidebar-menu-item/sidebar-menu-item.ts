@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, input, signal, inject, OnInit, DestroyRef } from '@angular/core';
+import { Component, computed, DestroyRef, inject, input, OnInit, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
-import { RouterModule, Router, NavigationEnd } from '@angular/router';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatTooltip } from '@angular/material/tooltip';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter } from 'rxjs';
 import { MenuItem } from '../../model/MenuItem';
 
@@ -20,6 +21,7 @@ import { MenuItem } from '../../model/MenuItem';
     MatListModule,
     MatExpansionModule,
     MatMenuModule,
+    MatTooltip,
   ],
 })
 export class SidebarMenuItem implements OnInit {
@@ -40,7 +42,7 @@ export class SidebarMenuItem implements OnInit {
     this.router.events
       .pipe(
         filter((e): e is NavigationEnd => e instanceof NavigationEnd),
-        takeUntilDestroyed(this.destroyRef)
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe(() => {
         this.checkExpanded();

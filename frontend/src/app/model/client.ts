@@ -44,6 +44,8 @@ export interface Client {
   created_by?: string;
   update_at?: string;
   updated_at?: string;
+  updated_at_formatted?: string;
   updated_by?: string;
+  updated_by_name?: string;
   deleted_at?: string;
 }

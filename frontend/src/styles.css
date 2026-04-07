@@ -28,11 +28,11 @@
   html,
   body,
   main {
-    @apply scheme-light-dark box-border outline-none scroll-smooth h-full w-full font-sans antialiased;
+    @apply scheme-light-dark box-border! outline-none! scroll-smooth! h-full! w-full! font-sans! antialiased!;
   }
 
   .active {
-    @apply bg-(--primary-color)! text-white! font-semibold! shadow-md! transition-all! duration-200!;
+    @apply bg-(--primary-color)! text-white! font-semibold! shadow-md! transition-all! duration-200! rounded-lg!;
   }
 }
 
@@ -80,22 +80,22 @@
       box-sizing: border-box;
     }
   }
-}
 
-.responsive-modal .mat-mdc-dialog-container,
-.responsive-modal .mat-mdc-dialog-surface,
-.responsive-modal .mdc-dialog__surface {
-  @apply rounded-lg;
-}
+  .responsive-modal .mat-mdc-dialog-container,
+  .responsive-modal .mat-mdc-dialog-surface,
+  .responsive-modal .mdc-dialog__surface {
+    @apply rounded-lg;
+  }
 
-.toast-btn-success {
-  @apply bg-emerald-600! text-white! border-none!;
-}
+  .toast-btn-success {
+    @apply bg-emerald-600! text-white! border-none!;
+  }
 
-.toast-btn-error {
-  @apply bg-red-600! text-white! border-none!;
-}
+  .toast-btn-error {
+    @apply bg-red-600! text-white! border-none!;
+  }
 
-.toast-btn-warn {
-  @apply bg-yellow-600! text-white! border-none!;
+  .toast-btn-warn {
+    @apply bg-yellow-600! text-white! border-none!;
+  }
 }

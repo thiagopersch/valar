@@ -14,6 +14,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { Router } from '@angular/router';
 import { Card } from 'app/components/card/card';
+import { ToastService } from 'app/components/toast/toast-service';
+import { ErrorMessagePipe } from 'app/pipes/error-message';
 import { AuthService } from 'app/services/auth/auth-service';
 
 @Component({
@@ -30,12 +32,14 @@ import { AuthService } from 'app/services/auth/auth-service';
     MatProgressBarModule,
     Card,
     MatIconModule,
+    ErrorMessagePipe,
   ],
 })
 export class Login {
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
+  private readonly toast = inject(ToastService);
 
   loginForm: FormGroup;
   isLoading = signal(false);
@@ -62,16 +66,14 @@ export class Login {
 
     this.authService.login(email, password).subscribe({
       next: (response) => {
-        if (response.status) {
+        if (response.success) {
           this.router.navigateByUrl('/admin/home');
-        } else {
-          this.errorMessage.set('Credenciais inválidas. Tente novamente.');
+          this.toast.openSuccess(response.message);
         }
         this.isLoading.set(false);
       },
       error: (err) => {
-        console.error('Erro no login:', err);
-        this.errorMessage.set(
+        this.toast.openError(
           err.error?.message || 'Erro ao conectar com o servidor. Verifique sua conexão.',
         );
         this.isLoading.set(false);

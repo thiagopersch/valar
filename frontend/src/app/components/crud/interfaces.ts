@@ -23,7 +23,11 @@ export interface ColumnDefinitionsProps {
     | 'color'
     | 'YesNo'
     | 'situation'
-    | 'typeEntry';
+    | 'typeEntry'
+    | 'sex'
+    | 'cpf'
+    | 'cnpj'
+    | 'currency';
 }
 
 export interface TableField {

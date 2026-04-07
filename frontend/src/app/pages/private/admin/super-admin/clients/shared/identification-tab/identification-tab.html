@@ -5,11 +5,17 @@
     </mat-slide-toggle>
   </app-column>
 
-  <app-column columns="1">
+  <app-column columns="2">
     <mat-form-field class="w-full">
       <mat-label>Nome</mat-label>
       <input type="text" matInput formControlName="name" />
       <mat-error>{{ form.get('name')?.errors | errorMessage }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="w-full">
+      <mat-label>Nome do Contato</mat-label>
+      <input type="text" matInput formControlName="contact_name" />
+      <mat-error>{{ form.get('contact_name')?.errors | errorMessage }}</mat-error>
     </mat-form-field>
   </app-column>
 

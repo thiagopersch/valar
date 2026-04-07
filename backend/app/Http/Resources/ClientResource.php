@@ -51,7 +51,9 @@ class ClientResource extends JsonResource
             'created_at' => $this->created_at,
             'created_by' => new UserResource($this->whenLoaded('createdBy')),
             'updated_at' => $this->updated_at,
+            'updated_at_formatted' => $this->updated_at?->format('d/m/Y H:i:s'),
             'updated_by' => new UserResource($this->whenLoaded('updatedBy')),
+            'updated_by_name' => $this->updatedBy?->name,
             'deleted_at' => $this->deleted_at,
         ];
     }

@@ -2,58 +2,71 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Adapters\ApiResponseAdapter;
 use App\Http\Controllers\Controller;
 use App\Models\Project;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
-    public function index() {
-        // Can filter by client_id if provided
+    public function index(Request $request): JsonResponse {
         $query = Project::query();
-        if (request()->has('client_id')) {
-            $query->where('client_id', request('client_id'));
+
+        if ($request->has('client_id')) {
+            $query->where('client_id', $request->get('client_id'));
         }
-        return response()->json(['data' => $query->get()]);
+
+        return ApiResponseAdapter::success(
+            $query->get(),
+            'Projetos listados com sucesso'
+        );
     }
 
-    public function store(Request $request) {
+    public function store(Request $request): JsonResponse {
         $data = $request->validate([
-            'client_id' => 'required|uuid|exists:clients,id',
-            'name' => 'required|string',
-            'description' => 'nullable|string',
-            'status' => 'required|string',
-            'start_date' => 'nullable|date',
-            'end_date' => 'nullable|date',
-            'created_by' => 'nullable|uuid|exists:users,id',
-            'updated_by' => 'nullable|uuid|exists:users,id',
+            'client_id'   => ['required', 'uuid', 'exists:clients,id'],
+            'name'        => ['required', 'string'],
+            'description' => ['nullable', 'string'],
+            'status'      => ['required', 'string'],
+            'start_date'  => ['nullable', 'date'],
+            'end_date'    => ['nullable', 'date'],
         ]);
 
-        $project = Project::create($data);
-        return response()->json(['data' => $project], 201);
-    }
-
-    public function show(Project $project) {
-        return response()->json(['data' => $project]);
-    }
-
-    public function update(Request $request, Project $project) {
-        $data = $request->validate([
-            'client_id' => 'sometimes|required|uuid|exists:clients,id',
-            'name' => 'sometimes|required|string',
-            'description' => 'nullable|string',
-            'status' => 'sometimes|required|string',
-            'start_date' => 'nullable|date',
-            'end_date' => 'nullable|date',
-            'updated_by' => 'nullable|uuid|exists:users,id',
+        $project = Project::create([
+            ...$data,
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
         ]);
 
-        $project->update($data);
-        return response()->json(['data' => $project]);
+        return ApiResponseAdapter::created($project);
     }
 
-    public function destroy(Project $project) {
+    public function show(Project $project): JsonResponse {
+        return ApiResponseAdapter::success($project);
+    }
+
+    public function update(Request $request, Project $project): JsonResponse {
+        $data = $request->validate([
+            'client_id'   => ['sometimes', 'required', 'uuid', 'exists:clients,id'],
+            'name'        => ['sometimes', 'required', 'string'],
+            'description' => ['nullable', 'string'],
+            'status'      => ['sometimes', 'required', 'string'],
+            'start_date'  => ['nullable', 'date'],
+            'end_date'    => ['nullable', 'date'],
+        ]);
+
+        $project->update([
+            ...$data,
+            'updated_by' => auth()->id(),
+        ]);
+
+        return ApiResponseAdapter::success($project, 'Projeto atualizado com sucesso');
+    }
+
+    public function destroy(Project $project): JsonResponse {
         $project->delete();
-        return response()->noContent();
+
+        return ApiResponseAdapter::noContent();
     }
 }

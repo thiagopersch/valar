@@ -15,7 +15,7 @@ class SystemResource extends JsonResource
             'name' => $this->name,
             'fantasy_name' => $this->fantasy_name,
             'description' => $this->description,
-            'token' => $this->token,
+            'status' => $this->status,
             'created_at' => $this->created_at,
             'created_by' => $this->created_by,
             'updated_at' => $this->updated_at,

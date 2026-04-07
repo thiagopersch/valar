@@ -20,13 +20,13 @@ class UpdateSystemRequest extends FormRequest
      */
     public function rules(): array {
         return [
-            'code' => ['sometimes', 'string'],
-            'name' => ['sometimes', 'string'],
-            'fantasy_name' => ['sometimes', 'string'],
-            'description' => ['sometimes', 'string'],
-            'token' => ['sometimes', 'string'],
-            'created_by' => ['sometimes', 'string', 'exists:user,id'],
-            'updated_by' => ['sometimes', 'string', 'exists:user,id'],
+            'coligate_id'  => ['sometimes', 'nullable', 'uuid', 'exists:coligates,id'],
+            'client_id'    => ['sometimes', 'nullable', 'uuid', 'exists:clients,id'],
+            'code'         => ['sometimes', 'string', 'max:50'],
+            'name'         => ['sometimes', 'string', 'max:150'],
+            'fantasy_name' => ['sometimes', 'string', 'max:150'],
+            'description'  => ['sometimes', 'nullable', 'string'],
+            'status'       => ['sometimes', 'nullable', 'boolean'],
         ];
     }
 }

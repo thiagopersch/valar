@@ -9,7 +9,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { NavigationEnd, Router, RouterModule, Routes } from '@angular/router';
 import { AuthService } from 'app/services/auth/auth-service';
-import { filter, map } from 'rxjs';
+import { filter } from 'rxjs';
 import { Card } from '../card/card';
 import { SidebarMenuItem } from './shared/components/sidebar-menu-item/sidebar-menu-item';
 import { MenuItem } from './shared/model/MenuItem';
@@ -42,7 +42,7 @@ export class Navbar {
   // Em mobile, inicia fechado (collapsed = true), em desktop inicia aberto (collapsed = false)
   collapsed = signal(typeof window !== 'undefined' && window.innerWidth <= 768);
 
-  sidebarWidth = computed(() => (this.collapsed() ? 'w-20' : 'w-64'));
+  sidebarWidth = computed(() => (this.collapsed() ? 'w-full!' : 'w-md! max-md:w-full!'));
 
   // Mobile usa 'over', desktop usa 'side'
   sidebarMode = computed(() => (this.isMobile() ? 'over' : 'side'));
@@ -77,11 +77,15 @@ export class Navbar {
   constructor() {
     this.menuItems.set(this.buildMenuTree(this.router.config));
     this.router.events
-      .pipe(
-        filter((e): e is NavigationEnd => e instanceof NavigationEnd),
-        map(() => this.getActiveTitle()),
-      )
-      .subscribe((title) => this.currentRouteTitle.set(title || 'Sistema'));
+      .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
+      .subscribe(() => {
+        const title = this.getActiveTitle();
+        this.currentRouteTitle.set(title || 'Sistema');
+
+        if (this.isMobile() && !this.collapsed()) {
+          this.collapsed.set(true);
+        }
+      });
   }
 
   toggleSidebar() {

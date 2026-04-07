@@ -7,10 +7,12 @@ import { environment } from 'environments/environment';
 import { Observable, tap } from 'rxjs';
 
 interface LoginResponse {
-  status: boolean;
-  token: string;
-  user: User;
-  permissions?: string[];
+  success: boolean;
+  message: string;
+  data: {
+    token: string;
+    user: User;
+  };
 }
 
 @Injectable({
@@ -38,8 +40,8 @@ export class AuthService {
   login(email: string, password: string): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.apiUrl}/auth/login`, { email, password }).pipe(
       tap((response) => {
-        if (response.status && response.token) {
-          this.storeAuthData(response.token, response.user, response.permissions || []);
+        if (response.success && response.data?.token) {
+          this.storeAuthData(response.data.token, response.data.user, []);
         }
       }),
     );

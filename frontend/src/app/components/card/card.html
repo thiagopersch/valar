@@ -1,9 +1,11 @@
 <mat-card class="bg-white!" [class]="customClass()" [appearance]="apparence()">
   @if (title() || subtitle()) {
-    <mat-card-header class="header-container">
+    <mat-card-header class="flex! flex-col! justify-center! items-center! p-4!">
       @if (title()) {
-        <mat-card-title>
-          <span class="text-center font-bold text-[2rem] uppercase">
+        <mat-card-title class="py-8!">
+          <span
+            class="text-center! font-bold! text-[3rem]! max-md:text-[2.5rem]! text-neutral-600! tracking-wider! uppercase!"
+          >
             {{ title() }}
           </span>
         </mat-card-title>

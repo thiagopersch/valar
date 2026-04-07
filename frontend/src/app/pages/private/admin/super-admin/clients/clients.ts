@@ -2,7 +2,10 @@ import { Component, inject, signal } from '@angular/core';
 import { CrudComponent } from 'app/components/crud/crud';
 import { ActionsProps, ColumnDefinitionsProps } from 'app/components/crud/interfaces';
 
+import { PageEvent } from '@angular/material/paginator';
 import { ModalService } from 'app/components/modal/modal-service';
+import { MESSAGES } from 'app/components/toast/messages';
+import { ToastService } from 'app/components/toast/toast-service';
 import { Client } from 'app/model/client';
 import { ModalAction } from 'app/model/Modal';
 import { Subject } from 'rxjs';
@@ -18,6 +21,7 @@ import { ClientForm } from './shared/client-form/client-form';
 export class ClientsComponent {
   private clientService = inject(ClientsService);
   private modal = inject(ModalService);
+  private toastService = inject(ToastService);
 
   constructor() {}
 
@@ -29,12 +33,11 @@ export class ClientsComponent {
   columns: ColumnDefinitionsProps[] = [
     { key: 'status', header: 'Status', type: 'boolean' },
     { key: 'name', header: 'Nome', type: 'text' },
-    { key: 'url', header: 'URL', type: 'text' },
-    { key: 'email', header: 'E-mail', type: 'text' },
+    { key: 'url', header: 'URL', type: 'url' },
+    { key: 'email', header: 'E-mail', type: 'email' },
     { key: 'contact_name', header: 'Contato', type: 'text' },
-    { key: 'phone', header: 'Telefone', type: 'text' },
+    { key: 'phone', header: 'Telefone', type: 'phone' },
     { key: 'contract_start_date', header: 'Início do Contrato', type: 'date' },
-    { key: 'created_at', header: 'Criado em', type: 'datetime' },
     { key: 'updated_at', header: 'Atualizado em', type: 'datetime' },
   ];
   actions: ActionsProps[] = [
@@ -118,7 +121,7 @@ export class ClientsComponent {
     });
   }
 
-  onPageChange(event: any): void {
+  onPageChange(event: PageEvent): void {
     this.pageIndex.set(event.pageIndex);
     this.pageSize.set(event.pageSize);
     this.loadClients();
@@ -144,7 +147,7 @@ export class ClientsComponent {
     const modal = this.modal.openModal(
       `id-${Date.now()}`,
       ClientForm,
-      'Adicionar Cliente',
+      'Adicionando um cliente',
       true,
       true,
       { submitSubject },
@@ -158,6 +161,7 @@ export class ClientsComponent {
         this.isLoading.set(true);
         this.clientService.save(result).subscribe({
           next: () => {
+            this.toastService.openSuccess(MESSAGES.CREATE_SUCCESS);
             this.loadClients();
           },
           error: () => {
@@ -197,6 +201,7 @@ export class ClientsComponent {
         this.isLoading.set(true);
         this.clientService.save(result, client.id).subscribe({
           next: () => {
+            this.toastService.openSuccess(MESSAGES.UPDATE_SUCCESS);
             this.loadClients();
           },
           error: () => {
@@ -212,6 +217,7 @@ export class ClientsComponent {
       this.isLoading.set(true);
       this.clientService.deleteClient(client.id!).subscribe({
         next: () => {
+          this.toastService.openSuccess(MESSAGES.DELETE_SUCCESS);
           this.loadClients();
         },
         error: () => {

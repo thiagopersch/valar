@@ -58,12 +58,12 @@
     </div>
 
     @if (enablePagination()) {
-      <div class="flex! items-center! max-md:w-full! max-md:justify-end!">
+      <div class="flex! flex-col! items-center! max-md:w-full! max-md:justify-end!">
         <mat-paginator
           [length]="length()"
           [pageSizeOptions]="pageSizeOptions()"
           [pageSize]="pageSize()"
-          class="bg-transparent! p-0! mdc-paginator--compact!"
+          class="bg-transparent!"
           color="primary"
         ></mat-paginator>
       </div>
@@ -79,7 +79,7 @@
   }
 </div>
 
-<div class="block! overflow-x-auto! relative! w-full! md:overflow-x-hidden!">
+<div class="block! overflow-x-auto! relative! w-full!">
   @if (isLoading()) {
     <div class="absolute! inset-0! flex! items-center! justify-center! bg-white/90! z-10!">
       <div class="flex! flex-col! items-center! gap-4!">
@@ -121,37 +121,57 @@
               ></div>
             </div>
           }
+          @case ('date') {
+            {{ (fields | formatValuesPipe: column.key : column.type) ?? '--' }}
+          }
+          @case ('text') {
+            {{ (fields | formatValuesPipe: column.key : column.type) ?? '--' }}
+          }
+          @case ('cpf') {
+            {{ (fields | formatValuesPipe: column.key : column.type) ?? '--' }}
+          }
+          @case ('currency') {
+            {{ (fields | formatValuesPipe: column.key : column.type) ?? '--' }}
+          }
+          @case ('cnpj') {
+            {{ (fields | formatValuesPipe: column.key : column.type) ?? '--' }}
+          }
+          @case ('datetime') {
+            {{ (fields | formatValuesPipe: column.key : column.type) ?? '--' }}
+          }
           @case ('boolean') {
-            <span
-              [class.text-(--secondary-color)!]="fields[column.key]"
-              [class.text-gray-500!]="!fields[column.key]"
-            >
-              {{ fields[column.key] ? 'Ativado' : 'Desativado' }}
-            </span>
+            <app-status-badge [value]="fields[column.key]" />
           }
           @case ('YesNo') {
-            <span
-              [ngClass]="{
-                'text-(--error-color)! font-medium!': fields[column.key] === false,
-                'text-(--secondary-color)! font-medium!': fields[column.key] === true,
-              }"
-            >
-              {{ (fields | formatValuesPipe: column.key : column.type) ?? '--' }}
-            </span>
+            <app-status-badge [value]="fields[column.key]" activeLabel="Sim" inactiveLabel="Não" />
+          }
+          @case ('phone') {
+            {{ (fields | formatValuesPipe: column.key : column.type) ?? '--' }}
+          }
+          @case ('sex') {
+            {{ (fields | formatValuesPipe: column.key : column.type) ?? '--' }}
           }
           @case ('situation') {
-            <span
-              [ngClass]="{
-                'text-(--tertiary-color)! font-medium!': fields[column.key] === 'Pendente',
-                'text-(--primary-color)! font-medium!': fields[column.key] === 'Em análise',
-                'text-(--secondary-color)! font-medium!': fields[column.key] === 'Verificado',
-              }"
-            >
-              {{ (fields | formatValuesPipe: column.key : column.type) ?? '--' }}
-            </span>
+            <app-status-badge
+              [value]="fields[column.key]"
+              [configs]="[
+                { when: 'Pendente', label: 'Pendente', variant: 'warning' },
+                { when: 'Em análise', label: 'Em análise', variant: 'info' },
+                { when: 'Verificado', label: 'Verificado', variant: 'success' },
+              ]"
+            />
           }
           @case ('typeEntry') {
-            <app-badge-type [type]="fields[column.key]" />
+            <app-status-badge
+              [value]="fields[column.key]"
+              [configs]="[
+                { when: 'entrada', label: 'Entrada', variant: 'success' },
+                { when: 'receita', label: 'Receita', variant: 'success' },
+                { when: 'saida', label: 'Saída', variant: 'danger' },
+                { when: 'despesa', label: 'Despesa', variant: 'danger' },
+                { when: 'pendente', label: 'Pendente', variant: 'warning' },
+              ]"
+            />
           }
           @default {
             {{ (fields | formatValuesPipe: column.key : column.type) ?? '--' }}
@@ -161,9 +181,9 @@
     </ng-container>
 
     @if (canShowActions()) {
-      <ng-container matColumnDef="actions">
-        <th *matHeaderCellDef mat-header-cell class="w-[32px]!"></th>
-        <td *matCellDef="let fields" class="w-[32px]! min-w-[32px]! px-2!" mat-cell>
+      <ng-container matColumnDef="actions" stickyEnd>
+        <th *matHeaderCellDef mat-header-cell class="w-8! z-2!"></th>
+        <td *matCellDef="let fields" class="w-8! min-w-8! px-2! z-2!" mat-cell>
           <div class="action-container">
             @if (actions() | hasNonToggleActions) {
               <button
@@ -236,7 +256,7 @@
 
     <tr class="m-10!" *matNoDataRow>
       <td [attr.colspan]="displayedColumns().length" class="mat-cell! text-center! py-8!">
-        @if (isLoading()) {
+        @if (!isLoading()) {
           <div class="flex! flex-col! items-center! gap-2! text-neutral-500! p-15!">
             <mat-icon class="w-16! h-16! text-[4rem]! opacity-50!">inbox</mat-icon>
             <span class="text-lg! font-medium!">Nenhuma informação encontrada</span>
