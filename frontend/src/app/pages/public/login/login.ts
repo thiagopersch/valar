@@ -67,7 +67,8 @@ export class Login {
     this.authService.login(email, password).subscribe({
       next: (response) => {
         if (response.success) {
-          this.router.navigateByUrl('/admin/home');
+          const firstRoute = this.authService.getFirstAccessibleRoute();
+          this.router.navigateByUrl(firstRoute);
           this.toast.openSuccess(response.message);
         }
         this.isLoading.set(false);

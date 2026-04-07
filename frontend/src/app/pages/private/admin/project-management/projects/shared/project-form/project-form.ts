@@ -8,8 +8,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { Column } from 'app/components/column/column';
 import { Client } from 'app/model/client';
+import { ClientsService } from 'app/pages/private/admin/super-admin/clients/clients-service';
 import { Subscription } from 'rxjs';
-import { ClientsService } from '../../../clients/clients-service';
 
 @Component({
   selector: 'app-project-form',

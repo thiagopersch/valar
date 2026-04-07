@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Client } from 'app/model/client';
+import { PaginatedResponse } from 'app/model/PaginateResponse';
 import { System } from 'app/model/system';
 import { User } from 'app/model/user';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
-import { PaginatedResponse } from '../projects/projects-service';
 
 @Injectable({
   providedIn: 'root',

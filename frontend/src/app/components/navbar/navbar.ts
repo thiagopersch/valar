@@ -138,7 +138,8 @@ export class Navbar {
       menu.push({
         id,
         title: route.title as string,
-        icon: (route.data?.['icon'] as string) ?? 'circle',
+        icon: (route.data?.['icon'] as string) || (route.data?.['iconSvg'] ? undefined : 'circle'),
+        iconSvg: route.data?.['iconSvg'] as string,
         path: fullPath,
         children: children.length ? children : undefined,
       });

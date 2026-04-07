@@ -5,10 +5,16 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatTooltip } from '@angular/material/tooltip';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
-import { filter } from 'rxjs';
+import { filter, Subject } from 'rxjs';
 import { MenuItem } from '../../model/MenuItem';
+
+import { Injectable } from '@angular/core';
+
+@Injectable({ providedIn: 'root' })
+export class SidebarAccordionService {
+  public panelOpened$ = new Subject<string>();
+}
 
 @Component({
   selector: 'app-sidebar-menu-item',
@@ -21,7 +27,6 @@ import { MenuItem } from '../../model/MenuItem';
     MatListModule,
     MatExpansionModule,
     MatMenuModule,
-    MatTooltip,
   ],
 })
 export class SidebarMenuItem implements OnInit {
@@ -35,6 +40,7 @@ export class SidebarMenuItem implements OnInit {
 
   private router = inject(Router);
   private destroyRef = inject(DestroyRef);
+  private accordionService = inject(SidebarAccordionService);
 
   ngOnInit() {
     this.checkExpanded();
@@ -46,6 +52,15 @@ export class SidebarMenuItem implements OnInit {
       )
       .subscribe(() => {
         this.checkExpanded();
+      });
+
+    this.accordionService.panelOpened$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((openedPath) => {
+        const myPath = this.item().path;
+        if (myPath && openedPath !== myPath && !openedPath.startsWith(myPath + '/')) {
+          this.expanded.set(false);
+        }
       });
   }
 
@@ -60,7 +75,16 @@ export class SidebarMenuItem implements OnInit {
       });
       if (isActive) {
         this.expanded.set(true);
+        setTimeout(() => this.accordionService.panelOpened$.next(path), 0);
       }
+    }
+  }
+
+  onPanelOpened() {
+    this.expanded.set(true);
+    const path = this.item().path;
+    if (path) {
+      this.accordionService.panelOpened$.next(path);
     }
   }
 

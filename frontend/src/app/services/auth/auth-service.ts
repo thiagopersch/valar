@@ -1,7 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, Routes } from '@angular/router';
 import { User } from 'app/model/user';
 import { environment } from 'environments/environment';
 import { Observable, tap } from 'rxjs';
@@ -61,6 +61,28 @@ export class AuthService {
 
   hasPermission(permission: string): boolean {
     return this._permissions().includes(permission);
+  }
+
+  getFirstAccessibleRoute(): string {
+    const findFirstLeaf = (routes: Routes, parentPath = ''): string | null => {
+      for (const route of routes) {
+        if (route.path === '**' || route.redirectTo || route.path === 'login') continue;
+
+        const routePath = route.path || '';
+        const currentPath = parentPath ? `${parentPath}/${routePath}` : `/${routePath}`;
+        const normalizedPath = currentPath.replace(/\/+/g, '/').replace(/\/$/, '');
+
+        if (route.children && route.children.length > 0) {
+          const leaf = findFirstLeaf(route.children, normalizedPath);
+          if (leaf) return leaf;
+        } else if (route.component || route.loadComponent) {
+          return normalizedPath || '/';
+        }
+      }
+      return null;
+    };
+
+    return findFirstLeaf(this.router.config) || '/login';
   }
 
   private storeAuthData(token: string, user: User, permissions: string[]) {

@@ -1,33 +1,61 @@
 @if (hasChildren()) {
   @if (collapsed()) {
-    <button mat-list-item [matMenuTriggerFor]="subMenu">
-      <mat-icon matListItemIcon class="flex! gap-2!">{{ item().icon }}</mat-icon>
+    <button mat-list-item [matMenuTriggerFor]="subMenu" class="px-2! mb-2!">
+      @if (item().icon) {
+        <mat-icon matListItemIcon class="flex! gap-4!">{{ item().icon }}</mat-icon>
+      } @else if (item().iconSvg) {
+        <span
+          matListItemIcon
+          class="flex! gap-4! w-6! h-6! bg-current!"
+          [style.-webkit-mask-image]="'url(' + item().iconSvg + ')'"
+          [style.mask-image]="'url(' + item().iconSvg + ')'"
+          style="
+            -webkit-mask-size: contain;
+            -webkit-mask-repeat: no-repeat;
+            -webkit-mask-position: center;
+            mask-size: contain;
+            mask-repeat: no-repeat;
+            mask-position: center;
+          "
+        ></span>
+      }
     </button>
     <mat-menu #subMenu="matMenu">
       @for (child of item().children; track child.id) {
-        <button
-          mat-menu-item
-          [routerLink]="child.path"
-          routerLinkActive="active"
-          [matTooltip]="child.title"
-        >
+        <button mat-menu-item [routerLink]="child.path" routerLinkActive="active">
           {{ child.title }}
         </button>
       }
     </mat-menu>
   } @else {
-    <mat-accordion>
+    <mat-accordion multi="false">
       <mat-expansion-panel
-        class="shadow-none! transition-colors! duration-200! rounded-lg!"
+        class="mb-2! shadow-none! transition-colors! duration-200! rounded-lg!"
         [class.bg-(--primary-color)/10!]="isExpanded()"
         [class.bg-transparent!]="!isExpanded()"
         [expanded]="isExpanded()"
-        (opened)="expanded.set(true)"
+        (opened)="onPanelOpened()"
         (closed)="expanded.set(false)"
       >
-        <mat-expansion-panel-header [matTooltip]="item().title">
-          <mat-panel-title class="flex! gap-2! w-full!">
-            <mat-icon class="text-inherit!">{{ item().icon }}</mat-icon>
+        <mat-expansion-panel-header>
+          <mat-panel-title class="flex! gap-4! items-center!">
+            @if (item().icon) {
+              <mat-icon class="text-inherit!">{{ item().icon }}</mat-icon>
+            } @else if (item().iconSvg) {
+              <span
+                class="w-6! h-6! bg-current!"
+                [style.-webkit-mask-image]="'url(' + item().iconSvg + ')'"
+                [style.mask-image]="'url(' + item().iconSvg + ')'"
+                style="
+                  -webkit-mask-size: contain;
+                  -webkit-mask-repeat: no-repeat;
+                  -webkit-mask-position: center;
+                  mask-size: contain;
+                  mask-repeat: no-repeat;
+                  mask-position: center;
+                "
+              ></span>
+            }
             <span class="text-inherit!">{{ item().title }}</span>
           </mat-panel-title>
         </mat-expansion-panel-header>
@@ -45,10 +73,26 @@
     mat-list-item
     [routerLink]="item().path"
     routerLinkActive="active"
-    class="mb-2! rounded-lg!"
-    [matTooltip]="item().title"
+    class="px-2! mb-2! rounded-lg!"
   >
-    <mat-icon matListItemIcon class="flex! gap-2! text-inherit!">{{ item().icon }}</mat-icon>
+    @if (item().icon) {
+      <mat-icon matListItemIcon class="flex! gap-4! text-inherit!">{{ item().icon }}</mat-icon>
+    } @else if (item().iconSvg) {
+      <span
+        matListItemIcon
+        class="flex! gap-4! w-6! h-6! bg-current! text-inherit!"
+        [style.-webkit-mask-image]="'url(' + item().iconSvg + ')'"
+        [style.mask-image]="'url(' + item().iconSvg + ')'"
+        style="
+          -webkit-mask-size: contain;
+          -webkit-mask-repeat: no-repeat;
+          -webkit-mask-position: center;
+          mask-size: contain;
+          mask-repeat: no-repeat;
+          mask-position: center;
+        "
+      ></span>
+    }
     @if (!collapsed()) {
       <span class="text-inherit!" matListItemTitle>{{ item().title }}</span>
     }
