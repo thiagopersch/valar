@@ -1,10 +1,10 @@
-<mat-sidenav-container class="app-container">
+<mat-sidenav-container>
   <mat-sidenav
     #sidenav
     [mode]="sidebarMode()"
     [opened]="!collapsed()"
-    [style.width]="collapsed() ? sidebarWidth() : 300"
-    class="shadow-xl! rounded-md!"
+    [style.width]="collapsed() ? sidebarWidth() : 'w-md! max-md:w-full!'"
+    class="shadow-xl! rounded-md! w-md! max-md:w-full!"
   >
     <div class="p-6! flex! items-center! gap-2!">
       <mat-icon color="primary">business</mat-icon>
@@ -28,13 +28,13 @@
         <button mat-icon-button (click)="toggleSidebar()">
           <mat-icon>{{ iconMenuSidebar() }}</mat-icon>
         </button>
-        <span class="font-bold">{{ currentRouteTitle() }}</span>
+        <span class="font-bold text-neutral-600 text-md max-md:text-sm">{{
+          currentRouteTitle()
+        }}</span>
       </div>
       <div class="flex justify-center items-center gap-4">
         <button mat-icon-button>
-          <mat-icon aria-hidden="false" role="img" matBadge="3" matBadgeColor="warn">
-            notifications
-          </mat-icon>
+          <mat-icon aria-hidden="false" role="img" matBadge="1">notifications</mat-icon>
         </button>
         <button mat-icon-button [matMenuTriggerFor]="userMenu">
           <mat-icon matListItemIcon>account_circle</mat-icon>
@@ -50,7 +50,7 @@
   </mat-sidenav-content>
 </mat-sidenav-container>
 
-<mat-menu #userMenu="matMenu" class="w-64">
+<mat-menu #userMenu="matMenu" class="w-full">
   @if (user()) {
     <div class="flex flex-col gap-2 px-4!">
       <span class="font-bold block">{{ user()?.name }}</span>
@@ -64,6 +64,6 @@
   </button>
   <button mat-menu-item (click)="logout()">
     <mat-icon class="text-red-600!">logout</mat-icon>
-    <span class="text-red-600!">Sair</span>
+    <span class="text-red-600">Sair</span>
   </button>
 </mat-menu>

@@ -58,12 +58,12 @@
     </div>
 
     @if (enablePagination()) {
-      <div class="flex! items-center! max-md:w-full! max-md:justify-end!">
+      <div class="flex! flex-col! items-center! max-md:w-full! max-md:justify-end!">
         <mat-paginator
           [length]="length()"
           [pageSizeOptions]="pageSizeOptions()"
           [pageSize]="pageSize()"
-          class="bg-transparent! p-0! mdc-paginator--compact!"
+          class="bg-transparent!"
           color="primary"
         ></mat-paginator>
       </div>

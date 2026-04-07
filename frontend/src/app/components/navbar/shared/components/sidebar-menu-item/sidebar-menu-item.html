@@ -5,7 +5,12 @@
     </button>
     <mat-menu #subMenu="matMenu">
       @for (child of item().children; track child.id) {
-        <button mat-menu-item [routerLink]="child.path" routerLinkActive="active">
+        <button
+          mat-menu-item
+          [routerLink]="child.path"
+          routerLinkActive="active"
+          [matTooltip]="child.title"
+        >
           {{ child.title }}
         </button>
       }
@@ -13,15 +18,15 @@
   } @else {
     <mat-accordion>
       <mat-expansion-panel
-        class="shadow-none! transition-colors! duration-200!"
-        [class.bg-prim!]="isExpanded()"
+        class="shadow-none! transition-colors! duration-200! rounded-lg!"
+        [class.bg-(--primary-color)/10!]="isExpanded()"
         [class.bg-transparent!]="!isExpanded()"
         [expanded]="isExpanded()"
         (opened)="expanded.set(true)"
         (closed)="expanded.set(false)"
       >
-        <mat-expansion-panel-header>
-          <mat-panel-title class="flex! gap-2!">
+        <mat-expansion-panel-header [matTooltip]="item().title">
+          <mat-panel-title class="flex! gap-2! w-full!">
             <mat-icon class="text-inherit!">{{ item().icon }}</mat-icon>
             <span class="text-inherit!">{{ item().title }}</span>
           </mat-panel-title>
@@ -36,7 +41,13 @@
     </mat-accordion>
   }
 } @else {
-  <a mat-list-item [routerLink]="item().path" routerLinkActive="active" class="mb-4!">
+  <a
+    mat-list-item
+    [routerLink]="item().path"
+    routerLinkActive="active"
+    class="mb-2! rounded-lg!"
+    [matTooltip]="item().title"
+  >
     <mat-icon matListItemIcon class="flex! gap-2! text-inherit!">{{ item().icon }}</mat-icon>
     @if (!collapsed()) {
       <span class="text-inherit!" matListItemTitle>{{ item().title }}</span>
